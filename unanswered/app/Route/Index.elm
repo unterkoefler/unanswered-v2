@@ -19,6 +19,7 @@ import Element.Region as Region
 import Element.Input as Input
 import Colors
 import Posts
+import Date
 
 
 type alias Model =
@@ -55,7 +56,17 @@ data : BackendTask FatalError Data
 data =
     BackendTask.succeed Data
         |> BackendTask.andMap
-            (Posts.posts)
+            (BackendTask.map sortPosts Posts.posts)
+            
+
+sortPosts : List Posts.Post -> List Posts.Post
+sortPosts =
+    List.sortBy 
+        (\p -> 
+            ( Date.year p.date * -1
+            , Date.monthNumber p.date * -1
+            , Date.day p.date * -1
+        ))
 
 
 head :
