@@ -1,7 +1,7 @@
 ---
 
 slug: the-boys-and-amazon
-title: How \"The Boys\" Captures and then Completely Misses the Danger of Amazon
+title: How "The Boys" Captures and then Completely Misses the Danger of Amazon
 description: An amateur analysis
 show_on_home_page: True
 filename: TheBoys

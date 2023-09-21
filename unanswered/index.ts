@@ -1,6 +1,6 @@
 type ElmPagesInit = {
   load: (elmLoaded: Promise<unknown>) => Promise<void>;
-  flags: unknown;
+  flags: { width: number, colorScheme: "Dark" | "Light" };
 };
 
 const config: ElmPagesInit = {
@@ -8,7 +8,9 @@ const config: ElmPagesInit = {
     await elmLoaded;
   },
   flags: function () {
-    return "You can decode this in Shared.elm using Json.Decode.string!";
+    const useDarkTheme = window.matchMedia("(prefers-color-scheme: dark)").matches;
+    const colorScheme = useDarkTheme ? "Dark" : "Light";
+    return { width: window.innerWidth, colorScheme };
   },
 };
 
