@@ -83,7 +83,8 @@ view :
     -> Shared.Model
     -> View (PagesMsg Msg)
 view app shared =
-    { title = "elm-pages is running"
+    { title = "Unanswered.blog"
+    , pageLayout = View.HomePage
     , body =
         column
             [ width fill

@@ -157,14 +157,21 @@ view sharedData page model toMsg pageView =
             , Font.color (Colors.primary model.colorScheme)
             , Background.color (Colors.secondary model.colorScheme)
             ] 
-            (articleBody
-                -- TODO: support the other body types
-                pageView.body
-                model
-            )
+            (frame pageView model)
         ]
     , title = pageView.title
     }
+
+frame : View msg -> Model -> Element msg
+frame pageView model =
+    case pageView.pageLayout of
+        View.HomePage ->
+            pageView.body
+
+        View.PostPage ->
+            articleBody
+                pageView.body
+                model
 
 sourceSerifPro =
     Font.family

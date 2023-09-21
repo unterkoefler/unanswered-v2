@@ -81,6 +81,7 @@ view :
     -> View (PagesMsg Msg)
 view app sharedModel =
     { title = "Unanswered.blog - " ++ app.data.metadata.title
+    , pageLayout = View.PostPage
     , body = 
         Posts.view 
             sharedModel.colorScheme 
