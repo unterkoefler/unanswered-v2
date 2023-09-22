@@ -1,4 +1,4 @@
-module Route.Index exposing (ActionData, Data, Model, Msg, route)
+module Route.WhoAmI exposing (ActionData, Data, Model, Msg, route)
 
 import BackendTask exposing (BackendTask)
 import FatalError exposing (FatalError)
@@ -21,6 +21,7 @@ import Colors
 import Posts
 import Date
 import Utils exposing (..)
+import NonBlogPost exposing (NonBlogPost)
 
 
 type alias Model =
@@ -36,7 +37,7 @@ type alias RouteParams =
 
 
 type alias Data =
-    { posts : List Posts.Post
+    { post : NonBlogPost
     }
 
 
@@ -55,20 +56,9 @@ route =
 
 data : BackendTask FatalError Data
 data =
-    BackendTask.succeed Data
-        |> BackendTask.andMap
-            (BackendTask.map sortPosts Posts.posts)
+    BackendTask.map Data
+        (NonBlogPost.load "content/who.md")
             
-
-sortPosts : List Posts.Post -> List Posts.Post
-sortPosts =
-    List.sortBy 
-        (\p -> 
-            ( Date.year p.date * -1
-            , Date.monthNumber p.date * -1
-            , Date.day p.date * -1
-        ))
-
 
 head :
     App Data ActionData RouteParams
@@ -95,27 +85,9 @@ view :
     -> Shared.Model
     -> View (PagesMsg Msg)
 view app shared =
-    { title = "Unanswered.blog"
+    { title = "Unanswered.blog - WhoAmI"
     , pageLayout = View.HomePage
     , body =
-        postPreviews app.data.posts shared.width
+        NonBlogPost.view shared app.data.post
     }
 
-
-
-postPreviews : List Posts.Post -> Int -> Element msg
-postPreviews posts w =
-    column
-        [ Border.widthEach { top = 0, bottom = 0, left = 1, right = 1 }
-        , spacing 36
-        , width (fill |> maximum 800)
-        , paddingXY  (w * 6 // 100) 20
-        , centerX
-        ]
-    <|
-        case posts of
-            [] ->
-                [ paragraph [ Font.italic ] [ text "No posts found" ] ]
-
-            _ ->
-                List.map Posts.preview posts -- TODO: pagination

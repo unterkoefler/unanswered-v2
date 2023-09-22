@@ -84,9 +84,6 @@ view app sharedModel =
     , pageLayout = View.PostPage
     , body = 
         Posts.view 
-            sharedModel.colorScheme 
-            3  -- TODO: font size controls
-            Element.none -- TODO: control bar in general
-            (pct sharedModel.width 70 |> maximum 800) 
+            sharedModel
             app.data
     }

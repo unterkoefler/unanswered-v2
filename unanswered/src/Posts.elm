@@ -14,6 +14,9 @@ import UrlPath
 import Colors
 import Renderer exposing (renderPost)
 import Font exposing (fontSize)
+import Shared
+import Utils exposing (..)
+import Post
 
 
 type alias Post =
@@ -168,48 +171,7 @@ viewDescription description =
     <|
         [ text description ] 
 
-view : Colors.ColorScheme -> Int -> Element msg -> Length -> PostWithBody -> Element msg
-view colorScheme baseFontSize controls w p =
-    column [ centerX, spacingXY 0 24, width w, paddingXY 0 48, alignTop ]
-        [ viewTitle p.metadata.title
-        , viewDate (Just p.metadata.date)
-        , controls
-        , viewContent colorScheme baseFontSize w p.body
-        ]
-
-
-viewTitle : String -> Element msg
-viewTitle title =
-    paragraph
-        [ Region.heading 1
-        , Font.size 36
-        , Font.underline
-        , paddingXY 0 24
-        ]
-        [ text title ]
-
-
-viewDate : Maybe Date -> Element msg
-viewDate date =
-    case date of
-        Nothing ->
-            Element.none
-
-        Just d ->
-            paragraph
-                [ Font.italic
-                , Font.size 14
-                ]
-                [ text <| Date.format "EEEE, MMMM d, yyyy" d ]
-
-
-viewContent : Colors.ColorScheme -> Int -> Length -> String -> Element msg
-viewContent colorScheme baseFontSize w content =
-    textColumn
-        [ spacingXY 0 18
-        , fontSize baseFontSize
-        , width w
-        ]
-    <|
-        renderPost colorScheme baseFontSize content w
+view : Shared.Model -> PostWithBody -> Element msg
+view sharedModel p =
+    Post.view sharedModel { title = p.metadata.title, date = Just p.metadata.date, body = p.body }
 
