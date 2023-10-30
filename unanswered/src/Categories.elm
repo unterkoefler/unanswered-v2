@@ -1,4 +1,4 @@
-module Categories exposing (view)
+module Categories exposing (view, Category, CategoryMembers(..), Slug, categories, fromSlug, viewCategory)
 
 import Element exposing (..)
 import Element.Background as Background
@@ -10,12 +10,239 @@ import Colors
 import Posts
 import Date
 import Utils exposing (..)
+import Route exposing (Route)
+import UrlPath exposing (UrlPath)
+import Posts
+
+fromSlug : Slug -> Maybe Category
+fromSlug slug =
+    let
+        { result } =
+            find categories slug
+    in
+    result
 
 
-view2 : Colors.ColorScheme -> Element msg
-view2 colorScheme =
+find : List Category -> Slug -> { result : Maybe Category, path : List Slug }
+find cats slug =
+    case cats of
+        [] ->
+            { result = Nothing, path = [] }
+
+        first :: rest ->
+            if first.slug == slug then
+                { result = Just first, path = [ slug ] }
+
+            else
+                case first.members of
+                    Slugs _ ->
+                        find rest slug
+
+                    SubCategories { subCategories } ->
+                        let
+                            { result, path } =
+                                find subCategories slug
+                        in
+                        case result of
+                            Nothing ->
+                                find rest slug
+
+                            Just cat ->
+                                { result = Just cat, path = first.slug :: path }
+
+
+breadcrumbs : Category -> List Slug
+breadcrumbs category =
+    let
+        { path } =
+            find categories category.slug
+    in
+    path
+
+
+
+type alias Category =
+    { name : String
+    , slug : Slug
+    , members : CategoryMembers
+    }
+
+
+type CategoryMembers
+    = Slugs { slugs : List Slug }
+    | SubCategories { subCategories : List Category }
+
+
+type alias Slug =
+    String
+
+categories : List Category
+categories =
+    [ { name = "Fiction"
+      , slug = "fiction"
+      , members =
+            SubCategories
+                { subCategories =
+                    [ { name = "Fables"
+                      , slug = "fables"
+                      , members =
+                            Slugs
+                                { slugs =
+                                    [ "pete"
+                                    , "orange"
+                                    , "squirrel"
+                                    , "vultures-envision-a-toaster"
+                                    ]
+                                }
+                      }
+                    , { name = "Horror"
+                      , slug = "horror"
+                      , members =
+                            Slugs
+                                { slugs =
+                                    [ "zip"
+                                    , "two-ways-out"
+                                    , "flicker"
+                                    , "itch"
+                                    ]
+                                }
+                      }
+                    , { name = "Romance"
+                      , slug = "romance"
+                      , members =
+                            Slugs
+                                { slugs =
+                                    [ "the-hearse"
+                                    , "crust"
+                                    , "metaphor"
+                                    , "arnold"
+                                    , "batman"
+                                    ]
+                                }
+                      }
+                    , { name = "Miscellaneous Fiction"
+                      , slug = "misc-fiction"
+                      , members =
+                            Slugs
+                                { slugs =
+                                    [ "a-dangerous-hobby"
+                                    , "bells"
+                                    , "hell"
+                                    , "hooked-mystery"
+                                    , "hooked-solution"
+                                    , "aliens"
+                                    ]
+                                }
+                      }
+                    ]
+                }
+      }
+    , { name = "News"
+      , slug = "news"
+      , members =
+            Slugs
+                { slugs =
+                    [ "bipartisan"
+                    , "hope-and-upsilon"
+                    , "kkkfc-chicken"
+                    , "helmet-salad"
+                    , "cleveland"
+                    , "taken4"
+                    ]
+                }
+      }
+    , { name = "Life Updates"
+      , slug = "life"
+      , members =
+            Slugs
+                { slugs =
+                    [ "xcuseme"
+                    , "europe"
+                    , "stupid-convos-1"
+                    , "stupid-convos-2"
+                    , "facebook-radicalized-me"
+                    , "modern-commerce"
+                    , "silly-hat-ceremony"
+                    , "rambling-1"
+                    , "raspberries"
+                    , "colonial-woman"
+                    , "fedex"
+                    ]
+                }
+      }
+    , { name = "Opinion"
+      , slug = "opinion"
+      , members =
+            Slugs
+                { slugs =
+                    [ "lost-and-not-found"
+                    , "think-like-a-squirrel"
+                    , "houseplant"
+                    , "beantown"
+                    , "the-boys-and-amazon"
+                    , "tech-support"
+                    , "four-stars"
+                    , "nest"
+                    , "aristotle"
+                    ]
+                }
+      }
+    , { name = "Clickbait"
+      , slug = "clickbait"
+      , members =
+            Slugs
+                { slugs =
+                    [ "goose-question"
+                    , "simple-trick"
+                    ]
+                }
+      }
+    , { name = "Recipes"
+      , slug = "recipes"
+      , members =
+            Slugs
+                { slugs =
+                    [ "recipe"
+                    ]
+                }
+      }
+    , { name = "Ads"
+      , slug = "ads"
+      , members =
+            Slugs
+                { slugs =
+                    [ "room-for-let"
+                    ]
+                }
+      }
+    , { name = "Podcasts"
+      , slug = "podcasts"
+      , members =
+            Slugs
+                { slugs =
+                    [ "silent-podcast"
+                    ]
+                }
+      }
+    , { name = "Legal Documents (Private)"
+      , slug = "legal"
+      , members =
+            Slugs
+                { slugs =
+                    [ "roommate-agreement"
+                    ]
+                }
+      }
+    ]
+
+
+
+
+view : Colors.ColorScheme -> Element msg
+view colorScheme =
     column
         [ spacing 24
+        , paddingXY 48 0
         ]
         [ heading
         , viewCategories colorScheme
@@ -36,17 +263,19 @@ viewCategories colorScheme =
         [ spacing 12
         ]
         (List.map
-            (\cat -> viewCategoryHelp colorScheme cat 0 False)
+            (\cat -> viewCategoryHelp colorScheme cat 0 [] False []) 
             categories
         )
 
 
-viewCategory : Colors.ColorScheme -> Category -> Element msg
-viewCategory colorScheme category =
+viewCategory : Colors.ColorScheme -> Category -> List Posts.Post -> Element msg
+viewCategory colorScheme category posts =
     column
-        [ spacing 24 ]
+        [ spacing 24
+        , paddingXY 48 0
+        ]
         [ viewBreadcrumbs colorScheme category
-        , viewCategoryHelp colorScheme category 0 True
+        , viewCategoryHelp colorScheme category 0 [] True posts
         ]
 
 
@@ -80,8 +309,18 @@ viewBreadcrumb colorScheme name url =
         ]
 
 
-viewCategoryHelp : Colors.ColorScheme -> Category -> Int -> Bool -> Element msg
-viewCategoryHelp colorScheme category depth showPosts =
+viewCategoryHelp : Colors.ColorScheme -> Category -> Int -> List Slug -> Bool -> List Posts.Post -> Element msg
+viewCategoryHelp colorScheme category depth path showPosts posts =
+    let
+        splat : ( String, List String )
+        splat =
+            case path of
+                [] ->
+                    (category.slug, [])
+
+                first::rest ->
+                    (first, rest ++ [category.slug])
+    in
     column
         [ spacing 6
         ]
@@ -94,15 +333,15 @@ viewCategoryHelp colorScheme category depth showPosts =
                 , Font.underline
                 ]
                 { label = text category.name
-                , url = "/category/" ++ category.slug
+                , url = Route.Category__SPLAT_ { splat = splat } |> Route.toPath |> UrlPath.toAbsolute
                 }
             ]
-        , viewMembers colorScheme category.members depth showPosts
+        , viewMembers colorScheme category.members depth (category.slug :: path) showPosts posts
         ]
 
 
-viewMembers : Colors.ColorScheme -> CategoryMembers -> Int -> Bool -> Element msg
-viewMembers colorScheme members depth showPosts =
+viewMembers : Colors.ColorScheme -> CategoryMembers -> Int -> List Slug -> Bool -> List Posts.Post -> Element msg
+viewMembers colorScheme members depth path showPosts posts =
     column
         [ spacing 8
         , paddingEach
@@ -115,27 +354,30 @@ viewMembers colorScheme members depth showPosts =
         (case members of
             Slugs { slugs } ->
                 if showPosts then
-                    List.map viewSlug slugs
+                    List.map (viewSlug posts) slugs
 
                 else
                     [ Element.none ]
 
             SubCategories { subCategories } ->
                 List.map
-                    (\cat -> viewCategoryHelp colorScheme cat (depth + 1) showPosts)
+                    (\cat -> viewCategoryHelp colorScheme cat (depth + 1) path showPosts posts)
                     subCategories
         )
 
 
-viewSlug : Slug -> Element msg
-viewSlug slug =
-    text slug
-    --case Post.fromSlug slug Post.all of
-    --    Nothing ->
-    --        text ("wrong slug! " ++ slug)
+viewSlug : List Posts.Post -> Slug -> Element msg
+viewSlug posts slug =
+    let
+        maybePost = List.filter (\p -> p.slug == slug) posts |> List.head
+        -- TODO: make it so that there's no Maybe here
+    in
+    case maybePost of
+        Nothing ->
+            text ("wrong slug! " ++ slug)
 
-    --    Just post ->
-    --        el [ paddingXY 0 12 ] <|
-    --            Posts.preview slug post
+        Just post ->
+            el [ paddingXY 0 12 ] <|
+                Posts.preview post
 
 

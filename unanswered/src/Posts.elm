@@ -244,7 +244,7 @@ previewTitle title slug =
     link
         [ Font.size 18 ]
         { label = paragraph [] [ text title ]
-        , url = Route.Slug_ { slug = slug } |> Route.toPath |> UrlPath.toRelative
+        , url = Route.Slug_ { slug = slug } |> Route.toPath |> UrlPath.toAbsolute
         }
 
 
