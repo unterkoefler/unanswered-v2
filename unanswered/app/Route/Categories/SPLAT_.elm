@@ -1,4 +1,4 @@
-module Route.Categories exposing (ActionData, Data, Model, Msg, route)
+module Route.Category.SPLAT_ exposing (ActionData, Data, Model, Msg, route)
 
 import BackendTask exposing (BackendTask)
 import FatalError exposing (FatalError)
@@ -32,7 +32,7 @@ type alias Msg =
 
 
 type alias RouteParams =
-    {}
+    { splat : ( String, List String ) }
 
 
 type alias Data =
@@ -46,15 +46,36 @@ type alias ActionData =
 
 route : StatelessRoute RouteParams Data ActionData
 route =
-    RouteBuilder.single
+    RouteBuilder.preRender
         { head = head
+        , pages = pages
         , data = data
         }
         |> RouteBuilder.buildNoState { view = view }
 
+pages : BackendTask FatalError (List RouteParams)
+pages = 
+    BackendTask.succeed (List.concatMap categoryToRoutes categories)
 
-data : BackendTask FatalError Data
-data =
+categoryToRoutes : Category -> List RouteParams
+categoryToRoutes cat =
+    { splat = (cat.slug, [])}
+    :: subCategoryToRoutes cat.slug cat.members
+
+subCategoryToRoutes : Slug -> CategoryMembers-> List RouteParams
+subCategoryToRoutes start members =
+    case members of
+        Slugs _ ->
+            []
+
+        SubCategories { subCategories } ->
+            List.map 
+                (\subCategory -> { splat = (start, [ subCategory.slug ] ) } )
+                subCategories
+
+
+data : RouteParams -> BackendTask FatalError Data
+data _ =
     BackendTask.succeed Data
             
 
@@ -299,131 +320,6 @@ categories =
     ]
 
 
-view2 : Colors.ColorScheme -> Element msg
-view2 colorScheme =
-    column
-        [ spacing 24
-        ]
-        [ heading
-        , viewCategories colorScheme
-        ]
-
-
-heading : Element msg
-heading =
-    paragraph
-        []
-        [ text "Browse posts by category"
-        ]
-
-
-viewCategories : Colors.ColorScheme -> Element msg
-viewCategories colorScheme =
-    column
-        [ spacing 12
-        ]
-        (List.map
-            (\cat -> viewCategoryHelp colorScheme cat 0 False)
-            categories
-        )
-
-
-viewCategory : Colors.ColorScheme -> Category -> Element msg
-viewCategory colorScheme category =
-    column
-        [ spacing 24 ]
-        [ viewBreadcrumbs colorScheme category
-        , viewCategoryHelp colorScheme category 0 True
-        ]
-
-
-viewBreadcrumbs : Colors.ColorScheme -> Category -> Element msg
-viewBreadcrumbs colorScheme category =
-    paragraph
-        []
-        (viewBreadcrumb colorScheme "all" "/categories"
-            :: (breadcrumbs category
-                    |> List.map (\slug -> viewBreadcrumb colorScheme slug ("/category/" ++ slug))
-               )
-            |> List.intersperse (text ":: ")
-        )
-
-
-viewBreadcrumb : Colors.ColorScheme -> String -> String -> Element msg
-viewBreadcrumb colorScheme name url =
-    row
-        [ paddingEach
-            { left = 0
-            , right = 6
-            , top = 0
-            , bottom = 0
-            }
-        ]
-        [ link
-            [ Font.color <| Colors.link colorScheme ]
-            { label = text name
-            , url = url
-            }
-        ]
-
-
-viewCategoryHelp : Colors.ColorScheme -> Category -> Int -> Bool -> Element msg
-viewCategoryHelp colorScheme category depth showPosts =
-    column
-        [ spacing 6
-        ]
-        [ paragraph
-            [ Font.size (18 - (depth * 4))
-            , Region.heading (2 + depth)
-            ]
-            [ link
-                [ Font.color <| Colors.link colorScheme
-                , Font.underline
-                ]
-                { label = text category.name
-                , url = "/category/" ++ category.slug
-                }
-            ]
-        , viewMembers colorScheme category.members depth showPosts
-        ]
-
-
-viewMembers : Colors.ColorScheme -> CategoryMembers -> Int -> Bool -> Element msg
-viewMembers colorScheme members depth showPosts =
-    column
-        [ spacing 8
-        , paddingEach
-            { left = 18
-            , right = 0
-            , top = 4
-            , bottom = 4
-            }
-        ]
-        (case members of
-            Slugs { slugs } ->
-                if showPosts then
-                    List.map viewSlug slugs
-
-                else
-                    [ Element.none ]
-
-            SubCategories { subCategories } ->
-                List.map
-                    (\cat -> viewCategoryHelp colorScheme cat (depth + 1) showPosts)
-                    subCategories
-        )
-
-
-viewSlug : Slug -> Element msg
-viewSlug slug =
-    text slug
-    --case Post.fromSlug slug Post.all of
-    --    Nothing ->
-    --        text ("wrong slug! " ++ slug)
-
-    --    Just post ->
-    --        el [ paddingXY 0 12 ] <|
-    --            Posts.preview slug post
 
 view :
     App Data ActionData RouteParams
@@ -433,7 +329,7 @@ view app shared =
     { title = "Unanswered.blog - Categories"
     , pageLayout = View.HomePage
     , body =
-        text "Categories :))))" -- TODO
+        view2 shared.colorScheme
     , next = Nothing
     , previous = Nothing
     }

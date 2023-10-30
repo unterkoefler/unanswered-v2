@@ -17,6 +17,7 @@ import Font exposing (fontSize)
 import Shared
 import Utils exposing (..)
 import Post
+import PagesMsg
 
 
 type alias Post =
@@ -24,11 +25,15 @@ type alias Post =
     , title : String
     , date : Date
     , description : String
+    , next : Maybe String
+    , previous : Maybe String
     }
 
 type alias PostWithBody =
     { metadata : Post
     , body : String
+    , next : Maybe String
+    , previous : Maybe String
     }
 
 type alias UnreadPost =
@@ -44,11 +49,48 @@ posts =
             (List.map readPost
             )
         |> BackendTask.resolve
+        |> BackendTask.map
+            (List.sortBy
+                (\p ->
+                    ( Date.year p.date * -1
+                    , Date.monthNumber p.date * -1
+                    , Date.day p.date * -1
+                    )
+                )
+            )
+
+        |> BackendTask.map populateNextAndPreviousPosts
 
 post : String -> BackendTask FatalError PostWithBody
 post slug =
     findUnreadPost slug
         |> BackendTask.andThen readPostWithBody
+        |> BackendTask.andThen findPreviousAndNextPosts
+
+
+findPreviousAndNextPosts : PostWithBody -> BackendTask FatalError PostWithBody
+findPreviousAndNextPosts target =
+    posts
+        |> BackendTask.map
+            (findPost target.metadata.slug >> updatePost target)
+
+findPost : String -> List Post -> Maybe Post
+findPost slug list =
+    case list of
+        [] ->
+            Nothing
+        x::xs ->
+            if x.slug == slug then
+                Just x
+            else
+                findPost slug xs
+
+updatePost : PostWithBody -> Maybe Post -> PostWithBody
+updatePost postWithBody p =
+        { postWithBody 
+        | previous = Maybe.map .previous p |> Maybe.withDefault Nothing
+        , next = Maybe.map .next p |> Maybe.withDefault Nothing
+        }
 
 readPost : UnreadPost -> BackendTask FatalError Post
 readPost unreadPost =
@@ -62,9 +104,11 @@ readPost unreadPost =
                 , date = Date.fromCalendarDate year (Date.numberToMonth month) day
                 , title = frontmatter.title
                 , description = frontmatter.description
+                , next = Nothing
+                , previous = Nothing
                 }
                 )
-                |> BackendTask.allowFatal
+            |> BackendTask.allowFatal -- TODO: handle recoverable errors? 
 
 readPostWithBody : UnreadPost -> BackendTask FatalError PostWithBody
 readPostWithBody unreadPost =
@@ -80,7 +124,11 @@ readPostWithBody unreadPost =
                     , date = Date.fromCalendarDate year (Date.numberToMonth month) day
                     , title = bodyWithFrontmatter.title
                     , description = bodyWithFrontmatter.description
+                    , next = Nothing
+                    , previous = Nothing
                     }
+                , next = Nothing
+                , previous = Nothing 
                 }
                 )
                 |> BackendTask.allowFatal
@@ -143,6 +191,44 @@ findUnreadPost targetSlug =
         |> Glob.expectUniqueMatch
         |> BackendTask.allowFatal
 
+populateNextAndPreviousPosts : List Post -> List Post
+populateNextAndPreviousPosts =
+    populateNextAndPreviousPostsHelp Nothing []
+
+populateNextAndPreviousPostsHelp : Maybe Post -> List Post -> List Post -> List Post
+populateNextAndPreviousPostsHelp prev acc l =
+    case l of
+        [] ->
+            List.reverse acc
+
+        [last] ->
+            case prev of
+                Nothing ->
+                    populateNextAndPreviousPostsHelp
+                        (Just last)
+                        (last :: acc)
+                        []
+                Just p ->
+                    populateNextAndPreviousPostsHelp
+                        (Just last)
+                        ({ p | next = Just last.slug } :: { last | previous = Just p.slug } :: acc)
+                        []
+
+        curr::rest ->
+            case prev of
+                Nothing ->
+                    populateNextAndPreviousPostsHelp
+                        (Just curr)
+                        acc
+                        rest
+
+                Just p ->
+                    populateNextAndPreviousPostsHelp
+                        (Just { curr | previous = Just p.slug })
+                        ( { p | next = Just curr.slug } :: acc)
+                        rest
+
+
 
 preview : Post -> Element msg
 preview p =
@@ -171,7 +257,7 @@ viewDescription description =
     <|
         [ text description ] 
 
-view : Shared.Model -> PostWithBody -> Element msg
+view : Shared.Model -> PostWithBody -> Element msg-- (PagesMsg.PagesMsg Shared.Msg)
 view sharedModel p =
     Post.view sharedModel { title = p.metadata.title, date = Just p.metadata.date, body = p.body }
 

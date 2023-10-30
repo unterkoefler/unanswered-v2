@@ -1,4 +1,4 @@
-module Shared exposing (Data, Model, Msg(..), SharedMsg(..), template, montserrat, sourceSerifPro)
+module Shared exposing (Data, Model, Msg(..), SharedMsg(..), template, montserrat, sourceSerifPro, colorSchemeSwitcher)
 
 import BackendTask exposing (BackendTask)
 import Browser.Events exposing (onResize)
@@ -21,6 +21,8 @@ import Element.Font as Font
 import Colors
 import Json.Decode as Decode exposing (Decoder)
 import Utils exposing (..)
+import FeatherIcons
+import Font exposing (increaseFontSize, decreaseFontSize, fontSize)
 
 
 template : SharedTemplate Msg Model Data msg
@@ -40,6 +42,8 @@ type Msg
     | WindowResized Int
     | ChangeColorScheme Colors.ColorScheme
     | CloseMenu
+    | IncreaseFontSize
+    | DecreaseFontSize
 
 
 type alias Data =
@@ -54,6 +58,7 @@ type alias Model =
     { showMenu : Bool
     , colorScheme : Colors.ColorScheme
     , width : Int
+    , baseFontSize : Int
     }
 
 
@@ -80,7 +85,12 @@ init flags maybePagePath =
                 Pages.Flags.BrowserFlags value ->
                     decodeFlags value
     in
-    ( { showMenu = False, colorScheme = parsedFlags.colorScheme, width = parsedFlags.width }
+    ( 
+        { showMenu = False
+        , colorScheme = parsedFlags.colorScheme
+        , width = parsedFlags.width 
+        , baseFontSize = 4
+        }
     , Effect.none
     )
 
@@ -140,6 +150,15 @@ update msg model =
         ChangeColorScheme newScheme ->
             ( { model | colorScheme = newScheme }, Effect.none )
 
+        IncreaseFontSize ->
+            ( { model | baseFontSize = increaseFontSize model.baseFontSize }
+            , Effect.none
+            )
+
+        DecreaseFontSize ->
+            ( { model | baseFontSize = decreaseFontSize model.baseFontSize }
+            , Effect.none
+            )
 
 subscriptions : UrlPath -> Model -> Sub Msg
 subscriptions _ _ =
@@ -186,6 +205,9 @@ frame pageView model toMsg =
             articleFrame
                 pageView.body
                 model
+                pageView.previous
+                pageView.next
+                toMsg
 
 homeFrame : Element msg -> Model -> (Msg -> msg) -> Element msg
 homeFrame child model toMsg =
@@ -200,6 +222,18 @@ homeFrame child model toMsg =
                 ]
             , child
             ]
+
+footer : Model -> Maybe String -> Maybe String -> Element msg
+footer model previous next =
+    row
+        [ Background.color <| Colors.accent model.colorScheme
+        , padding 24
+        , width fill
+        , Font.color Colors.white
+        ]
+        [ heading
+        , navButtons model previous next
+        ]
 
 header : Model -> Element Msg
 header model =
@@ -338,19 +372,94 @@ montserrat =
         , Font.sansSerif
         ]
 
-articleFrame : Element msg -> Model -> Element msg
-articleFrame post model =
+navButtons : Model -> Maybe String -> Maybe String -> Element msg
+navButtons model previous next =
+    row
+        [ alignRight
+        , paddingEach { directions0 | right = sidebarWidth model.width }
+        , spacing 12
+        ]
+        [ arrowLeft model previous
+        , arrowRight model next
+        ]
+
+arrowRight : Model -> Maybe String -> Element msg
+arrowRight =
+    arrow FeatherIcons.arrowRight
+
+arrowLeft : Model -> Maybe String -> Element msg
+arrowLeft =
+    arrow FeatherIcons.arrowLeft
+
+arrow : FeatherIcons.Icon -> Model -> Maybe String -> Element msg
+arrow ic model slug =
+    case slug of
+        Nothing ->
+            icon [ Font.color <| Colors.disabled model.colorScheme ] ic
+
+        Just s ->
+            link []
+                { url = s
+                , label = icon [] ic
+                }
+
+icon attrs i =
+    el attrs (i |> FeatherIcons.toHtml [] |> html)
+
+articleFrame : Element msg -> Model -> Maybe String -> Maybe String -> (Msg -> msg) -> Element msg
+articleFrame post model previous next toMsg =
     column
         [ width fill
         , height fill
         ]
         [ row [ width fill, height fill ]
-            [ el [ width fill, alignTop ] <|
-                content model.width 70 post
+            [ el
+                [ width fill, alignTop ]
+                (content model.width 70
+                    (column
+                        [ width fill ]
+                        [ Element.map toMsg (textControls model)
+                        , post
+                        ]
+                    )
+                )
             , sideBar model.colorScheme model.width
             ]
-        , el [ width fill, alignBottom ] <| text "TODO: footer"
+        , el [ width fill, alignBottom ] <| footer model previous next
         ]
+
+textControls : Model -> Element Msg
+textControls model =
+    let 
+        { colorScheme, baseFontSize } = model
+    in
+    wrappedRow
+        [ spacing 12
+        , width (pct model.width 70 |> maximum 800)
+        , centerX
+        , paddingXY 0 24
+        , Border.widthEach { bottom = 1, top = 0, left = 0, right = 0 }
+        , Border.dotted
+        , Border.color (Colors.primary colorScheme)
+        ]
+        (borderBetweenRow
+            [ colorSchemeSwitcher colorScheme [ fontSize (baseFontSize - 2) ]
+            , fontSizeChanger baseFontSize IncreaseFontSize "Increase"
+            , fontSizeChanger baseFontSize DecreaseFontSize "Decrease"
+            ]
+        )
+
+fontSizeChanger : Int -> msg -> String -> Element msg
+fontSizeChanger baseFontSize msg verb =
+    let
+        lbl = 
+            verb ++ " font size"
+    in
+    Input.button
+        [ fontSize (baseFontSize - 2) ]
+        { label = text lbl
+        , onPress = Just msg
+        }
 
 
 content : Int -> Int -> Element msg -> Element msg
@@ -360,10 +469,14 @@ content w percent =
         , width (pct w percent)
         ]
 
+sidebarWidth : Int -> Int
+sidebarWidth w =
+    w * 5 // 100 |> min 96
+
 sideBar : Colors.ColorScheme -> Int -> Element msg
 sideBar colorScheme w =
     el
-        [ width (maximum 96 (pct w 5))
+        [ width (px (sidebarWidth w))
         , Background.color <| Colors.accent colorScheme
         , alignRight
         , height fill

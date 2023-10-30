@@ -90,5 +90,7 @@ view app shared =
     , pageLayout = View.HomePage
     , body =
         NonBlogPost.view shared app.data.post
+    , next = Nothing
+    , previous = Nothing
     }
 

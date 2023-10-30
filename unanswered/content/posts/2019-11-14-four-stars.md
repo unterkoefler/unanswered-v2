@@ -1,7 +1,7 @@
 ---
 
 slug: four-stars
-title: 4 Stars
+title: "4 Stars"
 description: A review of reviews
 show_on_home_page: True
 filename: FourStars
@@ -38,6 +38,6 @@ I've gotten A's most of my life, so it bothers me on a personal level that Patri
 
 Neither have responded to my emails.
 
-When I give reviews, I'm nice enough to provide actionable feedback. The Charles River, which I have just rated as 3 stars, should be less bendy because I get lost sometimes. Iit should also be warmer. I hate how cold it is when I retrieve my bowling pins. Monet (4 stars) should stop painting so many huts.
+When I give reviews, I'm nice enough to provide actionable feedback. The Charles River, which I have just rated as 3 stars, should be less bendy because I get lost sometimes. It should also be warmer. I hate how cold it is when I retrieve my bowling pins. Monet (4 stars) should stop painting so many huts.
 
 Unfortunately, the river and Monet have not responded to my emails either. Maybe it's the unprofessional husky.neu.edu domain that's discouraging them.

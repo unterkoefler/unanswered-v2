@@ -12,6 +12,7 @@ import Date exposing (Date)
 import Utils exposing (..)
 import Colors
 import Renderer exposing (renderPost)
+import PagesMsg exposing (PagesMsg)
 
 type alias Post =
     { title : String
@@ -24,8 +25,8 @@ view : Shared.Model -> Post -> Element msg
 view sharedModel =
     viewHelper
         sharedModel.colorScheme
-        3 -- TODO: font size controls
-        Element.none -- TODO: control bar in general
+        sharedModel.baseFontSize
+        (textControls sharedModel.colorScheme sharedModel.baseFontSize)
         (pct sharedModel.width 70 |> maximum 800)
 
 
@@ -73,3 +74,28 @@ viewContent colorScheme baseFontSize w content =
         ]
     <|
         renderPost colorScheme baseFontSize content w
+
+--textControls : Colors.ColorScheme -> Int -> Element (PagesMsg Shared.Msg)
+textControls colorScheme baseFontSize =
+    Element.none
+    --wrappedRow
+    --    [ spacing 12
+    --    ]
+    --    (borderBetweenRow
+    --        [ Element.map PagesMsg.fromMsg <| Shared.colorSchemeSwitcher colorScheme [ fontSize (baseFontSize - 2) ]
+    --        , fontSizeChanger baseFontSize Shared.IncreaseFontSize "Increase"
+    --        , fontSizeChanger baseFontSize Shared.DecreaseFontSize "Decrease"
+    --        ]
+    --    )
+
+fontSizeChanger : Int -> Shared.Msg -> String -> Element (PagesMsg Shared.Msg)
+fontSizeChanger baseFontSize msg verb =
+    let
+        lbl = 
+            verb ++ " font size"
+    in
+    Input.button
+        [ fontSize (baseFontSize - 2) ]
+        { label = text lbl
+        , onPress = Just (PagesMsg.fromMsg msg)
+        }

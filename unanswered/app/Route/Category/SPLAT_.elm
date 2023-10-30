@@ -1,4 +1,4 @@
-module Route.Categories exposing (ActionData, Data, Model, Msg, route)
+module Route.Category.SPLAT_ exposing (ActionData, Data, Model, Msg, route)
 
 import BackendTask exposing (BackendTask)
 import FatalError exposing (FatalError)
@@ -32,7 +32,7 @@ type alias Msg =
 
 
 type alias RouteParams =
-    {}
+    { splat : ( String, List String ) }
 
 
 type alias Data =
@@ -46,15 +46,36 @@ type alias ActionData =
 
 route : StatelessRoute RouteParams Data ActionData
 route =
-    RouteBuilder.single
+    RouteBuilder.preRender
         { head = head
+        , pages = pages
         , data = data
         }
         |> RouteBuilder.buildNoState { view = view }
 
+pages : BackendTask FatalError (List RouteParams)
+pages = 
+    BackendTask.succeed (List.concatMap categoryToRoutes categories)
 
-data : BackendTask FatalError Data
-data =
+categoryToRoutes : Category -> List RouteParams
+categoryToRoutes cat =
+    { splat = (cat.slug, [])}
+    :: subCategoryToRoutes cat.slug cat.members
+
+subCategoryToRoutes : Slug -> CategoryMembers-> List RouteParams
+subCategoryToRoutes start members =
+    case members of
+        Slugs _ ->
+            []
+
+        SubCategories { subCategories } ->
+            List.map 
+                (\subCategory -> { splat = (start, [ subCategory.slug ] ) } )
+                subCategories
+
+
+data : RouteParams -> BackendTask FatalError Data
+data _ =
     BackendTask.succeed Data
             
 
@@ -433,7 +454,7 @@ view app shared =
     { title = "Unanswered.blog - Categories"
     , pageLayout = View.HomePage
     , body =
-        text "Categories :))))" -- TODO
+        view2 shared.colorScheme
     , next = Nothing
     , previous = Nothing
     }

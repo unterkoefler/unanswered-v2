@@ -8,13 +8,16 @@ module View exposing (View, map, PageLayout(..))
 
 import Element exposing (Element)
 
-
 {-| -}
 type alias View msg =
     { title : String
     , body : Element msg
     , pageLayout : PageLayout
+    , next : Maybe Slug
+    , previous : Maybe Slug
     }
+
+type alias Slug = String
 
 type PageLayout
     = PostPage
@@ -27,4 +30,6 @@ map fn doc =
     { title = doc.title
     , body = Element.map fn doc.body
     , pageLayout = doc.pageLayout
+    , next = doc.next
+    , previous = doc.previous
     }

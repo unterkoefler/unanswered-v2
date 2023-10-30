@@ -78,7 +78,7 @@ head app =
 view :
     App Data ActionData RouteParams
     -> Shared.Model
-    -> View (PagesMsg Msg)
+    -> View msg
 view app sharedModel =
     { title = "Unanswered.blog - " ++ app.data.metadata.title
     , pageLayout = View.PostPage
@@ -86,4 +86,6 @@ view app sharedModel =
         Posts.view 
             sharedModel
             app.data
+    , next = app.data.next
+    , previous = app.data.previous
     }

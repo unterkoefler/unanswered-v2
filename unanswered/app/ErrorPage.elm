@@ -55,6 +55,8 @@ view error model =
         Element.text "Page not found. Oopsies!"
     , title = "This is a NotFound Error"
     , pageLayout = View.HomePage
+    , next = Nothing
+    , previous = Nothing
     }
 
 

@@ -99,6 +99,8 @@ view app shared =
     , pageLayout = View.HomePage
     , body =
         postPreviews app.data.posts shared.width
+    , next = Nothing
+    , previous = Nothing
     }
 
 
