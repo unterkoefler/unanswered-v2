@@ -39,7 +39,6 @@ template =
 type Msg
     = SharedMsg SharedMsg
     | MenuToggled
-    | WindowResized Int
     | ChangeColorScheme Colors.ColorScheme
     | CloseMenu
     | IncreaseFontSize
@@ -57,7 +56,6 @@ type SharedMsg
 type alias Model =
     { showMenu : Bool
     , colorScheme : Colors.ColorScheme
-    , width : Int
     , baseFontSize : Int
     }
 
@@ -80,7 +78,7 @@ init flags maybePagePath =
         parsedFlags =
             case flags of
                 Pages.Flags.PreRenderFlags ->
-                    Flags 1200 Colors.Light -- TODO: do something better here
+                    Flags Colors.Light
 
                 Pages.Flags.BrowserFlags value ->
                     decodeFlags value
@@ -88,31 +86,28 @@ init flags maybePagePath =
     ( 
         { showMenu = False
         , colorScheme = parsedFlags.colorScheme
-        , width = parsedFlags.width 
         , baseFontSize = 4
         }
     , Effect.none
     )
 
 type alias Flags =
-    { width : Int
-    , colorScheme : Colors.ColorScheme
+    { colorScheme : Colors.ColorScheme
     }
 
 decodeFlags : Decode.Value -> Flags
 decodeFlags value =
     case Decode.decodeValue flagDecoder value of
         Err a ->
-            { width = 1200, colorScheme = Colors.Light }
+            { colorScheme = Colors.Light }
 
         Ok flags ->
             flags
 
 flagDecoder : Decoder Flags
 flagDecoder =
-    Decode.map2
+    Decode.map
         Flags
-        (Decode.field "width" Decode.int)
         (Decode.field "colorScheme" decodeColorScheme)
 
 decodeColorScheme : Decoder Colors.ColorScheme
@@ -144,9 +139,6 @@ update msg model =
         CloseMenu ->
             ( { model | showMenu = False }, Effect.none )
 
-        WindowResized w ->
-            ( { model | width = w }, Effect.none )
-
         ChangeColorScheme newScheme ->
             ( { model | colorScheme = newScheme }, Effect.none )
 
@@ -162,7 +154,7 @@ update msg model =
 
 subscriptions : UrlPath -> Model -> Sub Msg
 subscriptions _ _ =
-    onResize (\w h -> WindowResized w)
+    Sub.none
 
 
 data : BackendTask FatalError Data
@@ -220,7 +212,12 @@ homeFrame child model toMsg =
                 [ Element.map toMsg <| header model
                 , subheader model.colorScheme
                 ]
-            , child
+            , el
+                [ width fill
+                , centerX
+                , paddingXY 24 0
+                ]
+                child
             ]
 
 footer : Model -> Maybe String -> Maybe String -> Element msg
@@ -376,7 +373,7 @@ navButtons : Model -> Maybe String -> Maybe String -> Element msg
 navButtons model previous next =
     row
         [ alignRight
-        , paddingEach { directions0 | right = sidebarWidth model.width }
+        , paddingEach { directions0 | right = 0 }
         , spacing 12
         ]
         [ arrowLeft model previous
@@ -414,8 +411,8 @@ articleFrame post model previous next toMsg =
         ]
         [ row [ width fill, height fill ]
             [ el
-                [ width fill, alignTop ]
-                (content model.width 70
+                [ width (fillPortion 95), alignTop ]
+                (content
                     (column
                         [ width fill ]
                         [ Element.map toMsg (textControls model)
@@ -423,7 +420,7 @@ articleFrame post model previous next toMsg =
                         ]
                     )
                 )
-            , sideBar model.colorScheme model.width
+            , sideBar model.colorScheme
             ]
         , el [ width fill, alignBottom ] <| footer model previous next
         ]
@@ -433,21 +430,27 @@ textControls model =
     let 
         { colorScheme, baseFontSize } = model
     in
-    wrappedRow
-        [ spacing 12
-        , width (pct model.width 70 |> maximum 800)
+    el
+        [ paddingXY 12 0
         , centerX
-        , paddingXY 0 24
-        , Border.widthEach { bottom = 1, top = 0, left = 0, right = 0 }
-        , Border.dotted
-        , Border.color (Colors.primary colorScheme)
+        , width (fill |> maximum 800)
         ]
-        (borderBetweenRow
-            [ colorSchemeSwitcher colorScheme [ fontSize (baseFontSize - 2) ]
-            , fontSizeChanger baseFontSize IncreaseFontSize "Increase"
-            , fontSizeChanger baseFontSize DecreaseFontSize "Decrease"
+        <|
+        wrappedRow
+            [ spacing 12
+            , width fill
+            , centerX
+            , paddingXY 0 24
+            , Border.widthEach { bottom = 1, top = 0, left = 0, right = 0 }
+            , Border.dotted
+            , Border.color (Colors.primary colorScheme)
             ]
-        )
+            (borderBetweenRow
+                [ colorSchemeSwitcher colorScheme [ fontSize (baseFontSize - 2) ]
+                , fontSizeChanger baseFontSize IncreaseFontSize "Increase"
+                , fontSizeChanger baseFontSize DecreaseFontSize "Decrease"
+                ]
+            )
 
 fontSizeChanger : Int -> msg -> String -> Element msg
 fontSizeChanger baseFontSize msg verb =
@@ -462,24 +465,21 @@ fontSizeChanger baseFontSize msg verb =
         }
 
 
-content : Int -> Int -> Element msg -> Element msg
-content w percent =
+content : Element msg -> Element msg
+content =
     el
         [ centerX
-        , width (pct w percent)
+        , width fill
+        , paddingXY 24 0
         ]
 
-sidebarWidth : Int -> Int
-sidebarWidth w =
-    w * 5 // 100 |> min 96
-
-sideBar : Colors.ColorScheme -> Int -> Element msg
-sideBar colorScheme w =
+sideBar : Colors.ColorScheme -> Element msg
+sideBar colorScheme =
     el
-        [ width (px (sidebarWidth w))
+        [ width (fillPortion 5)
         , Background.color <| Colors.accent colorScheme
         , alignRight
         , height fill
         ]
         <|
-                text ""
+            Element.none

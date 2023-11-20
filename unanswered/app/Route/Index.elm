@@ -98,20 +98,20 @@ view app shared =
     { title = "Unanswered.blog"
     , pageLayout = View.HomePage
     , body =
-        postPreviews app.data.posts shared.width
+        postPreviews app.data.posts
     , next = Nothing
     , previous = Nothing
     }
 
 
 
-postPreviews : List Posts.Post -> Int -> Element msg
-postPreviews posts w =
+postPreviews : List Posts.Post -> Element msg
+postPreviews posts =
     column
         [ Border.widthEach { top = 0, bottom = 0, left = 1, right = 1 }
         , spacing 36
         , width (fill |> maximum 800)
-        , paddingXY  (w * 6 // 100) 20
+        , paddingXY 24 20
         , centerX
         ]
     <|

@@ -1,4 +1,4 @@
-module Utils exposing (borderBetween, borderBetweenRow, directions0, pct)
+module Utils exposing (borderBetween, borderBetweenRow, directions0)
 
 import Element exposing (..)
 import Element.Border as Border
@@ -37,7 +37,3 @@ borderBetweenRow elements =
             el [ Border.widthEach { directions0 | right = 1 }, paddingEach { directions0 | right = 8 } ]
                 element
                 :: borderBetweenRow rest
-
-pct : Int -> Int -> Length
-pct w percent =
-    px (percent * w // 100) -- TODO: can this be achieved with fillPortion??

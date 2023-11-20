@@ -26,16 +26,14 @@ view sharedModel =
     viewHelper
         sharedModel.colorScheme
         sharedModel.baseFontSize
-        (textControls sharedModel.colorScheme sharedModel.baseFontSize)
-        (pct sharedModel.width 70 |> maximum 800)
+        (fill |> maximum 800)
 
 
-viewHelper : Colors.ColorScheme -> Int -> Element msg -> Length -> Post -> Element msg
-viewHelper colorScheme baseFontSize controls w { title, date, body } =
+viewHelper : Colors.ColorScheme -> Int -> Length -> Post -> Element msg
+viewHelper colorScheme baseFontSize w { title, date, body } =
     column [ centerX, spacingXY 0 24, width w, paddingXY 0 48, alignTop ]
         [ viewTitle title
         , viewDate date
-        , controls
         , viewContent colorScheme baseFontSize w body
         ]
 
@@ -74,19 +72,6 @@ viewContent colorScheme baseFontSize w content =
         ]
     <|
         renderPost colorScheme baseFontSize content w
-
---textControls : Colors.ColorScheme -> Int -> Element (PagesMsg Shared.Msg)
-textControls colorScheme baseFontSize =
-    Element.none
-    --wrappedRow
-    --    [ spacing 12
-    --    ]
-    --    (borderBetweenRow
-    --        [ Element.map PagesMsg.fromMsg <| Shared.colorSchemeSwitcher colorScheme [ fontSize (baseFontSize - 2) ]
-    --        , fontSizeChanger baseFontSize Shared.IncreaseFontSize "Increase"
-    --        , fontSizeChanger baseFontSize Shared.DecreaseFontSize "Decrease"
-    --        ]
-    --    )
 
 fontSizeChanger : Int -> Shared.Msg -> String -> Element (PagesMsg Shared.Msg)
 fontSizeChanger baseFontSize msg verb =

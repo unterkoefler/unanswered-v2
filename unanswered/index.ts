@@ -1,6 +1,6 @@
 type ElmPagesInit = {
   load: (elmLoaded: Promise<unknown>) => Promise<void>;
-  flags: { width: number, colorScheme: "Dark" | "Light" };
+  flags: { colorScheme: "Dark" | "Light" };
 };
 
 const config: ElmPagesInit = {
@@ -10,7 +10,7 @@ const config: ElmPagesInit = {
   flags: function () {
     const useDarkTheme = window.matchMedia("(prefers-color-scheme: dark)").matches;
     const colorScheme = useDarkTheme ? "Dark" : "Light";
-    return { width: window.innerWidth, colorScheme };
+    return { colorScheme };
   },
 };
 
