@@ -313,7 +313,7 @@ menuOptions colorScheme =
             , menuOption Route.WhoAmI "Who am I?"
             , menuOption Route.ContactMe "Contact me"
             , menuOption Route.Categories "Posts by category"
-            , showSearchToggler
+            , menuOption Route.Search "Search"
             , colorSchemeSwitcher colorScheme
                 [ paddingXY 0 24 ]
             , subscribeLink

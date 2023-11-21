@@ -30,6 +30,7 @@ type Effect msg
         , toMsg : Result Http.Error Url -> msg
         }
     | SubmitFetcher (Pages.Fetcher.Fetcher msg)
+    | BrowserCmd (Browser.Navigation.Key -> Cmd msg)
 
 
 {-| -}
@@ -93,6 +94,10 @@ map fn effect =
                 |> Pages.Fetcher.map fn
                 |> SubmitFetcher
 
+        BrowserCmd cmdFn -> -- cmdFn : Key -> Cmd a
+            BrowserCmd (\key -> Cmd.map fn (cmdFn key))
+                    -- return: Key -> Cmd b
+
 
 {-| -}
 perform :
@@ -145,6 +150,9 @@ perform ({ fromPageMsg, key } as helpers) effect =
 
         SubmitFetcher record ->
             helpers.runFetcher record
+
+        BrowserCmd cmdFn ->
+            Cmd.map fromPageMsg <| cmdFn key
 
 
 type alias FormData =

@@ -1,4 +1,4 @@
-module Posts exposing (Post, PostWithBody, posts, post, preview, view)
+module Posts exposing (Post, PostWithBody, posts, post, preview, view, postsWithBodies)
 
 import BackendTask exposing (BackendTask)
 import BackendTask.Glob as Glob
@@ -60,6 +60,24 @@ posts =
             )
 
         |> BackendTask.map populateNextAndPreviousPosts
+
+postsWithBodies : BackendTask FatalError (List PostWithBody)
+postsWithBodies =
+    unreadPosts
+        |> BackendTask.map
+            (List.map readPostWithBody
+            )
+        |> BackendTask.resolve
+        |> BackendTask.map
+            (List.sortBy
+                (\p ->
+                    ( Date.year p.metadata.date * -1
+                    , Date.monthNumber p.metadata.date * -1
+                    , Date.day p.metadata.date * -1
+                    )
+                )
+            )
+
 
 post : String -> BackendTask FatalError PostWithBody
 post slug =
@@ -230,7 +248,7 @@ populateNextAndPreviousPostsHelp prev acc l =
 
 
 
-preview : Post -> Element msg
+preview : { a | title : String, slug : String, description : String } -> Element msg
 preview p =
     column
         [ spacing 12 ]

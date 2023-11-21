@@ -26,6 +26,7 @@ import Effect
 import Url
 import Dict
 import Url.Builder
+import Pagination
 
 
 type alias Model =
@@ -64,9 +65,6 @@ route =
 
 init : App Data ActionData RouteParams -> Shared.Model -> ( Model, Effect.Effect Msg )
 init app shared =
-    let
-        _ = Debug.log "app.url" app.url
-    in
     ( { page = pageFromUrl app.url }, Effect.none )
 
 pageFromUrl : Maybe PageUrl -> Int
@@ -155,63 +153,18 @@ postPreviews colorScheme posts { page } =
 
             _ ->
                 (posts 
-                    |> List.drop (page * itemsPerPage)
-                    |> List.take itemsPerPage
+                    |> Pagination.items { itemsPerPage = 15, currentPage = page }
                     |> List.map Posts.preview
                 ) ++
-                [ paginationControls colorScheme { numPosts = List.length posts, currentPage = page } ]
-
-paginationControls : Colors.ColorScheme -> { numPosts : Int, currentPage : Int } -> Element msg
-paginationControls colorScheme { numPosts, currentPage } = 
-    let
-        numPages : Int
-        numPages =
-            ceiling (toFloat numPosts / toFloat itemsPerPage)
-
-        currentPageInfo : String
-        currentPageInfo =
-            "Page " ++ String.fromInt (currentPage + 1) ++ " of " ++ String.fromInt numPages
-
-        hasPrevious : Bool
-        hasPrevious =
-            currentPage > 0
-
-        hasNext : Bool
-        hasNext =
-            currentPage < numPages - 1
-
-        previousEl =
-            if hasPrevious then
-                link
-                    [ Font.color <| Colors.link colorScheme 
-                    , alignLeft
-                    ]
-                    { label = text "Previous"
-                    , url = Url.Builder.absolute [] [ Url.Builder.int "page" (currentPage - 1) ]
-                    }
-            else
-                Element.none
-
-        nextEl =
-            if hasNext then
-                link
-                    [ Font.color <| Colors.link colorScheme 
-                    , alignRight
-                    ]
-                    { label = text "Next"
-                    , url = Url.Builder.absolute [] [ Url.Builder.int "page" (currentPage + 1) ]
-                    }
-            else
-                Element.none
-    in
-    row
-        [ width fill, Font.size 14 ]
-        [ previousEl
-        , el [ centerX ] <| text currentPageInfo
-        , nextEl
-        ]
-
-        
+                [ Pagination.controls 
+                    [ Font.color <| Colors.link colorScheme ]
+                    { numItems = List.length posts
+                    , currentPage = page 
+                    , itemsPerPage = itemsPerPage
+                    , baseUrl = ""
+                    , queryParams = []
+                    } 
+                ]
 
 itemsPerPage : Int
 itemsPerPage =
