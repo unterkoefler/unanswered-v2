@@ -44,6 +44,6 @@ so.
 The remaining leaves and I look forward to the exciting
 and challenging times ahead. I will water them tomorrow.
 
-\\*\\*
+\*\*
 
 _Editor's note: At press time, the author still had not watered his plant._

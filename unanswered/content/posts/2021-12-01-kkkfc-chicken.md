@@ -2,7 +2,7 @@
 
 slug: kkkfc-chicken
 title: Vegans Endorse The Colonel's New KKKFC Sandwich
-description: "\\\"It's okay to eat racist chickens\\\""
+description: "\"It's okay to eat racist chickens\""
 show_on_home_page: True
 filename: Chicken
 ---
@@ -17,7 +17,7 @@ in general, a clear exception to strictly vegan diets could be made for the new 
 KFC. "Racist chickens have no rights," the statement reads. "It's okay to eat them."
 
 The statement has been met with an outpouring of support on social media, as individual vegetarians
-and meat-alternative company spokespeople chime in. "Hell yeah! F\\*\\*\\* those chickens!" reply-tweeted the
+and meat-alternative company spokespeople chime in. "Hell yeah! F\*\*\* those chickens!" reply-tweeted the
 official Impossible Foods, Inc account. PETA, whose mission statement that "animals are not ours to eat,
 wear, experiment on, or use for entertainment" probably extends to malaria-infected mosquitoes, shared the statement on its Tumblr page, adding that "It's not
 okay to be mean to animals, but it's more not okay to not kill racist animals." An account thought to belong

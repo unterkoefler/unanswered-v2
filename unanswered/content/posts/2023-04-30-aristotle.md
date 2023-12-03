@@ -31,4 +31,4 @@ Anyway…
 
 ---
 
-\\* allegedly
+\* allegedly

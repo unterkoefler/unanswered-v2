@@ -14,7 +14,7 @@ A large crack appeared in the sidewalk in front of him. Tomás stutter-stepped t
 
 The hearse pulled up beside him silently. Two dark-clad men got out, retrieved a coffin from the back, laid it next to Tomás’s limp form, lifted up its lid, gently placed the body within, closed the lid and returned the coffin to the hearse. One man started the engine, while the other rinsed the blood off the sidewalk with a gallon of spring water. The second man returned again to the hearse and they drove off.
 
-\\*\\*\\*
+\*\*\*
 
 Marie Belvittle, on the other hand, was a very observant woman. She noticed, for example, the slight and recent change in their cat’s mood and appetite. The cat, Susan, was indeed three weeks pregnant, but the test result was negative. Marie didn’t know this, but human pregnancy tests don’t work on cats.
 
@@ -22,11 +22,11 @@ Marie also noticed that her husband was late returning from his run. She logged 
 
 For ten minutes, she paced patiently near the door. With still no sign of Tomás, she scribbled out a note—*Gone looking for you. Taking Susie Pants with me. If you see this, call me <3.* She wished desperately that he would start running with his phone. She put on her and Susan’s raincoats, unlocked her bike from the front porch, placed Susan in the basket and pedaled away.
 
-\\*\\*\\*
+\*\*\*
 
 Tomás woke up in the dark with a throbbing headache. He was still wet from the sweat and damp air. He shivered. He tried to reach down to pull his blankets back up, but there were no blankets; he was trapped in a coffin in the back of a hearse. His head banged sharply into the coffin’s lid. He fell back into unconsciousness.
 
-\\*\\*\\*
+\*\*\*
 
 The man in the passenger seat of the hearse turned to the driver. “Did you hear that?" he asked.
 
@@ -36,7 +36,7 @@ Steve was worried, but said nothing. He had a bad feeling about this one.
 
 “You get a bad feeling every time. It’ll be fine. Always is,” said the driver.
 
-\\*\\*\\*
+\*\*\*
 
 Marie and Susan reached the spot where Tomás had fallen. Susan jumped out and began lapping at a puddle on the sidewalk. She had been so thirsty recently. The puddle tasted fresh, but with a slight aftertaste of iron. The cat was unable to explain this to Marie. Fortunately though, Marie noticed something was off about the puddle. It was a misty, foggy morning, but it hadn’t really rained. There were no other puddles in sight. She knelt and tasted it herself.
 
@@ -48,13 +48,13 @@ She couldn’t. It was Tomás’s blood, but Marie wouldn’t have been able to 
 
 “Let’s go, darling,” she said. They left, continuing along Tomás’s planned route.
 
-\\*\\*\\*
+\*\*\*
 
 Again, Tomás woke up in the dark. Remembering what happened last time, he wiggled cautiously, trying to get his bearings. The coffin was the perfect size. He could barely move his arms an inch. The lid, as his head had observed, was hard, but the part he lay in was soft and plush. *I was on a run and I fell and now I am trapped in a soft box*, he thought. *I am trapped in a soft box. Someone put me in a soft box. I’m going to die in this soft box and never see Susan again. They stuck me in a soft box and I’m going to die without ever seeing my dear sweet Susie Poo again. Or my wife,* he thought, growing more worried.
 
 The hearse hit a pothole, sending Tomás’s head careening into the hard side of his soft box, knocking him out, again.
 
-\\*\\*\\*
+\*\*\*
 
 In the passenger seat, Steve grimaced.
 
@@ -64,7 +64,7 @@ They had reached their destination. The hearse slowed down and pulled into the f
 
 The driver nodded and leaned against the hearse. *He sure did need a smoke. Nervous little bugger,* he thought. He checked his watch. “Ten minutes, Steve. Then we’ve got to start embalming!” he shouted. They couldn’t let the body get too cold.
 
-\\*\\*\\*
+\*\*\*
 
 At that very moment, Marie biked past the funeral home. *Embalming?* she thought. *How gross.* She shuddered. Susan purred unhappily. At the corner, the light changed to red. Marie coasted to a stop and glanced back at the funeral home. The huge billboard above it caught her eye. In a garish pink, it read: Mack O’Donnell’s Family Funeral Home EXPRESS: *Die tomorrow, get buried today!* Call 467-0311 for appointments.
 
@@ -72,15 +72,15 @@ At that very moment, Marie biked past the funeral home. *Embalming?* she thought
 
 The light changed and a car behind her honked. Susan growled menacingly. Marie hopped off her bike and moved to the sidewalk.
 
-\\*\\*\\*
+\*\*\*
 
 In the cemetery, Steve was sitting atop a mausoleum. He had worked his pre-roll down to a roach and was starting to feel like himself again. *Embalming time, embalming time*, he hummed.
 
-\\*\\*\\*
+\*\*\*
 
 Marie couldn’t remember her voicemail passcode. It had been a while. She had one more attempt left before she would be locked out for five minutes. The fog had grown denser and fat drops of rain began to fall noisily. Marie pulled up Susan’s hood to protect her from the rain. *Oh, duh. Susan!* Marie typed in 78726#. “You have one new voicemail,” the machine said. “Press 1 to listen now. Press 2 for more options. Press 3 to repeat this menu.” Marie pressed 1.
 
-\\*\\*\\*
+\*\*\*
 
 Steve flicked the end of the joint into a nearby rosebush and jumped to the ground. He skipped happily across the street.
 
@@ -98,7 +98,7 @@ Steve rolled his eyes. “Dad. Ease up. This will be a fun one. We haven’t had
 
 “Alright, son. Help me get this out then. We need to keep to schedule.”
 
-\\*\\*\\*
+\*\*\*
 
 “Hello. This is Mack O’Donnell Junior calling on behalf of Mack O’Donnell’s Family Funeral Home EXPRESS: *Die tomorrow, get buried today!* I’m calling today to confirm an express funeral you or a loved one recently scheduled for Thomas Velmittle for this coming Sunday. In order to cancel, please call us back promptly at 467-0311. That’s 467-0311. Have a nice day!”
 

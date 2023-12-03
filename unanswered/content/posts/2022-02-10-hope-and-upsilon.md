@@ -29,4 +29,4 @@ Meanwhile, the government of Chile is asking citizens who become infected with U
 
 ---
 
-\\* *Correction: An earlier version of this article incorrectly calculated the number of years since 2020 as eight.*
+\* *Correction: An earlier version of this article incorrectly calculated the number of years since 2020 as eight.*
