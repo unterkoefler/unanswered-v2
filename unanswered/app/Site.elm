@@ -11,7 +11,7 @@ import UrlPath
 
 config : SiteConfig
 config =
-    { canonicalUrl = "http://localhost:1234" -- TODO: figure this out
+    { canonicalUrl = "https://v2.unanswered.blog"
     , head = head
     }
 

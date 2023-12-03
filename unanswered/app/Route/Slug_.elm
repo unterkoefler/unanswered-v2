@@ -5,7 +5,7 @@ import BackendTask.Glob as Glob
 import BackendTask.File
 import FatalError exposing (FatalError)
 import Head
-import Head.Seo as Seo
+import Head.Seo as Seo 
 import Element exposing (..)
 import Pages.Url
 import PagesMsg exposing (PagesMsg)
@@ -15,6 +15,10 @@ import View exposing (View)
 import Json.Decode as Decode exposing (Decoder)
 import Posts
 import Utils exposing (..)
+import UrlPath
+import MimeType
+import LanguageTag.Country as Country
+import LanguageTag.Language as Language
 
 
 type alias Model =
@@ -59,20 +63,19 @@ head :
     App Data ActionData RouteParams
     -> List Head.Tag
 head app =
-    Seo.summary
-        { canonicalUrlOverride = Nothing
-        , siteName = "elm-pages"
-        , image =
-            { url = Pages.Url.external "TODO"
-            , alt = "elm-pages logo"
-            , dimensions = Nothing
-            , mimeType = Nothing
-            }
-        , description = "TODO"
-        , locale = Nothing
-        , title = "TODO title" -- metadata.title -- TODO
+    seoSummary
+        { imageOverride = Nothing
+        , description = seoDescription app.data.metadata.description
+        , title = app.data.metadata.title
         }
         |> Seo.website
+
+seoDescription : String -> String
+seoDescription desc =
+    if String.isEmpty desc then
+        "A blog post from your second favorite blog"
+    else
+        desc
 
 
 view :

@@ -328,10 +328,6 @@ menuOption route lbl =
         , label = text lbl
         }
 
-showSearchToggler : Element msg
-showSearchToggler =
-    el [ paddingXY 0 24 ] (text "Search" ) -- TODO: move to its own page
-
 colorSchemeSwitcher : Colors.ColorScheme -> List (Attribute Msg) -> Element Msg
 colorSchemeSwitcher colorScheme attrs =
     let

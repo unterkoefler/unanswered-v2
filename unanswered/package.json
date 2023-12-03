@@ -1,5 +1,5 @@
 {
-  "name": "elm-pages-app",
+  "name": "unanswered.blog",
   "type": "module",
   "scripts": {
     "postinstall": "elm-tooling install",

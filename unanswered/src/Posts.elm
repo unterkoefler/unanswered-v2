@@ -126,7 +126,7 @@ readPost unreadPost =
                 , previous = Nothing
                 }
                 )
-            |> BackendTask.allowFatal -- TODO: handle recoverable errors? 
+            |> BackendTask.allowFatal
 
 readPostWithBody : UnreadPost -> BackendTask FatalError PostWithBody
 readPostWithBody unreadPost =
