@@ -1,0 +1,1 @@
+[{"kind":"static","pathPattern":"/categories"},{"kind":"static","pathPattern":"/contact-me"},{"kind":"static","pathPattern":"/search"},{"kind":"static","pathPattern":"/what-is-this"},{"kind":"static","pathPattern":"/who-am-i"},{"kind":"prerender","pathPattern":"/:slug"},{"kind":"static","pathPattern":"/"},{"kind":"prerender","pathPattern":"/category/*"}]

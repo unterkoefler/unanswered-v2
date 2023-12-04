@@ -1,0 +1,82 @@
+�Sl>
+
+###### ![The old XcuseMe logo for android](assets/xcuseme/play-store-logo.png)
+<caption text="The old XcuseMe logo that I made for the Play store. I stopped capitalizing the c at some point." />
+
+I have worked on XcuseMe on and off for about two years now. I have very little to show for it: there are several bugs, there are no advanced features, there are very few basic features, there is no user base and there are no venture capitalists at my door (yet). But all is not in vain. I learned a lot about myself and about modern software development, some of which I will share here.
+
+## Background
+
+During the beginning of the pandemic, I downloaded a home workout app, called something like “30 Day Full Body Workout.” You were supposed to do one workout a day for 30 days. It took me four months to complete it. Some days I ran or biked or hiked or did some other exercise. Other days, it was raining or I was hungover or I had to watch *Tiger King* instead. I wanted to know where those four months had gone. I needed some way to track my various exercises — and my excuses! Thus, XcuseMe was born: “Exercise tracking for real people.”
+
+I envisioned it as a Strava for sane people, with optional social sharing and integrations with Garmin for exercises and GrubHub for excuses. I imagined a sophisticated ML algorithm that would offer non-judgmental advice and encouragement, like “Your last eight excuses have been about waking up too late. Maybe try exercising in the evening instead, you doorknob.”
+
+Today, it is just a two-table CRUD app, but I use it almost every day. I can tell you exactly how many miles I ran in February, how long my cold lasted in March or how many times in the last year I was planning on working out right after work, but was too hungry  and then too full and then too high to do anything more than ten push-ups and one downward dog before bed (thirteen).
+
+Yes, I could have used Excel for this or even just a notebook and a pen. But coding and learning new things is fun. Also, I still want to add some fancy algorithms one day, which would be a bit harder to do on a notebook.
+
+## Version 1
+
+###### ![A calendar with excuses marked in red and exercises in green](assets/xcuseme/calendar.jpg)
+<caption text="Disclaimer: this is not actually a screenshot of version 1. It's version 4." />
+
+Initially, I wanted XcuseMe to a) work offline, b) send daily reminder notifications and c) be optimized for mobile devices. Due to these “requirements,” I decided to make an app. Back then, I used an Android while most of my friends used iPhones. I would later guilt them into being beta testers, so I needed it to be cross-platform. I had read somewhere that React Native is slow, so I excitedly decided to learn how to use Flutter.
+
+V1 turned out pretty okay. The Flutter docs were good. The development experience was good. Deploying to Google’s Play Store was okay. Deploying to Apple’s App Store was hell. I had to rope my Mac-using roommate into the whole endeavour to test, build and sign the app. There was a whole debacle trying to sign into my old Apple account without access to any of my old Apple products. They also have this weird beta release system that I submitted my app to, but the review process took so long that I released the app publicly instead. I still haven’t been approved for the beta system.
+
+Anyway, I got ten or so of my friends to use it for a week or so. I conducted user research interviews and learned a lot. Some people wanted a social feed, some would hate a social feed. Some wanted to categorize their exercises, others wanted to track other goals besides exercising. Almost everyone wanted a daily reminder.
+
+The main lesson that I learned was that the app was too damn simple. Very few people had any criticism to share about the app or user experience itself. All their feedback focused on things that were missing. As someone who doesn’t take criticism well, this was tough to hear. I had poured hours and hours and hours into this, from designing the flow and layout to learning a new language to wrangling with our tech overlords’ deployment platforms. It was my child and it was perfect. How dare you suggest it needs more features! Don’t you understand how complex everything is!
+
+## Version 2
+
+###### ![A user interface for adding an excuse with the text of "Saw a cloud in the distance"](assets/xcuseme/add-excuse.png)
+<caption text="Sometimes the weather outside is frightful." />
+
+After the incredibly successful beta release and enlightening user feedback, I got to work on V2. Well, I may have taken a long break to brood. Regardless, I realized that any of these fancy advanced features would need a backend. (V1 used only on-device storage.) I decided to use Google’s Firebase and Firestore cloud platform things because they were tightly integrated with Flutter, offered offline support by default, and supported sending notifications
+
+This refactor started out pretty well. I built some pretty snazzy signup and login flows. But the documentation definitely became more confusing. I felt like I was constantly jumping between Firestore docs and Flutter docs and Flutter-Firestore docs. Then Flutter 2 was released. It touted that it now had null safety. I like null safety,  so I spent a couple weekends trying to upgrade all my dependencies. This did not go smoothly at all. I feel like I was wasting my time trying to keep up with Google’s release cadence. I also feel like not building Dart with null safety from the very beginning was a massive oversight. Whatever.
+
+Meanwhile, I had a bug. The details are unimportant, but it was essentially a state management problem. I’m a big fan of Elm and The Elm Architecture for managing state. I attempted to replicate this pattern in Flutter by using “Stateless Widgets” everywhere possible and using Streams and Providers and Consumers to pass around state between child Widgets. This mostly worked out, until I needed a Widget with a text box. A text box in Flutter needs to be inside a Stateful Widget to keep track of the state of the text input. I was also passing an EventStream into this Widget, but since it was Stateful, it was not re-rendering when the stream was updated, meaning that this widget always had an empty list of events.
+
+A smarter person might have figured it out or told me to use some other state management strategy, but I’m an idiot and prefer to be treated that way when I’m writing code. Flutter’s Stateless and Stateful Widget dichotomy is like colored async/sync functions, but 100 times worse.
+
+(After this attempted debugging, I began to understand why so many Android apps are so frustratingly buggy. See, for example, the one where the keyboard won’t show up in Google’s texting app.)
+
+So I was frustrated with this bug, bored by the null safety upgrade mess, and daunted by having to go through the release process again. I, if you will, fluttered away.
+
+## Version 3
+
+###### ![A pie chart showing the proportion of excuses and exercises](assets/xcuseme/pie-chart.jpg)
+
+Like any savvy entrepreneur, I decided to re-write the entire thing, this time as a web application. I would lose the built-in offline support, but I was the only user at this point and I never really needed to use the app when I was deep in the woods. I would also lose convenient notifications, but I figured not paying Apple’s $125 annual developer fee would be worth it. I would use Elm for the front-end, of course, but I shopped around a bit for backends. After some deliberation, I decided to give Phoenix a shot. It seemed easy and powerful enough and it would be cool to learn, I thought.
+
+I built V3 to be roughly on par with V1 and then didn’t touch it for months and months. I was really dragging my feet about re-creating the signup and login flows. I kept thinking that I should abandon the Phoenix framework and use Django instead to get that stuff out of the box. I wasn’t all too impressed with Phoenix in general and had no use for its killer LiveView feature. But I also know Django and Python fairly well, and I had accepted that if this side project wasn’t going to make me a millionaire, I should at least use it to learn new technologies. That’s what would keep me interested and motivated. Phoenix clearly didn’t, though I have nothing really bad to say about it.
+
+## Version 4
+
+###### ![A wordcloud showing the author's most frequent excuses](assets/xcuseme/wordcloud.jpg)
+<caption text="I'm thinking about supporting frequent n-grams here too, but it's also fun to figure out why certain words like 'took' appear a lot. Hint: 'nap' is about the same size." />
+
+Months later, I again re-wrote the entire application, this time using the [Haskell web framework IHP](https://ihp.digitallyinduced.com/) on the backend. I kept the front-end in Elm, but re-wrote it to not be a Single Page App because I had learned in other projects that managing routing on the client-side is a pain in the butt.
+
+IHP has been fantastic. The documentation is solid, it’s easy to manage dependencies with Nix, I found a great tutorial on integrating with Elm, and deploying to IHP Cloud was a breeze (especially relative to the App Store). I encountered one problem with setting up a custom subdomain, but after reporting it, it was fixed within a couple of days, with a friendly reply from the CEO (Google could never).
+
+On the downside, I have had to fight against the framework in some places in order to write the front-end almost entirely in Elm. IHP encourages you to use their hsx language and auto-generated forms rather than a separate front-end. I respect that design decision, but after I discovered elm-ui, I refuse to write CSS in my free time. My decision to lean heavily into Elm meant that there were some issues with redirects and rendering JSON responses, but I’ve managed.
+
+Best of all, I’m finally learning Haskell and I’m loving its type safety and idiot-proofness. Having a compiler tell me what stupid bugs I’ve written is so relaxing. When my code eventually compiles, I am very confident that it will work. Likewise with Elm, of course.
+
+## Conclusion
+
+I still don’t have notifications or a social feed or ML algorithms, but I do have:
+
+- one very dedicated daily active user
+- experience with three new languages and three new frameworks
+- A pretty cool word cloud of my excuses
+- No stupid Stateful Widgets
+- No CSS
+- One long blog post
+- Happiness?
+
+If you’ve read this far, you’re now legally obligated to log your exercise and excuses every day on XcuseMe ([https://xcuseme.ihpapp.com](https://xcuseme.ihpapp.com)). Enjoy!
+ ���^What I learned from making and re-making an app  xcuseme|Notes on Building "XcuseMe: Exercise tracking for real people"beantownhouseplant 
