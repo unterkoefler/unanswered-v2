@@ -18,6 +18,12 @@
       "resolved": "github:NixOS/nixpkgs/78058d810644f5ed276804ce7ea9e82d92bee293#nodejs_20",
       "source": "devbox-search",
       "version": "20.6.1"
+    },
+    "simple-http-server@latest": {
+      "last_modified": "2023-11-27T17:54:48Z",
+      "resolved": "github:NixOS/nixpkgs/491af1f1cc28df11dfbff049da4134c37d58aee9#simple-http-server",
+      "source": "devbox-search",
+      "version": "0.6.7"
     }
   }
 }

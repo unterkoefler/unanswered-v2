@@ -392,7 +392,7 @@ arrow ic model slug =
 
         Just s ->
             link []
-                { url = s
+                { url = "/" ++ s
                 , label = icon [] ic
                 }
 

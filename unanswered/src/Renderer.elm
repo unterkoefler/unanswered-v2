@@ -201,7 +201,7 @@ renderImage { alt, src, title } imageWidth =
     el [ width imageWidth, paddingXY 0 5 ] <|
         image [ width imageWidth, height (fill |> maximum 800), centerX, scrollbarY ]
             { description = alt
-            , src = src
+            , src = "/" ++ src
             }
 
 

@@ -2,7 +2,8 @@
   "packages": [
     "nodejs_20@latest",
     "elmPackages.elm@latest",
-    "elmPackages.lamdera@latest"
+    "elmPackages.lamdera@latest",
+    "simple-http-server@latest"
   ],
   "shell": {
     "init_hook": [
