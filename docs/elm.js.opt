@@ -15378,7 +15378,7 @@
             $mdgriffith$elm_ui$Element$height($mdgriffith$elm_ui$Element$maximum_fn(800, $mdgriffith$elm_ui$Element$fill)),
             $mdgriffith$elm_ui$Element$centerX,
             $mdgriffith$elm_ui$Element$scrollbarY
-        ]), { jO: alt, iE: src }));
+        ]), { jO: alt, iE: "/" + src }));
     }, $author$project$Renderer$renderImage = F2($author$project$Renderer$renderImage_fn);
     var $author$project$Renderer$renderLink_fn = function (colorScheme, _v0, content) {
         var destination = _v0.jP;
@@ -21491,7 +21491,7 @@
             var s = slug.a;
             return $mdgriffith$elm_ui$Element$link_fn(_List_Nil, {
                 $8: $author$project$Shared$icon_fn(_List_Nil, ic),
-                iM: s
+                iM: "/" + s
             });
         }
     }, $author$project$Shared$arrow = F3($author$project$Shared$arrow_fn);
