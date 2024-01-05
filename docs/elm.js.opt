@@ -9012,7 +9012,7 @@
                 d9: _List_fromArray([
                     {
                         W: $author$project$Categories$Slugs({
-                            as: _List_fromArray(["pete", "orange", "squirrel", "vultures-envision-a-toaster"])
+                            as: _List_fromArray(["pete", "orange", "squirrel", "vultures-envision-a-toaster", "christmas-tree"])
                         }),
                         kV: "Fables",
                         A: "fables"
