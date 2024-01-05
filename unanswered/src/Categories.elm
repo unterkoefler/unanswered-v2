@@ -92,6 +92,7 @@ categories =
                                     , "orange"
                                     , "squirrel"
                                     , "vultures-envision-a-toaster"
+                                    , "christmas-tree"
                                     ]
                                 }
                       }
