@@ -12,6 +12,7 @@ import Markdown.Html
 import Markdown.Parser exposing (deadEndToString)
 import Markdown.Renderer exposing (..)
 import Utils exposing (directions0)
+import Html
 
 
 renderPost : Colors.ColorScheme -> Int -> String -> Length -> List (Element msg)
@@ -34,7 +35,7 @@ renderer colorScheme baseFontSize imageWidth =
     , strikethrough = \_ -> Element.none
     , strong = renderStrong
     , emphasis = renderEmphasis
-    , hardLineBreak = Element.none
+    , hardLineBreak = Html.br [] [] |> html
     , link = renderLink colorScheme
     , image = \args -> renderImage args imageWidth
     , unorderedList = renderUnorderedList
