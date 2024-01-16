@@ -15097,6 +15097,7 @@
     var $dillonkearns$elm_markdown$Markdown$Renderer$render_fn = function (renderer, ast) {
         return $elm$core$List$foldr_fn($dillonkearns$elm_markdown$Markdown$Renderer$combineResults_a0, $dillonkearns$elm_markdown$Markdown$Renderer$combineResults_a1, $dillonkearns$elm_markdown$Markdown$Renderer$renderHelper_fn(renderer, ast));
     }, $dillonkearns$elm_markdown$Markdown$Renderer$render = F2($dillonkearns$elm_markdown$Markdown$Renderer$render_fn);
+    var $elm$html$Html$br = _VirtualDom_nodeNS_fn(_VirtualDom_node_a0, "br"), $elm$html$Html$br_fn = $elm$html$Html$br.a2;
     var $mdgriffith$elm_ui$Internal$Model$Class_fn = function (a, b) {
         return { $: 3, a: a, b: b };
     }, $mdgriffith$elm_ui$Internal$Model$Class = F2($mdgriffith$elm_ui$Internal$Model$Class_fn);
@@ -15191,6 +15192,8 @@
         $mdgriffith$elm_ui$Element$height($mdgriffith$elm_ui$Element$px(2)),
         $mdgriffith$elm_ui$Element$Border$widthEach(_Utils_update($author$project$Utils$directions0, { iH: 1 }))
     ]), $mdgriffith$elm_ui$Element$none);
+    var $mdgriffith$elm_ui$Internal$Model$unstyled_a0 = $mdgriffith$elm_ui$Internal$Model$Unstyled, $mdgriffith$elm_ui$Internal$Model$unstyled_a1 = $elm$core$Basics$always, $mdgriffith$elm_ui$Internal$Model$unstyled = A2($elm$core$Basics$composeL, $mdgriffith$elm_ui$Internal$Model$unstyled_a0, $mdgriffith$elm_ui$Internal$Model$unstyled_a1);
+    var $mdgriffith$elm_ui$Element$html = $mdgriffith$elm_ui$Internal$Model$unstyled;
     var $dillonkearns$elm_markdown$Markdown$Html$resultOr_fn = function (ra, rb) {
         if (ra.$ === 1) {
             var singleError = ra.a;
@@ -15438,7 +15441,7 @@
             jA: $author$project$Renderer$renderCodeBlock,
             jB: $author$project$Renderer$renderCodeSpan,
             jS: $author$project$Renderer$renderEmphasis,
-            kg: $mdgriffith$elm_ui$Element$none,
+            kg: $mdgriffith$elm_ui$Element$html($elm$html$Html$br_fn(_List_Nil, _List_Nil)),
             ki: $author$project$Renderer$renderHeading(baseFontSize),
             kp: $dillonkearns$elm_markdown$Markdown$Html$oneOf(_List_fromArray([
                 $author$project$Renderer$captionRenderer(baseFontSize)
@@ -16525,7 +16528,6 @@
     var $elm$html$Html$Attributes$spellcheck_a0 = "spellcheck", $elm$html$Html$Attributes$spellcheck = $elm$html$Html$Attributes$boolProperty($elm$html$Html$Attributes$spellcheck_a0);
     var $mdgriffith$elm_ui$Element$Input$spellcheck_a0 = $mdgriffith$elm_ui$Internal$Model$Attr, $mdgriffith$elm_ui$Element$Input$spellcheck_a1 = $elm$html$Html$Attributes$spellcheck, $mdgriffith$elm_ui$Element$Input$spellcheck = A2($elm$core$Basics$composeL, $mdgriffith$elm_ui$Element$Input$spellcheck_a0, $mdgriffith$elm_ui$Element$Input$spellcheck_a1);
     var $elm$html$Html$Attributes$type__a0 = "type", $elm$html$Html$Attributes$type_ = $elm$html$Html$Attributes$stringProperty($elm$html$Html$Attributes$type__a0);
-    var $mdgriffith$elm_ui$Internal$Model$unstyled_a0 = $mdgriffith$elm_ui$Internal$Model$Unstyled, $mdgriffith$elm_ui$Internal$Model$unstyled_a1 = $elm$core$Basics$always, $mdgriffith$elm_ui$Internal$Model$unstyled = A2($elm$core$Basics$composeL, $mdgriffith$elm_ui$Internal$Model$unstyled_a0, $mdgriffith$elm_ui$Internal$Model$unstyled_a1);
     var $elm$html$Html$Attributes$value_a0 = "value", $elm$html$Html$Attributes$value = $elm$html$Html$Attributes$stringProperty($elm$html$Html$Attributes$value_a0);
     var $mdgriffith$elm_ui$Element$Input$value_a0 = $mdgriffith$elm_ui$Internal$Model$Attr, $mdgriffith$elm_ui$Element$Input$value_a1 = $elm$html$Html$Attributes$value, $mdgriffith$elm_ui$Element$Input$value = A2($elm$core$Basics$composeL, $mdgriffith$elm_ui$Element$Input$value_a0, $mdgriffith$elm_ui$Element$Input$value_a1);
     var $mdgriffith$elm_ui$Element$Input$textHelper_fn = function (textInput, attrs, textOptions) {
@@ -18385,7 +18387,6 @@
     var $dillonkearns$elm_pages$QueryParams$fromString = function (query) {
         return $elm$core$List$foldr_fn($dillonkearns$elm_pages$QueryParams$addParam, $elm$core$Dict$empty, $elm$core$String$split_fn("&", query));
     };
-    var $elm$html$Html$br = _VirtualDom_nodeNS_fn(_VirtualDom_node_a0, "br"), $elm$html$Html$br_fn = $elm$html$Html$br.a2;
     var $elm$html$Html$code = _VirtualDom_nodeNS_fn(_VirtualDom_node_a0, "code"), $elm$html$Html$code_fn = $elm$html$Html$code.a2;
     var $elm$html$Html$h1 = _VirtualDom_nodeNS_fn(_VirtualDom_node_a0, "h1"), $elm$html$Html$h1_fn = $elm$html$Html$h1.a2;
     var $elm$html$Html$Attributes$id_a0 = "id", $elm$html$Html$Attributes$id = $elm$html$Html$Attributes$stringProperty($elm$html$Html$Attributes$id_a0);
@@ -21439,7 +21440,6 @@
     var $author$project$Colors$disabled = function (_v0) {
         return $author$project$Colors$gray;
     };
-    var $mdgriffith$elm_ui$Element$html = $mdgriffith$elm_ui$Internal$Model$unstyled;
     var $elm$svg$Svg$Attributes$class_a0 = "class", $elm$svg$Svg$Attributes$class = _VirtualDom_attribute($elm$svg$Svg$Attributes$class_a0);
     var $elm$svg$Svg$Attributes$fill_a0 = "fill", $elm$svg$Svg$Attributes$fill = _VirtualDom_attribute($elm$svg$Svg$Attributes$fill_a0);
     var $elm$svg$Svg$Attributes$height_a0 = "height", $elm$svg$Svg$Attributes$height = _VirtualDom_attribute($elm$svg$Svg$Attributes$height_a0);
