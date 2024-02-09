@@ -105,6 +105,7 @@ categories =
                                     , "two-ways-out"
                                     , "flicker"
                                     , "itch"
+                                    , "yoga"
                                     ]
                                 }
                       }
@@ -132,9 +133,20 @@ categories =
                                     , "hooked-mystery"
                                     , "hooked-solution"
                                     , "aliens"
+                                    , "the-tide-rises"
+                                    , "false-starts"
                                     ]
                                 }
                       }
+                    ]
+                }
+      }
+    , { name = "Poems"
+      , slug = "poems"
+      , members = 
+            Slugs
+                { slugs = 
+                    [ "weighting"
                     ]
                 }
       }
@@ -157,7 +169,8 @@ categories =
       , members =
             Slugs
                 { slugs =
-                    [ "xcuseme"
+                    [ "new-york"
+                    , "xcuseme"
                     , "europe"
                     , "stupid-convos-1"
                     , "stupid-convos-2"
