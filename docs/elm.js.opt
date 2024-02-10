@@ -18228,16 +18228,13 @@
         return { z: post.z };
     }), $author$project$Posts$posts);
     var $author$project$View$PostPage = 0;
-    var $author$project$Posts$view_fn = function (sharedModel, p) {
-        return A2($author$project$Post$view, sharedModel, {
-            fq: p.fq,
-            jL: $elm$core$Maybe$Just(p.ab.jL),
-            mw: p.ab.mw
-        });
-    }, $author$project$Posts$view = F2($author$project$Posts$view_fn);
     var $author$project$Route$Slug_$view_fn = function (app, sharedModel) {
         return {
-            fq: $author$project$Posts$view_fn(sharedModel, app.gv),
+            fq: A2($author$project$Post$view, sharedModel, {
+                fq: app.gv.fq,
+                jL: $elm$core$Maybe$Just(app.gv.ab.jL),
+                mw: app.gv.ab.mw
+            }),
             kW: app.gv.kW,
             lk: 0,
             lu: app.gv.lu,
@@ -20581,8 +20578,9 @@
                 return $lamdera$codecs$Lamdera$Wire3$failDecode;
         }
     }, $lamdera$codecs$Lamdera$Wire3$decodeUnsignedInt8);
-    var $lamdera$codecs$Lamdera$Wire3$decodeUnit = $elm$bytes$Bytes$Decode$succeed(0), $lamdera$codecs$Lamdera$Wire3$decodeUnit_fn = $lamdera$codecs$Lamdera$Wire3$decodeUnit.f;
-    var $author$project$Shared$w3_decode_Data = $lamdera$codecs$Lamdera$Wire3$decodeUnit;
+    var $author$project$Shared$w3_decode_Data = $lamdera$codecs$Lamdera$Wire3$andMapDecode_fn($lamdera$codecs$Lamdera$Wire3$decodeList($lamdera$codecs$Lamdera$Wire3$decodeString), $lamdera$codecs$Lamdera$Wire3$succeedDecode(function (slugs0) {
+        return { ak: slugs0 };
+    }));
     var $author$project$ErrorPage$InternalError = function (a) {
         return { $: 1, a: a };
     };
@@ -20830,10 +20828,11 @@
                 ]));
         }
     };
-    var $lamdera$codecs$Lamdera$Wire3$encodeUnit = function (_v0) {
-        return $elm$bytes$Bytes$Encode$sequence(_List_Nil);
+    var $author$project$Shared$w3_encode_Data = function (w3_rec_var0) {
+        return $lamdera$codecs$Lamdera$Wire3$encodeSequenceWithoutLength(_List_fromArray([
+            $lamdera$codecs$Lamdera$Wire3$encodeList_fn($lamdera$codecs$Lamdera$Wire3$encodeString, w3_rec_var0.ak)
+        ]));
     };
-    var $author$project$Shared$w3_encode_Data = $lamdera$codecs$Lamdera$Wire3$encodeUnit;
     var $author$project$Main$w3_encode_PageData = function (w3v) {
         switch (w3v.$) {
             case 8:
@@ -21385,11 +21384,114 @@
     var $author$project$Shared$subscriptions_fn = function (_v0, _v1) {
         return $elm$core$Platform$Sub$none;
     }, $author$project$Shared$subscriptions = F2($author$project$Shared$subscriptions_fn);
+    var $author$project$Shared$GoToRandomPost = function (a) {
+        return { $: 6, a: a };
+    };
     var $author$project$Font$decreaseFontSize = function (currentSize) {
         return $elm$core$Basics$clamp_fn($author$project$Font$clampSize_a0, $author$project$Font$clampSize_a1, currentSize - 1);
     };
+    var $elm$random$Random$Generate = $elm$core$Basics$identity;
+    var $elm$random$Random$Seed_fn = function (a, b) {
+        return { $: 0, a: a, b: b };
+    }, $elm$random$Random$Seed = F2($elm$random$Random$Seed_fn);
+    var $elm$random$Random$next = function (_v0) {
+        var state0 = _v0.a;
+        var incr = _v0.b;
+        return $elm$random$Random$Seed_fn(((state0 * 1664525) + incr) >>> 0, incr);
+    };
+    var $elm$random$Random$initialSeed = function (x) {
+        var _v0 = $elm$random$Random$next($elm$random$Random$Seed_fn(0, 1013904223));
+        var state1 = _v0.a;
+        var incr = _v0.b;
+        var state2 = (state1 + x) >>> 0;
+        return $elm$random$Random$next($elm$random$Random$Seed_fn(state2, incr));
+    };
+    var $elm$random$Random$init = _Scheduler_andThen_fn(function (time) {
+        return $elm$core$Task$succeed($elm$random$Random$initialSeed($elm$time$Time$posixToMillis(time)));
+    }, $elm$time$Time$now);
+    var $elm$random$Random$step_fn = function (_v0, seed) {
+        var generator = _v0;
+        return generator(seed);
+    }, $elm$random$Random$step = F2($elm$random$Random$step_fn);
+    var $elm$random$Random$onEffects_fn = function (router, commands, seed) {
+        if (!commands.b) {
+            return $elm$core$Task$succeed(seed);
+        }
+        else {
+            var generator = commands.a;
+            var rest = commands.b;
+            var _v1 = $elm$random$Random$step_fn(generator, seed);
+            var value = _v1.a;
+            var newSeed = _v1.b;
+            return _Scheduler_andThen_fn(function (_v2) {
+                return $elm$random$Random$onEffects_fn(router, rest, newSeed);
+            }, _Platform_sendToApp_fn(router, value));
+        }
+    }, $elm$random$Random$onEffects = F3($elm$random$Random$onEffects_fn);
+    var $elm$random$Random$onSelfMsg_fn = function (_v0, _v1, seed) {
+        return $elm$core$Task$succeed(seed);
+    }, $elm$random$Random$onSelfMsg = F3($elm$random$Random$onSelfMsg_fn);
+    var $elm$random$Random$Generator = $elm$core$Basics$identity;
+    var $elm$random$Random$map_fn = function (func, _v0) {
+        var genA = _v0;
+        return function (seed0) {
+            var _v1 = genA(seed0);
+            var a = _v1.a;
+            var seed1 = _v1.b;
+            return _Utils_Tuple2(func(a), seed1);
+        };
+    }, $elm$random$Random$map = F2($elm$random$Random$map_fn);
+    var $elm$random$Random$cmdMap_fn = function (func, _v0) {
+        var generator = _v0;
+        return $elm$random$Random$map_fn(func, generator);
+    }, $elm$random$Random$cmdMap = F2($elm$random$Random$cmdMap_fn);
+    _Platform_effectManagers["Random"] = _Platform_createManager($elm$random$Random$init, $elm$random$Random$onEffects, $elm$random$Random$onSelfMsg, $elm$random$Random$cmdMap);
+    var $elm$random$Random$command = _Platform_leaf("Random");
+    var $elm$random$Random$generate_fn = function (tagger, generator) {
+        return $elm$random$Random$command($elm$random$Random$map_fn(tagger, generator));
+    }, $elm$random$Random$generate = F2($elm$random$Random$generate_fn);
     var $author$project$Font$increaseFontSize = function (currentSize) {
         return $elm$core$Basics$clamp_fn($author$project$Font$clampSize_a0, $author$project$Font$clampSize_a1, currentSize + 1);
+    };
+    var $elm$random$Random$peel = function (_v0) {
+        var state = _v0.a;
+        var word = (state ^ (state >>> ((state >>> 28) + 4))) * 277803737;
+        return ((word >>> 22) ^ word) >>> 0;
+    };
+    var $elm$random$Random$int_fn = function (a, b) {
+        return function (seed0) {
+            var _v0 = (_Utils_cmp(a, b) < 0) ? _Utils_Tuple2(a, b) : _Utils_Tuple2(b, a);
+            var lo = _v0.a;
+            var hi = _v0.b;
+            var range = (hi - lo) + 1;
+            if (!((range - 1) & range)) {
+                return _Utils_Tuple2((((range - 1) & $elm$random$Random$peel(seed0)) >>> 0) + lo, $elm$random$Random$next(seed0));
+            }
+            else {
+                var threshhold = (((-range) >>> 0) % range) >>> 0;
+                var accountForBias = function (seed) {
+                    accountForBias: while (true) {
+                        var x = $elm$random$Random$peel(seed);
+                        var seedN = $elm$random$Random$next(seed);
+                        if (_Utils_cmp(x, threshhold) < 0) {
+                            var $temp$seed = seedN;
+                            seed = $temp$seed;
+                            continue accountForBias;
+                        }
+                        else {
+                            return _Utils_Tuple2((x % range) + lo, seedN);
+                        }
+                    }
+                };
+                return accountForBias(seed0);
+            }
+        };
+    }, $elm$random$Random$int = F2($elm$random$Random$int_fn);
+    var $author$project$Shared$randomSlugGenerator = function (slugs) {
+        var values = $elm$core$Array$fromList(slugs);
+        return $elm$random$Random$map_fn($elm$core$Maybe$withDefault("the-hearse"), $elm$random$Random$map_fn(function (i) {
+            return $elm$core$Array$get_fn(i, values);
+        }, $elm$random$Random$int_fn(0, $elm$core$Array$length(values) - 1)));
     };
     var $author$project$Shared$update_fn = function (msg, model) {
         switch (msg.$) {
@@ -21407,10 +21509,16 @@
                 return _Utils_Tuple2(_Utils_update(model, {
                     jb: $author$project$Font$increaseFontSize(model.jb)
                 }), $author$project$Effect$none);
-            default:
+            case 5:
                 return _Utils_Tuple2(_Utils_update(model, {
                     jb: $author$project$Font$decreaseFontSize(model.jb)
                 }), $author$project$Effect$none);
+            case 7:
+                var slugs = msg.a;
+                return _Utils_Tuple2(model, $author$project$Effect$Cmd($elm$random$Random$generate_fn($author$project$Shared$GoToRandomPost, $author$project$Shared$randomSlugGenerator(slugs))));
+            default:
+                var slug = msg.a;
+                return _Utils_Tuple2(model, $author$project$Effect$Cmd($elm$browser$Browser$Navigation$load($elm$url$Url$Builder$absolute_fn(_List_fromArray([slug]), _List_Nil))));
         }
     }, $author$project$Shared$update = F2($author$project$Shared$update_fn);
     var $mdgriffith$elm_ui$Internal$Model$Bottom = 2;
@@ -21424,25 +21532,6 @@
     var $author$project$Colors$accent = function (_v0) {
         return $author$project$Colors$teal;
     };
-    var $mdgriffith$elm_ui$Internal$Model$Serif = { $: 0 };
-    var $mdgriffith$elm_ui$Element$Font$serif = $mdgriffith$elm_ui$Internal$Model$Serif;
-    var $mdgriffith$elm_ui$Internal$Model$Typeface = function (a) {
-        return { $: 3, a: a };
-    };
-    var $mdgriffith$elm_ui$Element$Font$typeface = $mdgriffith$elm_ui$Internal$Model$Typeface;
-    var $author$project$Shared$sourceSerifPro = $mdgriffith$elm_ui$Element$Font$family(_List_fromArray([
-        $mdgriffith$elm_ui$Element$Font$typeface("SourceSerifPro"),
-        $mdgriffith$elm_ui$Element$Font$serif
-    ]));
-    var $author$project$Shared$heading = $mdgriffith$elm_ui$Element$link_fn(_List_fromArray([
-        $elm$core$Basics$composeL_fn($mdgriffith$elm_ui$Element$Region$heading_a0, $mdgriffith$elm_ui$Element$Region$heading_a1, 1),
-        $mdgriffith$elm_ui$Element$Font$size(36),
-        $author$project$Shared$sourceSerifPro,
-        $mdgriffith$elm_ui$Element$paddingEach({ hN: 0, ig: 0, ix: 12, iH: 0 })
-    ]), {
-        $8: $mdgriffith$elm_ui$Element$text("Unanswered"),
-        iM: "/"
-    });
     var $author$project$Colors$gray = $mdgriffith$elm_ui$Element$rgb255_fn(80, 80, 80);
     var $author$project$Colors$disabled = function (_v0) {
         return $author$project$Colors$gray;
@@ -21488,20 +21577,30 @@
     var $author$project$Shared$icon_fn = function (attrs, i) {
         return $mdgriffith$elm_ui$Element$el_fn(attrs, $mdgriffith$elm_ui$Element$html($feathericons$elm_feather$FeatherIcons$toHtml_fn(_List_Nil, i)));
     }, $author$project$Shared$icon = F2($author$project$Shared$icon_fn);
-    var $author$project$Shared$arrow_fn = function (ic, model, slug) {
+    var $author$project$Shared$arrow_fn = function (ic, label, reverser, model, slug) {
         if (slug.$ === 1) {
-            return $author$project$Shared$icon_fn(_List_fromArray([
-                $mdgriffith$elm_ui$Element$Font$color($author$project$Colors$disabled(model.jC))
-            ]), ic);
+            return $mdgriffith$elm_ui$Element$row_fn(_List_fromArray([
+                $mdgriffith$elm_ui$Element$spacing(8)
+            ]), reverser(_List_fromArray([
+                $mdgriffith$elm_ui$Element$text("there is no " + label),
+                $author$project$Shared$icon_fn(_List_fromArray([
+                    $mdgriffith$elm_ui$Element$Font$color($author$project$Colors$disabled(model.jC))
+                ]), ic)
+            ])));
         }
         else {
             var s = slug.a;
             return $mdgriffith$elm_ui$Element$link_fn(_List_Nil, {
-                $8: $author$project$Shared$icon_fn(_List_Nil, ic),
+                $8: $mdgriffith$elm_ui$Element$row_fn(_List_fromArray([
+                    $mdgriffith$elm_ui$Element$spacing(8)
+                ]), reverser(_List_fromArray([
+                    $mdgriffith$elm_ui$Element$text(label),
+                    $author$project$Shared$icon_fn(_List_Nil, ic)
+                ]))),
                 iM: "/" + s
             });
         }
-    }, $author$project$Shared$arrow = F3($author$project$Shared$arrow_fn);
+    }, $author$project$Shared$arrow = F5($author$project$Shared$arrow_fn);
     var $elm$svg$Svg$line = _VirtualDom_nodeNS_fn($elm$svg$Svg$trustedNode_a0, "line"), $elm$svg$Svg$line_fn = $elm$svg$Svg$line.a2;
     var $feathericons$elm_feather$FeatherIcons$Icon = $elm$core$Basics$identity;
     var $feathericons$elm_feather$FeatherIcons$defaultAttributes = function (name) {
@@ -21536,7 +21635,7 @@
             _VirtualDom_attribute_fn($elm$svg$Svg$Attributes$points_a0, "12 19 5 12 12 5")
         ]), _List_Nil)
     ]));
-    var $author$project$Shared$arrowLeft_a0 = $feathericons$elm_feather$FeatherIcons$arrowLeft, $author$project$Shared$arrowLeft = $author$project$Shared$arrow($author$project$Shared$arrowLeft_a0);
+    var $author$project$Shared$arrowLeft_a0 = $feathericons$elm_feather$FeatherIcons$arrowLeft, $author$project$Shared$arrowLeft_a1 = "previous", $author$project$Shared$arrowLeft_a2 = $elm$core$List$reverse, $author$project$Shared$arrowLeft = A3($author$project$Shared$arrow, $author$project$Shared$arrowLeft_a0, $author$project$Shared$arrowLeft_a1, $author$project$Shared$arrowLeft_a2);
     var $feathericons$elm_feather$FeatherIcons$arrowRight = $feathericons$elm_feather$FeatherIcons$makeBuilder_fn("arrow-right", _List_fromArray([
         $elm$svg$Svg$line_fn(_List_fromArray([
             _VirtualDom_attribute_fn($elm$svg$Svg$Attributes$x1_a0, "5"),
@@ -21548,85 +21647,11 @@
             _VirtualDom_attribute_fn($elm$svg$Svg$Attributes$points_a0, "12 5 19 12 12 19")
         ]), _List_Nil)
     ]));
-    var $author$project$Shared$arrowRight_a0 = $feathericons$elm_feather$FeatherIcons$arrowRight, $author$project$Shared$arrowRight = $author$project$Shared$arrow($author$project$Shared$arrowRight_a0);
-    var $author$project$Shared$navButtons_fn = function (model, previous, next) {
-        return $mdgriffith$elm_ui$Element$row_fn(_List_fromArray([
-            $mdgriffith$elm_ui$Element$alignRight,
-            $mdgriffith$elm_ui$Element$paddingEach(_Utils_update($author$project$Utils$directions0, { ix: 0 })),
-            $mdgriffith$elm_ui$Element$spacing(12)
-        ]), _List_fromArray([
-            $author$project$Shared$arrow_fn($author$project$Shared$arrowLeft_a0, model, previous),
-            $author$project$Shared$arrow_fn($author$project$Shared$arrowRight_a0, model, next)
-        ]));
-    }, $author$project$Shared$navButtons = F3($author$project$Shared$navButtons_fn);
-    var $mdgriffith$elm_ui$Element$padding = function (x) {
-        var f = x;
-        return $mdgriffith$elm_ui$Internal$Model$StyleClass_fn($mdgriffith$elm_ui$Internal$Flag$padding, $mdgriffith$elm_ui$Internal$Model$PaddingStyle_fn("p-" + $elm$core$String$fromInt(x), f, f, f, f));
-    };
-    var $author$project$Colors$white = $mdgriffith$elm_ui$Element$rgb255_fn(255, 255, 255);
-    var $author$project$Shared$footer_fn = function (model, previous, next) {
-        return $mdgriffith$elm_ui$Element$row_fn(_List_fromArray([
-            $mdgriffith$elm_ui$Element$Background$color($author$project$Colors$accent(model.jC)),
-            $mdgriffith$elm_ui$Element$padding(24),
-            $mdgriffith$elm_ui$Element$width($mdgriffith$elm_ui$Element$fill),
-            $mdgriffith$elm_ui$Element$Font$color($author$project$Colors$white)
-        ]), _List_fromArray([
-            $author$project$Shared$heading,
-            $author$project$Shared$navButtons_fn(model, previous, next)
-        ]));
-    }, $author$project$Shared$footer = F3($author$project$Shared$footer_fn);
-    var $mdgriffith$elm_ui$Internal$Model$map_fn = function (fn, el) {
-        switch (el.$) {
-            case 1:
-                var styled = el.a;
-                return $mdgriffith$elm_ui$Internal$Model$Styled({
-                    kp: F2(function (add, context) {
-                        return _VirtualDom_map_fn(fn, A2(styled.kp, add, context));
-                    }),
-                    e5: styled.e5
-                });
-            case 0:
-                var html = el.a;
-                return $mdgriffith$elm_ui$Internal$Model$Unstyled(A2($elm$core$Basics$composeL, $elm$virtual_dom$VirtualDom$map(fn), html));
-            case 2:
-                var str = el.a;
-                return $mdgriffith$elm_ui$Internal$Model$Text(str);
-            default:
-                return $mdgriffith$elm_ui$Internal$Model$Empty;
-        }
-    }, $mdgriffith$elm_ui$Internal$Model$map = F2($mdgriffith$elm_ui$Internal$Model$map_fn);
-    var $mdgriffith$elm_ui$Element$map = $mdgriffith$elm_ui$Internal$Model$map;
-    var $author$project$Shared$sideBar = function (colorScheme) {
-        return $mdgriffith$elm_ui$Element$el_fn(_List_fromArray([
-            $mdgriffith$elm_ui$Element$width($mdgriffith$elm_ui$Element$fillPortion(5)),
-            $mdgriffith$elm_ui$Element$Background$color($author$project$Colors$accent(colorScheme)),
-            $mdgriffith$elm_ui$Element$alignRight,
-            $mdgriffith$elm_ui$Element$height($mdgriffith$elm_ui$Element$fill)
-        ]), $mdgriffith$elm_ui$Element$none);
-    };
-    var $author$project$Shared$DecreaseFontSize = { $: 5 };
-    var $author$project$Shared$IncreaseFontSize = { $: 4 };
-    var $author$project$Utils$borderBetweenRow = function (elements) {
-        if (!elements.b) {
-            return _List_Nil;
-        }
-        else {
-            if (!elements.b.b) {
-                var element = elements.a;
-                return _List_fromArray([element]);
-            }
-            else {
-                var element = elements.a;
-                var rest = elements.b;
-                return _List_Cons($mdgriffith$elm_ui$Element$el_fn(_List_fromArray([
-                    $mdgriffith$elm_ui$Element$Border$widthEach(_Utils_update($author$project$Utils$directions0, { ix: 1 })),
-                    $mdgriffith$elm_ui$Element$paddingEach(_Utils_update($author$project$Utils$directions0, { ix: 8 }))
-                ]), element), $author$project$Utils$borderBetweenRow(rest));
-            }
-        }
-    };
-    var $author$project$Shared$ChangeColorScheme = function (a) {
-        return { $: 2, a: a };
+    var $author$project$Shared$arrowRight_a0 = $feathericons$elm_feather$FeatherIcons$arrowRight, $author$project$Shared$arrowRight_a1 = "next", $author$project$Shared$arrowRight_a2 = $elm$core$Basics$identity, $author$project$Shared$arrowRight = A3($author$project$Shared$arrow, $author$project$Shared$arrowRight_a0, $author$project$Shared$arrowRight_a1, $author$project$Shared$arrowRight_a2);
+    var $author$project$Colors$lightGray = $mdgriffith$elm_ui$Element$rgb255_fn(180, 180, 180);
+    var $author$project$Colors$neutralOnSecondary_a0 = $author$project$Colors$gray, $author$project$Colors$neutralOnSecondary_a1 = $author$project$Colors$lightGray, $author$project$Colors$neutralOnSecondary = A2($author$project$Colors$ldSwitch, $author$project$Colors$neutralOnSecondary_a0, $author$project$Colors$neutralOnSecondary_a1);
+    var $author$project$Shared$GenerateRandomPost = function (a) {
+        return { $: 7, a: a };
     };
     var $mdgriffith$elm_ui$Internal$Model$Button = { $: 8 };
     var $elm$html$Html$Attributes$disabled_a0 = "disabled", $elm$html$Html$Attributes$disabled = $elm$html$Html$Attributes$boolProperty($elm$html$Html$Attributes$disabled_a0);
@@ -21649,35 +21674,25 @@
             }
         }()))))))), $mdgriffith$elm_ui$Internal$Model$Unkeyed(_List_fromArray([label])));
     }, $mdgriffith$elm_ui$Element$Input$button = F2($mdgriffith$elm_ui$Element$Input$button_fn);
-    var $author$project$Shared$colorSchemeSwitcher_fn = function (colorScheme, attrs) {
-        var _v0 = function () {
-            if (!colorScheme) {
-                return _Utils_Tuple2("Switch to dark mode \uD83C\uDF1A", 1);
-            }
-            else {
-                return _Utils_Tuple2("Switch to light mode \uD83C\uDF1E", 0);
-            }
-        }();
-        var lbl = _v0.a;
-        var nextScheme = _v0.b;
-        return $mdgriffith$elm_ui$Element$Input$button_fn(attrs, {
-            $8: $mdgriffith$elm_ui$Element$text(lbl),
-            lb: $elm$core$Maybe$Just($author$project$Shared$ChangeColorScheme(nextScheme))
+    var $author$project$Shared$randomPostButton = function (slugs) {
+        return $mdgriffith$elm_ui$Element$Input$button_fn(_List_Nil, {
+            $8: $mdgriffith$elm_ui$Element$text("Random"),
+            lb: $elm$core$Maybe$Just($author$project$Shared$GenerateRandomPost(slugs))
         });
-    }, $author$project$Shared$colorSchemeSwitcher = F2($author$project$Shared$colorSchemeSwitcher_fn);
-    var $mdgriffith$elm_ui$Internal$Flag$borderStyle = $mdgriffith$elm_ui$Internal$Flag$flag(11);
-    var $mdgriffith$elm_ui$Element$Border$dotted = $mdgriffith$elm_ui$Internal$Model$Class_fn($mdgriffith$elm_ui$Internal$Flag$borderStyle, $mdgriffith$elm_ui$Internal$Style$classes.jk);
-    var $author$project$Shared$fontSizeChanger_fn = function (baseFontSize, msg, verb) {
-        var lbl = verb + " font size";
-        return $mdgriffith$elm_ui$Element$Input$button_fn(_List_fromArray([
-            $author$project$Font$fontSize(baseFontSize - 2)
-        ]), {
-            $8: $mdgriffith$elm_ui$Element$text(lbl),
-            lb: $elm$core$Maybe$Just(msg)
+    };
+    var $mdgriffith$elm_ui$Element$spaceEvenly = $mdgriffith$elm_ui$Internal$Model$Class_fn($mdgriffith$elm_ui$Internal$Flag$spacing, $mdgriffith$elm_ui$Internal$Style$classes.lY);
+    var $elm$html$Html$Attributes$target_a0 = "target", $elm$html$Html$Attributes$target = $elm$html$Html$Attributes$stringProperty($elm$html$Html$Attributes$target_a0);
+    var $mdgriffith$elm_ui$Element$newTabLink_fn = function (attrs, _v0) {
+        var label = _v0.$8;
+        var url = _v0.iM;
+        return $mdgriffith$elm_ui$Internal$Model$element_fn($mdgriffith$elm_ui$Internal$Model$asEl, $mdgriffith$elm_ui$Internal$Model$NodeName("a"), _List_Cons($mdgriffith$elm_ui$Internal$Model$Attr($elm$html$Html$Attributes$href(url)), _List_Cons($mdgriffith$elm_ui$Internal$Model$Attr(_VirtualDom_attribute_fn($elm$html$Html$Attributes$rel_a0, "noopener noreferrer")), _List_Cons($mdgriffith$elm_ui$Internal$Model$Attr($elm$html$Html$Attributes$stringProperty_fn($elm$html$Html$Attributes$target_a0, "_blank")), _List_Cons($mdgriffith$elm_ui$Element$width($mdgriffith$elm_ui$Element$shrink), _List_Cons($mdgriffith$elm_ui$Element$height($mdgriffith$elm_ui$Element$shrink), _List_Cons($mdgriffith$elm_ui$Internal$Model$htmlClass($mdgriffith$elm_ui$Internal$Style$classes.gt + (" " + ($mdgriffith$elm_ui$Internal$Style$classes.cV + (" " + $mdgriffith$elm_ui$Internal$Style$classes.kK)))), attrs)))))), $mdgriffith$elm_ui$Internal$Model$Unkeyed(_List_fromArray([label])));
+    }, $mdgriffith$elm_ui$Element$newTabLink = F2($mdgriffith$elm_ui$Element$newTabLink_fn);
+    var $author$project$Shared$subscribeLink = function (attrs) {
+        return $mdgriffith$elm_ui$Element$newTabLink_fn(attrs, {
+            $8: $mdgriffith$elm_ui$Element$text("Subscribe"),
+            iM: "http://eepurl.com/g_Wf8D"
         });
-    }, $author$project$Shared$fontSizeChanger = F3($author$project$Shared$fontSizeChanger_fn);
-    var $author$project$Colors$black = $mdgriffith$elm_ui$Element$rgb255_fn(0, 0, 0);
-    var $author$project$Colors$primary_a0 = $author$project$Colors$black, $author$project$Colors$primary_a1 = $author$project$Colors$white, $author$project$Colors$primary = A2($author$project$Colors$ldSwitch, $author$project$Colors$primary_a0, $author$project$Colors$primary_a1);
+    };
     var $mdgriffith$elm_ui$Internal$Model$Padding_fn = function (a, b, c, d, e) {
         return { $: 0, a: a, b: b, c: c, d: d, e: e };
     }, $mdgriffith$elm_ui$Internal$Model$Padding = F5($mdgriffith$elm_ui$Internal$Model$Padding_fn);
@@ -21775,56 +21790,55 @@
             }
         }
     }, $mdgriffith$elm_ui$Element$wrappedRow = F2($mdgriffith$elm_ui$Element$wrappedRow_fn);
-    var $author$project$Shared$textControls = function (model) {
-        var _v0 = model;
-        var baseFontSize = _v0.jb;
-        var colorScheme = _v0.jC;
-        return $mdgriffith$elm_ui$Element$el_fn(_List_fromArray([
-            $mdgriffith$elm_ui$Element$paddingXY_fn(12, 0),
-            $mdgriffith$elm_ui$Element$centerX,
-            $mdgriffith$elm_ui$Element$width($mdgriffith$elm_ui$Element$maximum_fn(800, $mdgriffith$elm_ui$Element$fill))
-        ]), $mdgriffith$elm_ui$Element$wrappedRow_fn(_List_fromArray([
-            $mdgriffith$elm_ui$Element$spacing(12),
-            $mdgriffith$elm_ui$Element$width($mdgriffith$elm_ui$Element$fill),
-            $mdgriffith$elm_ui$Element$centerX,
-            $mdgriffith$elm_ui$Element$paddingXY_fn(0, 24),
-            $mdgriffith$elm_ui$Element$Border$widthEach({ hN: 1, ig: 0, ix: 0, iH: 0 }),
-            $mdgriffith$elm_ui$Element$Border$dotted,
-            $mdgriffith$elm_ui$Element$Border$color($author$project$Colors$ldSwitch_fn($author$project$Colors$primary_a0, $author$project$Colors$primary_a1, colorScheme))
-        ]), $author$project$Utils$borderBetweenRow(_List_fromArray([
-            $author$project$Shared$colorSchemeSwitcher_fn(colorScheme, _List_fromArray([
-                $author$project$Font$fontSize(baseFontSize - 2)
-            ])),
-            $author$project$Shared$fontSizeChanger_fn(baseFontSize, $author$project$Shared$IncreaseFontSize, "Increase"),
-            $author$project$Shared$fontSizeChanger_fn(baseFontSize, $author$project$Shared$DecreaseFontSize, "Decrease")
-        ]))));
-    };
-    var $author$project$Shared$articleFrame_fn = function (post, model, previous, next, toMsg) {
-        return $mdgriffith$elm_ui$Element$column_fn(_List_fromArray([
-            $mdgriffith$elm_ui$Element$width($mdgriffith$elm_ui$Element$fill),
-            $mdgriffith$elm_ui$Element$height($mdgriffith$elm_ui$Element$fill)
+    var $author$project$Shared$footer_fn = function (model, previous, next, sharedData) {
+        return $mdgriffith$elm_ui$Element$wrappedRow_fn(_List_fromArray([
+            $mdgriffith$elm_ui$Element$Border$color($author$project$Colors$accent(model.jC)),
+            $mdgriffith$elm_ui$Element$Border$widthEach({ hN: 0, ig: 0, ix: 0, iH: 1 }),
+            $mdgriffith$elm_ui$Element$paddingXY_fn(36, 18),
+            $mdgriffith$elm_ui$Element$Font$size(14),
+            $mdgriffith$elm_ui$Element$spaceEvenly,
+            $mdgriffith$elm_ui$Element$Font$color($author$project$Colors$ldSwitch_fn($author$project$Colors$neutralOnSecondary_a0, $author$project$Colors$neutralOnSecondary_a1, model.jC)),
+            $mdgriffith$elm_ui$Element$width($mdgriffith$elm_ui$Element$fill)
         ]), _List_fromArray([
-            $mdgriffith$elm_ui$Element$row_fn(_List_fromArray([
-                $mdgriffith$elm_ui$Element$width($mdgriffith$elm_ui$Element$fill),
-                $mdgriffith$elm_ui$Element$height($mdgriffith$elm_ui$Element$fill)
-            ]), _List_fromArray([
-                $mdgriffith$elm_ui$Element$el_fn(_List_fromArray([
-                    $mdgriffith$elm_ui$Element$width($mdgriffith$elm_ui$Element$fillPortion(95)),
-                    $mdgriffith$elm_ui$Element$alignTop
-                ]), $mdgriffith$elm_ui$Element$el_fn($author$project$Shared$content_a0, $mdgriffith$elm_ui$Element$column_fn(_List_fromArray([
-                    $mdgriffith$elm_ui$Element$width($mdgriffith$elm_ui$Element$fill)
-                ]), _List_fromArray([
-                    $mdgriffith$elm_ui$Internal$Model$map_fn(toMsg, $author$project$Shared$textControls(model)),
-                    post
-                ])))),
-                $author$project$Shared$sideBar(model.jC)
-            ])),
             $mdgriffith$elm_ui$Element$el_fn(_List_fromArray([
-                $mdgriffith$elm_ui$Element$width($mdgriffith$elm_ui$Element$fill),
-                $mdgriffith$elm_ui$Element$alignBottom
-            ]), $author$project$Shared$footer_fn(model, previous, next))
+                $mdgriffith$elm_ui$Element$paddingEach(_Utils_update($author$project$Utils$directions0, { ix: 8 }))
+            ]), $author$project$Shared$arrow_fn($author$project$Shared$arrowLeft_a0, $author$project$Shared$arrowLeft_a1, $author$project$Shared$arrowLeft_a2, model, previous)),
+            $mdgriffith$elm_ui$Element$el_fn(_List_fromArray([
+                $mdgriffith$elm_ui$Element$paddingXY_fn(8, 0)
+            ]), $author$project$Shared$randomPostButton(sharedData.ak)),
+            $author$project$Shared$subscribeLink(_List_fromArray([
+                $mdgriffith$elm_ui$Element$paddingXY_fn(8, 0)
+            ])),
+            $mdgriffith$elm_ui$Element$link_fn(_List_fromArray([
+                $mdgriffith$elm_ui$Element$paddingXY_fn(8, 0)
+            ]), {
+                $8: $mdgriffith$elm_ui$Element$text("Home"),
+                iM: $elm$url$Url$Builder$absolute_fn(_List_Nil, _List_Nil)
+            }),
+            $mdgriffith$elm_ui$Element$el_fn(_List_fromArray([
+                $mdgriffith$elm_ui$Element$paddingEach(_Utils_update($author$project$Utils$directions0, { ig: 8 }))
+            ]), $author$project$Shared$arrow_fn($author$project$Shared$arrowRight_a0, $author$project$Shared$arrowRight_a1, $author$project$Shared$arrowRight_a2, model, next))
         ]));
-    }, $author$project$Shared$articleFrame = F5($author$project$Shared$articleFrame_fn);
+    }, $author$project$Shared$footer = F4($author$project$Shared$footer_fn);
+    var $mdgriffith$elm_ui$Internal$Model$Serif = { $: 0 };
+    var $mdgriffith$elm_ui$Element$Font$serif = $mdgriffith$elm_ui$Internal$Model$Serif;
+    var $mdgriffith$elm_ui$Internal$Model$Typeface = function (a) {
+        return { $: 3, a: a };
+    };
+    var $mdgriffith$elm_ui$Element$Font$typeface = $mdgriffith$elm_ui$Internal$Model$Typeface;
+    var $author$project$Shared$sourceSerifPro = $mdgriffith$elm_ui$Element$Font$family(_List_fromArray([
+        $mdgriffith$elm_ui$Element$Font$typeface("SourceSerifPro"),
+        $mdgriffith$elm_ui$Element$Font$serif
+    ]));
+    var $author$project$Shared$heading = $mdgriffith$elm_ui$Element$link_fn(_List_fromArray([
+        $elm$core$Basics$composeL_fn($mdgriffith$elm_ui$Element$Region$heading_a0, $mdgriffith$elm_ui$Element$Region$heading_a1, 1),
+        $mdgriffith$elm_ui$Element$Font$size(36),
+        $author$project$Shared$sourceSerifPro,
+        $mdgriffith$elm_ui$Element$paddingEach({ hN: 0, ig: 0, ix: 12, iH: 0 })
+    ]), {
+        $8: $mdgriffith$elm_ui$Element$text("Unanswered"),
+        iM: "/"
+    });
     var $author$project$Shared$MenuToggled = { $: 1 };
     var $author$project$Colors$accentDark = function (_v0) {
         return $author$project$Colors$darkTeal;
@@ -21853,26 +21867,34 @@
             }
         }
     };
+    var $author$project$Shared$ChangeColorScheme = function (a) {
+        return { $: 2, a: a };
+    };
+    var $author$project$Shared$colorSchemeSwitcher_fn = function (colorScheme, attrs) {
+        var _v0 = function () {
+            if (!colorScheme) {
+                return _Utils_Tuple2("Switch to dark mode \uD83C\uDF1A", 1);
+            }
+            else {
+                return _Utils_Tuple2("Switch to light mode \uD83C\uDF1E", 0);
+            }
+        }();
+        var lbl = _v0.a;
+        var nextScheme = _v0.b;
+        return $mdgriffith$elm_ui$Element$Input$button_fn(attrs, {
+            $8: $mdgriffith$elm_ui$Element$text(lbl),
+            lb: $elm$core$Maybe$Just($author$project$Shared$ChangeColorScheme(nextScheme))
+        });
+    }, $author$project$Shared$colorSchemeSwitcher = F2($author$project$Shared$colorSchemeSwitcher_fn);
     var $author$project$Shared$menuOption_fn = function (route, lbl) {
         return $mdgriffith$elm_ui$Element$link_fn(_List_fromArray([
-            $mdgriffith$elm_ui$Element$paddingXY_fn(0, 24)
+            $mdgriffith$elm_ui$Element$paddingXY_fn(0, 24),
+            $mdgriffith$elm_ui$Element$width($mdgriffith$elm_ui$Element$fill)
         ]), {
             $8: $mdgriffith$elm_ui$Element$text(lbl),
             iM: $dillonkearns$elm_pages$UrlPath$toRelative($author$project$Route$toPath(route))
         });
     }, $author$project$Shared$menuOption = F2($author$project$Shared$menuOption_fn);
-    var $elm$html$Html$Attributes$target_a0 = "target", $elm$html$Html$Attributes$target = $elm$html$Html$Attributes$stringProperty($elm$html$Html$Attributes$target_a0);
-    var $mdgriffith$elm_ui$Element$newTabLink_fn = function (attrs, _v0) {
-        var label = _v0.$8;
-        var url = _v0.iM;
-        return $mdgriffith$elm_ui$Internal$Model$element_fn($mdgriffith$elm_ui$Internal$Model$asEl, $mdgriffith$elm_ui$Internal$Model$NodeName("a"), _List_Cons($mdgriffith$elm_ui$Internal$Model$Attr($elm$html$Html$Attributes$href(url)), _List_Cons($mdgriffith$elm_ui$Internal$Model$Attr(_VirtualDom_attribute_fn($elm$html$Html$Attributes$rel_a0, "noopener noreferrer")), _List_Cons($mdgriffith$elm_ui$Internal$Model$Attr($elm$html$Html$Attributes$stringProperty_fn($elm$html$Html$Attributes$target_a0, "_blank")), _List_Cons($mdgriffith$elm_ui$Element$width($mdgriffith$elm_ui$Element$shrink), _List_Cons($mdgriffith$elm_ui$Element$height($mdgriffith$elm_ui$Element$shrink), _List_Cons($mdgriffith$elm_ui$Internal$Model$htmlClass($mdgriffith$elm_ui$Internal$Style$classes.gt + (" " + ($mdgriffith$elm_ui$Internal$Style$classes.cV + (" " + $mdgriffith$elm_ui$Internal$Style$classes.kK)))), attrs)))))), $mdgriffith$elm_ui$Internal$Model$Unkeyed(_List_fromArray([label])));
-    }, $mdgriffith$elm_ui$Element$newTabLink = F2($mdgriffith$elm_ui$Element$newTabLink_fn);
-    var $author$project$Shared$subscribeLink = $mdgriffith$elm_ui$Element$newTabLink_fn(_List_fromArray([
-        $mdgriffith$elm_ui$Element$paddingXY_fn(0, 24)
-    ]), {
-        $8: $mdgriffith$elm_ui$Element$text("Subscribe"),
-        iM: "http://eepurl.com/g_Wf8D"
-    });
     var $author$project$Shared$menuOptions = function (colorScheme) {
         return $mdgriffith$elm_ui$Element$column_fn(_List_fromArray([
             $mdgriffith$elm_ui$Element$Font$size(24),
@@ -21886,7 +21908,9 @@
             $author$project$Shared$colorSchemeSwitcher_fn(colorScheme, _List_fromArray([
                 $mdgriffith$elm_ui$Element$paddingXY_fn(0, 24)
             ])),
-            $author$project$Shared$subscribeLink
+            $author$project$Shared$subscribeLink(_List_fromArray([
+                $mdgriffith$elm_ui$Element$paddingXY_fn(0, 24)
+            ]))
         ])));
     };
     var $author$project$Shared$menuModal = function (colorScheme) {
@@ -21916,6 +21940,11 @@
             lb: $elm$core$Maybe$Just($author$project$Shared$MenuToggled)
         }));
     }, $author$project$Shared$menu = F2($author$project$Shared$menu_fn);
+    var $mdgriffith$elm_ui$Element$padding = function (x) {
+        var f = x;
+        return $mdgriffith$elm_ui$Internal$Model$StyleClass_fn($mdgriffith$elm_ui$Internal$Flag$padding, $mdgriffith$elm_ui$Internal$Model$PaddingStyle_fn("p-" + $elm$core$String$fromInt(x), f, f, f, f));
+    };
+    var $author$project$Colors$white = $mdgriffith$elm_ui$Element$rgb255_fn(255, 255, 255);
     var $author$project$Shared$header = function (model) {
         return $mdgriffith$elm_ui$Element$row_fn(_List_fromArray([
             $mdgriffith$elm_ui$Element$Background$color($author$project$Colors$accent(model.jC)),
@@ -21927,6 +21956,148 @@
             $author$project$Shared$menu_fn(model.jC, model.b2)
         ]));
     };
+    var $mdgriffith$elm_ui$Internal$Model$map_fn = function (fn, el) {
+        switch (el.$) {
+            case 1:
+                var styled = el.a;
+                return $mdgriffith$elm_ui$Internal$Model$Styled({
+                    kp: F2(function (add, context) {
+                        return _VirtualDom_map_fn(fn, A2(styled.kp, add, context));
+                    }),
+                    e5: styled.e5
+                });
+            case 0:
+                var html = el.a;
+                return $mdgriffith$elm_ui$Internal$Model$Unstyled(A2($elm$core$Basics$composeL, $elm$virtual_dom$VirtualDom$map(fn), html));
+            case 2:
+                var str = el.a;
+                return $mdgriffith$elm_ui$Internal$Model$Text(str);
+            default:
+                return $mdgriffith$elm_ui$Internal$Model$Empty;
+        }
+    }, $mdgriffith$elm_ui$Internal$Model$map = F2($mdgriffith$elm_ui$Internal$Model$map_fn);
+    var $mdgriffith$elm_ui$Element$map = $mdgriffith$elm_ui$Internal$Model$map;
+    var $mdgriffith$elm_ui$Internal$Flag$bgGradient = $mdgriffith$elm_ui$Internal$Flag$flag(10);
+    var $mdgriffith$elm_ui$Element$Background$gradient = function (_v0) {
+        var steps = _v0.l2;
+        var angle = _v0.i5;
+        if (!steps.b) {
+            return $mdgriffith$elm_ui$Internal$Model$NoAttribute;
+        }
+        else {
+            if (!steps.b.b) {
+                var clr = steps.a;
+                return $mdgriffith$elm_ui$Internal$Model$StyleClass_fn($mdgriffith$elm_ui$Internal$Flag$bgColor, $mdgriffith$elm_ui$Internal$Model$Colored_fn("bg-" + $mdgriffith$elm_ui$Internal$Model$formatColorClass(clr), "background-color", clr));
+            }
+            else {
+                return $mdgriffith$elm_ui$Internal$Model$StyleClass_fn($mdgriffith$elm_ui$Internal$Flag$bgGradient, $mdgriffith$elm_ui$Internal$Model$Single_fn("bg-grad-" + $elm$core$String$join_fn("-", _List_Cons($mdgriffith$elm_ui$Internal$Model$floatClass(angle), $elm$core$List$map_fn($mdgriffith$elm_ui$Internal$Model$formatColorClass, steps))), "background-image", "linear-gradient(" + ($elm$core$String$join_fn(", ", _List_Cons($elm$core$String$fromFloat(angle) + "rad", $elm$core$List$map_fn($mdgriffith$elm_ui$Internal$Model$formatColor, steps))) + ")")));
+            }
+        }
+    };
+    var $author$project$Colors$black = $mdgriffith$elm_ui$Element$rgb255_fn(0, 0, 0);
+    var $author$project$Colors$secondary_a0 = $author$project$Colors$white, $author$project$Colors$secondary_a1 = $author$project$Colors$black, $author$project$Colors$secondary = A2($author$project$Colors$ldSwitch, $author$project$Colors$secondary_a0, $author$project$Colors$secondary_a1);
+    var $author$project$Shared$sideBar = function (colorScheme) {
+        return $mdgriffith$elm_ui$Element$el_fn(_List_fromArray([
+            $mdgriffith$elm_ui$Element$width($mdgriffith$elm_ui$Element$fillPortion(5)),
+            $mdgriffith$elm_ui$Element$Background$gradient({
+                i5: $elm$core$Basics$pi,
+                l2: _List_fromArray([
+                    $author$project$Colors$accent(colorScheme),
+                    $author$project$Colors$ldSwitch_fn($author$project$Colors$secondary_a0, $author$project$Colors$secondary_a1, colorScheme)
+                ])
+            }),
+            $mdgriffith$elm_ui$Element$alignRight,
+            $mdgriffith$elm_ui$Element$height($mdgriffith$elm_ui$Element$fill)
+        ]), $mdgriffith$elm_ui$Element$none);
+    };
+    var $author$project$Shared$DecreaseFontSize = { $: 5 };
+    var $author$project$Shared$IncreaseFontSize = { $: 4 };
+    var $author$project$Utils$borderBetweenRow = function (elements) {
+        if (!elements.b) {
+            return _List_Nil;
+        }
+        else {
+            if (!elements.b.b) {
+                var element = elements.a;
+                return _List_fromArray([element]);
+            }
+            else {
+                var element = elements.a;
+                var rest = elements.b;
+                return _List_Cons($mdgriffith$elm_ui$Element$el_fn(_List_fromArray([
+                    $mdgriffith$elm_ui$Element$Border$widthEach(_Utils_update($author$project$Utils$directions0, { ix: 1 })),
+                    $mdgriffith$elm_ui$Element$paddingEach(_Utils_update($author$project$Utils$directions0, { ix: 8 }))
+                ]), element), $author$project$Utils$borderBetweenRow(rest));
+            }
+        }
+    };
+    var $mdgriffith$elm_ui$Internal$Flag$borderStyle = $mdgriffith$elm_ui$Internal$Flag$flag(11);
+    var $mdgriffith$elm_ui$Element$Border$dotted = $mdgriffith$elm_ui$Internal$Model$Class_fn($mdgriffith$elm_ui$Internal$Flag$borderStyle, $mdgriffith$elm_ui$Internal$Style$classes.jk);
+    var $author$project$Shared$fontSizeChanger_fn = function (baseFontSize, msg, verb) {
+        var lbl = verb + " font size";
+        return $mdgriffith$elm_ui$Element$Input$button_fn(_List_fromArray([
+            $author$project$Font$fontSize(baseFontSize - 2)
+        ]), {
+            $8: $mdgriffith$elm_ui$Element$text(lbl),
+            lb: $elm$core$Maybe$Just(msg)
+        });
+    }, $author$project$Shared$fontSizeChanger = F3($author$project$Shared$fontSizeChanger_fn);
+    var $author$project$Colors$primary_a0 = $author$project$Colors$black, $author$project$Colors$primary_a1 = $author$project$Colors$white, $author$project$Colors$primary = A2($author$project$Colors$ldSwitch, $author$project$Colors$primary_a0, $author$project$Colors$primary_a1);
+    var $author$project$Shared$textControls = function (model) {
+        var _v0 = model;
+        var baseFontSize = _v0.jb;
+        var colorScheme = _v0.jC;
+        return $mdgriffith$elm_ui$Element$el_fn(_List_fromArray([
+            $mdgriffith$elm_ui$Element$paddingXY_fn(12, 0),
+            $mdgriffith$elm_ui$Element$centerX,
+            $mdgriffith$elm_ui$Element$width($mdgriffith$elm_ui$Element$maximum_fn(800, $mdgriffith$elm_ui$Element$fill))
+        ]), $mdgriffith$elm_ui$Element$wrappedRow_fn(_List_fromArray([
+            $mdgriffith$elm_ui$Element$spacing(12),
+            $mdgriffith$elm_ui$Element$width($mdgriffith$elm_ui$Element$fill),
+            $mdgriffith$elm_ui$Element$centerX,
+            $mdgriffith$elm_ui$Element$paddingXY_fn(0, 24),
+            $mdgriffith$elm_ui$Element$Border$widthEach({ hN: 1, ig: 0, ix: 0, iH: 0 }),
+            $mdgriffith$elm_ui$Element$Border$dotted,
+            $mdgriffith$elm_ui$Element$Border$color($author$project$Colors$ldSwitch_fn($author$project$Colors$primary_a0, $author$project$Colors$primary_a1, colorScheme))
+        ]), $author$project$Utils$borderBetweenRow(_List_fromArray([
+            $author$project$Shared$colorSchemeSwitcher_fn(colorScheme, _List_fromArray([
+                $author$project$Font$fontSize(baseFontSize - 2)
+            ])),
+            $author$project$Shared$fontSizeChanger_fn(baseFontSize, $author$project$Shared$IncreaseFontSize, "Increase"),
+            $author$project$Shared$fontSizeChanger_fn(baseFontSize, $author$project$Shared$DecreaseFontSize, "Decrease")
+        ]))));
+    };
+    var $author$project$Shared$articleFrame_fn = function (post, model, previous, next, toMsg, sharedData) {
+        return $mdgriffith$elm_ui$Element$column_fn(_List_fromArray([
+            $mdgriffith$elm_ui$Element$width($mdgriffith$elm_ui$Element$fill),
+            $mdgriffith$elm_ui$Element$height($mdgriffith$elm_ui$Element$fill)
+        ]), _List_fromArray([
+            $mdgriffith$elm_ui$Element$column_fn(_List_fromArray([
+                $mdgriffith$elm_ui$Element$width($mdgriffith$elm_ui$Element$fill)
+            ]), _List_fromArray([
+                $mdgriffith$elm_ui$Internal$Model$map_fn(toMsg, $author$project$Shared$header(model))
+            ])),
+            $mdgriffith$elm_ui$Element$row_fn(_List_fromArray([
+                $mdgriffith$elm_ui$Element$width($mdgriffith$elm_ui$Element$fill),
+                $mdgriffith$elm_ui$Element$height($mdgriffith$elm_ui$Element$fill)
+            ]), _List_fromArray([
+                $mdgriffith$elm_ui$Element$el_fn(_List_fromArray([
+                    $mdgriffith$elm_ui$Element$width($mdgriffith$elm_ui$Element$fillPortion(95)),
+                    $mdgriffith$elm_ui$Element$alignTop
+                ]), $mdgriffith$elm_ui$Element$el_fn($author$project$Shared$content_a0, $mdgriffith$elm_ui$Element$column_fn(_List_fromArray([
+                    $mdgriffith$elm_ui$Element$width($mdgriffith$elm_ui$Element$fill)
+                ]), _List_fromArray([
+                    $mdgriffith$elm_ui$Internal$Model$map_fn(toMsg, $author$project$Shared$textControls(model)),
+                    post
+                ])))),
+                $author$project$Shared$sideBar(model.jC)
+            ])),
+            $mdgriffith$elm_ui$Element$el_fn(_List_fromArray([
+                $mdgriffith$elm_ui$Element$width($mdgriffith$elm_ui$Element$fill),
+                $mdgriffith$elm_ui$Element$alignBottom
+            ]), $mdgriffith$elm_ui$Internal$Model$map_fn(toMsg, $author$project$Shared$footer_fn(model, previous, next, sharedData)))
+        ]));
+    }, $author$project$Shared$articleFrame = F6($author$project$Shared$articleFrame_fn);
     var $author$project$Colors$neutral = function (_v0) {
         return $author$project$Colors$gray;
     };
@@ -21961,15 +22132,15 @@
             ]), child)
         ]));
     }, $author$project$Shared$homeFrame = F3($author$project$Shared$homeFrame_fn);
-    var $author$project$Shared$frame_fn = function (pageView, model, toMsg) {
+    var $author$project$Shared$frame_fn = function (pageView, model, toMsg, sharedData) {
         var _v0 = pageView.lk;
         if (_v0 === 1) {
             return $author$project$Shared$homeFrame_fn(pageView.fq, model, toMsg);
         }
         else {
-            return $author$project$Shared$articleFrame_fn(pageView.fq, model, pageView.lu, pageView.kW, toMsg);
+            return $author$project$Shared$articleFrame_fn(pageView.fq, model, pageView.lu, pageView.kW, toMsg, sharedData);
         }
-    }, $author$project$Shared$frame = F3($author$project$Shared$frame_fn);
+    }, $author$project$Shared$frame = F4($author$project$Shared$frame_fn);
     var $mdgriffith$elm_ui$Internal$Model$OnlyDynamic_fn = function (a, b) {
         return { $: 2, a: a, b: b };
     }, $mdgriffith$elm_ui$Internal$Model$OnlyDynamic = F2($mdgriffith$elm_ui$Internal$Model$OnlyDynamic_fn);
@@ -22116,7 +22287,6 @@
         $mdgriffith$elm_ui$Element$Font$typeface("Montserrat"),
         $mdgriffith$elm_ui$Element$Font$sansSerif
     ]));
-    var $author$project$Colors$secondary_a0 = $author$project$Colors$white, $author$project$Colors$secondary_a1 = $author$project$Colors$black, $author$project$Colors$secondary = A2($author$project$Colors$ldSwitch, $author$project$Colors$secondary_a0, $author$project$Colors$secondary_a1);
     var $author$project$Shared$view_fn = function (sharedData, page, model, toMsg, pageView) {
         return {
             fq: _List_fromArray([
@@ -22124,7 +22294,7 @@
                     $author$project$Shared$montserrat,
                     $mdgriffith$elm_ui$Element$Font$color($author$project$Colors$ldSwitch_fn($author$project$Colors$primary_a0, $author$project$Colors$primary_a1, model.jC)),
                     $mdgriffith$elm_ui$Element$Background$color($author$project$Colors$ldSwitch_fn($author$project$Colors$secondary_a0, $author$project$Colors$secondary_a1, model.jC))
-                ]), $author$project$Shared$frame_fn(pageView, model, toMsg))
+                ]), $author$project$Shared$frame_fn(pageView, model, toMsg, sharedData))
             ]),
             mw: pageView.mw
         };
