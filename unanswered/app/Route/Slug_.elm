@@ -11,9 +11,10 @@ import Pages.Url
 import PagesMsg exposing (PagesMsg)
 import RouteBuilder exposing (App, StatelessRoute)
 import Shared
+import Posts
 import View exposing (View)
 import Json.Decode as Decode exposing (Decoder)
-import Posts
+import Post
 import Utils exposing (..)
 import UrlPath
 import MimeType
@@ -86,9 +87,12 @@ view app sharedModel =
     { title = "Unanswered.blog - " ++ app.data.metadata.title
     , pageLayout = View.PostPage
     , body = 
-        Posts.view 
+        Post.view 
             sharedModel
-            app.data
+            { title = app.data.metadata.title
+            , date = Just app.data.metadata.date
+            , body = app.data.body
+            }
     , next = app.data.next
     , previous = app.data.previous
     }

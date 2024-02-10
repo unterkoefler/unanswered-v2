@@ -1,5 +1,6 @@
 module Shared exposing (Data, Model, Msg(..), SharedMsg(..), template, montserrat, sourceSerifPro, colorSchemeSwitcher)
 
+import Array
 import BackendTask exposing (BackendTask)
 import Browser.Events exposing (onResize)
 import Browser.Navigation
@@ -11,6 +12,7 @@ import Pages.Flags
 import Pages.PageUrl exposing (PageUrl)
 import UrlPath exposing (UrlPath)
 import Route exposing (Route)
+import Random
 import SharedTemplate exposing (SharedTemplate)
 import View exposing (View)
 import Element exposing (..)
@@ -21,6 +23,7 @@ import Element.Border as Border
 import Element.Font as Font
 import Colors
 import Json.Decode as Decode exposing (Decoder)
+import Posts
 import Url.Builder
 import Utils exposing (..)
 import FeatherIcons
@@ -45,11 +48,12 @@ type Msg
     | CloseMenu
     | IncreaseFontSize
     | DecreaseFontSize
-    | GoToRandomPost
+    | GoToRandomPost String
+    | GenerateRandomPost (List String)
 
 
 type alias Data =
-    ()
+    { slugs : List String }
 
 
 type SharedMsg
@@ -155,16 +159,33 @@ update msg model =
             , Effect.none
             )
 
-        GoToRandomPost ->
+        GenerateRandomPost slugs ->
+            ( model
+            , Effect.Cmd
+                (Random.generate GoToRandomPost
+                    (randomSlugGenerator slugs)
+                )
+            )
+
+        GoToRandomPost slug ->
             ( model
             , Effect.Cmd
                 (Browser.Navigation.load
                     (Url.Builder.absolute
-                        [ "the-hearse" ]
+                        [ slug ]
                         []
                     )
                 )
             )
+
+randomSlugGenerator : List String -> Random.Generator String 
+randomSlugGenerator slugs =
+    let
+        values = Array.fromList slugs
+    in
+    Random.int 0 ((Array.length values) - 1)
+        |> Random.map (\i -> Array.get i values)
+        |> Random.map (Maybe.withDefault "the-hearse")
 
 subscriptions : UrlPath -> Model -> Sub Msg
 subscriptions _ _ =
@@ -173,7 +194,9 @@ subscriptions _ _ =
 
 data : BackendTask FatalError Data
 data =
-    BackendTask.succeed ()
+    Posts.posts
+        |> BackendTask.map (List.map .slug)
+        |> BackendTask.map (\slugs -> { slugs = slugs })
 
 
 view :
@@ -193,13 +216,13 @@ view sharedData page model toMsg pageView =
             , Font.color (Colors.primary model.colorScheme)
             , Background.color (Colors.secondary model.colorScheme)
             ] 
-            (frame pageView model toMsg)
+            (frame pageView model toMsg sharedData)
         ]
     , title = pageView.title
     }
 
-frame : View msg -> Model -> (Msg -> msg) -> Element msg
-frame pageView model toMsg =
+frame : View msg -> Model -> (Msg -> msg) -> Data -> Element msg
+frame pageView model toMsg sharedData =
     case pageView.pageLayout of
         View.HomePage ->
             homeFrame
@@ -214,6 +237,7 @@ frame pageView model toMsg =
                 pageView.previous
                 pageView.next
                 toMsg
+                sharedData
 
 homeFrame : Element msg -> Model -> (Msg -> msg) -> Element msg
 homeFrame child model toMsg =
@@ -234,9 +258,9 @@ homeFrame child model toMsg =
                 child
             ]
 
-footer : Model -> Maybe String -> Maybe String -> Element Msg
-footer model previous next =
-    row
+footer : Model -> Maybe String -> Maybe String -> Data -> Element Msg
+footer model previous next sharedData =
+    wrappedRow
         [ Border.color <| Colors.accent model.colorScheme
         , Border.widthEach { top = 1, bottom = 0, left = 0, right = 0 }
         , paddingXY 36 18
@@ -245,10 +269,11 @@ footer model previous next =
         , Font.color <| Colors.neutralOnSecondary model.colorScheme
         , width fill
         ]
-        [ arrowLeft model previous
-        , randomPostButton
-        , subscribeLink
-        , arrowRight model next
+        [ el [ paddingEach { directions0 | right = 8 } ] <| arrowLeft model previous
+        , el [ paddingXY 8 0 ] <| randomPostButton sharedData.slugs
+        , subscribeLink [ paddingXY 8 0 ]
+        , link [ paddingXY 8 0 ] { url = Url.Builder.absolute [] [], label = text "Home" }
+        , el [ paddingEach { directions0 | left = 8 } ] <| arrowRight model next
         ]
 
 header : Model -> Element Msg
@@ -335,7 +360,7 @@ menuOptions colorScheme =
             , menuOption Route.Search "Search"
             , colorSchemeSwitcher colorScheme
                 [ paddingXY 0 24 ]
-            , subscribeLink
+            , subscribeLink [ paddingXY 0 24 ]
             ]
 
 menuOption : Route -> String -> Element Msg
@@ -365,18 +390,18 @@ colorSchemeSwitcher colorScheme attrs =
         , onPress = Just <| ChangeColorScheme nextScheme
         }
 
-randomPostButton : Element Msg
-randomPostButton = 
+randomPostButton : List String -> Element Msg
+randomPostButton slugs = 
     Input.button
         []
         { label = text "Random"
-        , onPress = Just GoToRandomPost
+        , onPress = Just (GenerateRandomPost slugs)
         }
 
-subscribeLink : Element msg
-subscribeLink =
+subscribeLink : List (Attribute msg) -> Element msg
+subscribeLink attrs =
     newTabLink
-        [ paddingXY 0 24 ]
+        attrs
         { url = "http://eepurl.com/g_Wf8D"
         , label = text "Subscribe"
         }
@@ -438,8 +463,8 @@ arrow ic label reverser model slug =
 icon attrs i =
     el attrs (i |> FeatherIcons.toHtml [] |> html)
 
-articleFrame : Element msg -> Model -> Maybe String -> Maybe String -> (Msg -> msg) -> Element msg
-articleFrame post model previous next toMsg =
+articleFrame : Element msg -> Model -> Maybe String -> Maybe String -> (Msg -> msg) -> Data -> Element msg
+articleFrame post model previous next toMsg sharedData =
     column
         [ width fill
         , height fill
@@ -461,7 +486,7 @@ articleFrame post model previous next toMsg =
             , sideBar model.colorScheme
             ]
         , el [ width fill, alignBottom ] 
-            (Element.map toMsg (footer model previous next))
+            (Element.map toMsg (footer model previous next sharedData))
         ]
 
 textControls : Model -> Element Msg

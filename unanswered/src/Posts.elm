@@ -1,4 +1,4 @@
-module Posts exposing (Post, PostWithBody, posts, post, preview, view, postsWithBodies)
+module Posts exposing (Post, PostWithBody, posts, post, preview, postsWithBodies)
 
 import BackendTask exposing (BackendTask)
 import BackendTask.Glob as Glob
@@ -14,9 +14,7 @@ import UrlPath
 import Colors
 import Renderer exposing (renderPost)
 import Font exposing (fontSize)
-import Shared
 import Utils exposing (..)
-import Post
 import PagesMsg
 
 
@@ -274,8 +272,4 @@ viewDescription description =
         ]
     <|
         [ text description ] 
-
-view : Shared.Model -> PostWithBody -> Element msg-- (PagesMsg.PagesMsg Shared.Msg)
-view sharedModel p =
-    Post.view sharedModel { title = p.metadata.title, date = Just p.metadata.date, body = p.body }
 
