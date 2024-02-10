@@ -2,6 +2,7 @@ module Shared exposing (Data, Model, Msg(..), SharedMsg(..), template, montserra
 
 import BackendTask exposing (BackendTask)
 import Browser.Events exposing (onResize)
+import Browser.Navigation
 import Effect exposing (Effect)
 import FatalError exposing (FatalError)
 import Html exposing (Html)
@@ -20,6 +21,7 @@ import Element.Border as Border
 import Element.Font as Font
 import Colors
 import Json.Decode as Decode exposing (Decoder)
+import Url.Builder
 import Utils exposing (..)
 import FeatherIcons
 import Font exposing (increaseFontSize, decreaseFontSize, fontSize)
@@ -43,6 +45,7 @@ type Msg
     | CloseMenu
     | IncreaseFontSize
     | DecreaseFontSize
+    | GoToRandomPost
 
 
 type alias Data =
@@ -152,6 +155,17 @@ update msg model =
             , Effect.none
             )
 
+        GoToRandomPost ->
+            ( model
+            , Effect.Cmd
+                (Browser.Navigation.load
+                    (Url.Builder.absolute
+                        [ "the-hearse" ]
+                        []
+                    )
+                )
+            )
+
 subscriptions : UrlPath -> Model -> Sub Msg
 subscriptions _ _ =
     Sub.none
@@ -220,16 +234,21 @@ homeFrame child model toMsg =
                 child
             ]
 
-footer : Model -> Maybe String -> Maybe String -> Element msg
+footer : Model -> Maybe String -> Maybe String -> Element Msg
 footer model previous next =
     row
-        [ Background.color <| Colors.accent model.colorScheme
-        , padding 24
+        [ Border.color <| Colors.accent model.colorScheme
+        , Border.widthEach { top = 1, bottom = 0, left = 0, right = 0 }
+        , paddingXY 36 18
+        , Font.size 14
+        , spaceEvenly
+        , Font.color <| Colors.neutralOnSecondary model.colorScheme
         , width fill
-        , Font.color Colors.white
         ]
-        [ heading
-        , navButtons model previous next
+        [ arrowLeft model previous
+        , randomPostButton
+        , subscribeLink
+        , arrowRight model next
         ]
 
 header : Model -> Element Msg
@@ -323,6 +342,7 @@ menuOption : Route -> String -> Element Msg
 menuOption route lbl =
     link
         [ paddingXY 0 24
+        , width fill
         ]
         { url = route |> Route.toPath |> UrlPath.toRelative
         , label = text lbl
@@ -343,6 +363,14 @@ colorSchemeSwitcher colorScheme attrs =
         attrs
         { label = text lbl
         , onPress = Just <| ChangeColorScheme nextScheme
+        }
+
+randomPostButton : Element Msg
+randomPostButton = 
+    Input.button
+        []
+        { label = text "Random"
+        , onPress = Just GoToRandomPost
         }
 
 subscribeLink : Element msg
@@ -378,22 +406,33 @@ navButtons model previous next =
 
 arrowRight : Model -> Maybe String -> Element msg
 arrowRight =
-    arrow FeatherIcons.arrowRight
+    arrow FeatherIcons.arrowRight "next" identity
 
 arrowLeft : Model -> Maybe String -> Element msg
 arrowLeft =
-    arrow FeatherIcons.arrowLeft
+    arrow FeatherIcons.arrowLeft "previous" List.reverse
 
-arrow : FeatherIcons.Icon -> Model -> Maybe String -> Element msg
-arrow ic model slug =
+arrow : FeatherIcons.Icon -> String -> (List (Element msg) -> List (Element msg)) -> Model -> Maybe String -> Element msg
+arrow ic label reverser model slug =
     case slug of
         Nothing ->
-            icon [ Font.color <| Colors.disabled model.colorScheme ] ic
+            row [ spacing 8 ]
+                (reverser
+                    [ text <| "there is no " ++ label
+                    , icon [ Font.color <| Colors.disabled model.colorScheme ] ic
+                    ]
+                )
 
         Just s ->
             link []
                 { url = "/" ++ s
-                , label = icon [] ic
+                , label = 
+                    row [ spacing 8 ]
+                        (reverser
+                            [ text label
+                            , icon [] ic
+                            ]
+                        )
                 }
 
 icon attrs i =
@@ -405,7 +444,10 @@ articleFrame post model previous next toMsg =
         [ width fill
         , height fill
         ]
-        [ row [ width fill, height fill ]
+        [ column [ width fill ]
+                [ Element.map toMsg <| header model
+                ]
+        , row [ width fill, height fill ]
             [ el
                 [ width (fillPortion 95), alignTop ]
                 (content
@@ -418,7 +460,8 @@ articleFrame post model previous next toMsg =
                 )
             , sideBar model.colorScheme
             ]
-        , el [ width fill, alignBottom ] <| footer model previous next
+        , el [ width fill, alignBottom ] 
+            (Element.map toMsg (footer model previous next))
         ]
 
 textControls : Model -> Element Msg
@@ -473,7 +516,10 @@ sideBar : Colors.ColorScheme -> Element msg
 sideBar colorScheme =
     el
         [ width (fillPortion 5)
-        , Background.color <| Colors.accent colorScheme
+        , Background.gradient 
+            { angle = pi
+            , steps = [ Colors.accent colorScheme, Colors.secondary colorScheme ] 
+            }
         , alignRight
         , height fill
         ]

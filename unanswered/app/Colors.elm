@@ -1,4 +1,4 @@
-module Colors exposing (ColorScheme(..), accent, accentDark, disabled, link, neutral, primary, secondary, white)
+module Colors exposing (ColorScheme(..), accent, accentDark, disabled, link, neutral, primary, secondary, white, neutralOnSecondary)
 
 import Element exposing (Color, rgb255)
 
@@ -32,6 +32,10 @@ neutral : ColorScheme -> Color
 neutral _ =
     gray
 
+neutralOnSecondary : ColorScheme -> Color
+neutralOnSecondary =
+    ldSwitch gray lightGray
+
 
 disabled : ColorScheme -> Color
 disabled _ =
@@ -59,6 +63,9 @@ teal =
 
 gray =
     rgb255 80 80 80
+
+lightGray =
+    rgb255 180 180 180
 
 
 darkTeal =
