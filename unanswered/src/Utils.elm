@@ -1,4 +1,4 @@
-module Utils exposing (borderBetween, borderBetweenRow, directions0, seoSummary)
+module Utils exposing (borderBetween, borderBetweenRow, directions0, seoSummary, evenlySpacedWrappedRow)
 
 import Element exposing (..)
 import Element.Border as Border
@@ -26,7 +26,35 @@ seoSummary { imageOverride, description, title } =
         , title = title
         }
 
-
+evenlySpacedWrappedRow : List (Attribute msg) -> List (Element msg) -> Element msg
+evenlySpacedWrappedRow attrs els =
+    case els of
+        [] ->
+            Element.none
+        [x] ->
+            wrappedRow attrs [ el [ centerX ] x ]
+        x::y::xs ->
+             let
+                 first = x
+                 reversedTail = List.reverse xs
+                 last = reversedTail |> List.head |> Maybe.withDefault y
+                 middle = 
+                     case xs of
+                         [] -> 
+                             []
+                         _ ->
+                             y :: (reversedTail |> List.drop 1 |> List.reverse)
+              in
+              wrappedRow
+                  attrs
+                  (
+                      [ el [ width <| fillPortion 1 ] <| el [ alignLeft ] first ]
+                      ++ (
+                          List.map (\l -> el [ width <| fillPortion 1 ] <| el [ centerX ] l) middle
+                          )
+                       ++
+                       [ el [ width <| fillPortion 1 ] <| el [ alignRight ] last ]
+                       )
 
 directions0 =
     { left = 0, right = 0, top = 0, bottom = 0 }

@@ -260,12 +260,11 @@ homeFrame child model toMsg =
 
 footer : Model -> Maybe String -> Maybe String -> Data -> Element Msg
 footer model previous next sharedData =
-    wrappedRow
+    evenlySpacedWrappedRow
         [ Border.color <| Colors.accent model.colorScheme
         , Border.widthEach { top = 1, bottom = 0, left = 0, right = 0 }
         , paddingXY 36 18
         , Font.size 14
-        , spaceEvenly
         , Font.color <| Colors.neutralOnSecondary model.colorScheme
         , width fill
         ]
