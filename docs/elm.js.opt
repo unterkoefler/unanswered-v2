@@ -21648,51 +21648,6 @@
         ]), _List_Nil)
     ]));
     var $author$project$Shared$arrowRight_a0 = $feathericons$elm_feather$FeatherIcons$arrowRight, $author$project$Shared$arrowRight_a1 = "next", $author$project$Shared$arrowRight_a2 = $elm$core$Basics$identity, $author$project$Shared$arrowRight = A3($author$project$Shared$arrow, $author$project$Shared$arrowRight_a0, $author$project$Shared$arrowRight_a1, $author$project$Shared$arrowRight_a2);
-    var $author$project$Colors$lightGray = $mdgriffith$elm_ui$Element$rgb255_fn(180, 180, 180);
-    var $author$project$Colors$neutralOnSecondary_a0 = $author$project$Colors$gray, $author$project$Colors$neutralOnSecondary_a1 = $author$project$Colors$lightGray, $author$project$Colors$neutralOnSecondary = A2($author$project$Colors$ldSwitch, $author$project$Colors$neutralOnSecondary_a0, $author$project$Colors$neutralOnSecondary_a1);
-    var $author$project$Shared$GenerateRandomPost = function (a) {
-        return { $: 7, a: a };
-    };
-    var $mdgriffith$elm_ui$Internal$Model$Button = { $: 8 };
-    var $elm$html$Html$Attributes$disabled_a0 = "disabled", $elm$html$Html$Attributes$disabled = $elm$html$Html$Attributes$boolProperty($elm$html$Html$Attributes$disabled_a0);
-    var $mdgriffith$elm_ui$Element$Input$focusDefault = function (attrs) {
-        return $elm$core$List$any_fn($mdgriffith$elm_ui$Element$Input$hasFocusStyle, attrs) ? $mdgriffith$elm_ui$Internal$Model$NoAttribute : $mdgriffith$elm_ui$Internal$Model$htmlClass("focusable");
-    };
-    var $mdgriffith$elm_ui$Element$Events$onClick_a0 = $mdgriffith$elm_ui$Internal$Model$Attr, $mdgriffith$elm_ui$Element$Events$onClick_a1 = $elm$html$Html$Events$onClick, $mdgriffith$elm_ui$Element$Events$onClick = A2($elm$core$Basics$composeL, $mdgriffith$elm_ui$Element$Events$onClick_a0, $mdgriffith$elm_ui$Element$Events$onClick_a1);
-    var $mdgriffith$elm_ui$Element$Input$button_fn = function (attrs, _v0) {
-        var label = _v0.$8;
-        var onPress = _v0.lb;
-        return $mdgriffith$elm_ui$Internal$Model$element_fn($mdgriffith$elm_ui$Internal$Model$asEl, $mdgriffith$elm_ui$Internal$Model$div, _List_Cons($mdgriffith$elm_ui$Element$width($mdgriffith$elm_ui$Element$shrink), _List_Cons($mdgriffith$elm_ui$Element$height($mdgriffith$elm_ui$Element$shrink), _List_Cons($mdgriffith$elm_ui$Internal$Model$htmlClass($mdgriffith$elm_ui$Internal$Style$classes.gt + (" " + ($mdgriffith$elm_ui$Internal$Style$classes.cV + (" " + ($mdgriffith$elm_ui$Internal$Style$classes.lO + (" " + $mdgriffith$elm_ui$Internal$Style$classes.ik)))))), _List_Cons($mdgriffith$elm_ui$Element$pointer, _List_Cons($mdgriffith$elm_ui$Element$Input$focusDefault(attrs), _List_Cons($mdgriffith$elm_ui$Internal$Model$Describe($mdgriffith$elm_ui$Internal$Model$Button), _List_Cons($mdgriffith$elm_ui$Internal$Model$Attr($elm$html$Html$Attributes$tabindex(0)), function () {
-            if (onPress.$ === 1) {
-                return _List_Cons($mdgriffith$elm_ui$Internal$Model$Attr($elm$html$Html$Attributes$boolProperty_fn($elm$html$Html$Attributes$disabled_a0, true)), attrs);
-            }
-            else {
-                var msg = onPress.a;
-                return _List_Cons($elm$core$Basics$composeL_fn($mdgriffith$elm_ui$Element$Events$onClick_a0, $mdgriffith$elm_ui$Element$Events$onClick_a1, msg), _List_Cons($mdgriffith$elm_ui$Element$Input$onKeyLookup(function (code) {
-                    return _Utils_eq(code, $mdgriffith$elm_ui$Element$Input$enter) ? $elm$core$Maybe$Just(msg) : (_Utils_eq(code, $mdgriffith$elm_ui$Element$Input$space) ? $elm$core$Maybe$Just(msg) : $elm$core$Maybe$Nothing);
-                }), attrs));
-            }
-        }()))))))), $mdgriffith$elm_ui$Internal$Model$Unkeyed(_List_fromArray([label])));
-    }, $mdgriffith$elm_ui$Element$Input$button = F2($mdgriffith$elm_ui$Element$Input$button_fn);
-    var $author$project$Shared$randomPostButton = function (slugs) {
-        return $mdgriffith$elm_ui$Element$Input$button_fn(_List_Nil, {
-            $8: $mdgriffith$elm_ui$Element$text("Random"),
-            lb: $elm$core$Maybe$Just($author$project$Shared$GenerateRandomPost(slugs))
-        });
-    };
-    var $mdgriffith$elm_ui$Element$spaceEvenly = $mdgriffith$elm_ui$Internal$Model$Class_fn($mdgriffith$elm_ui$Internal$Flag$spacing, $mdgriffith$elm_ui$Internal$Style$classes.lY);
-    var $elm$html$Html$Attributes$target_a0 = "target", $elm$html$Html$Attributes$target = $elm$html$Html$Attributes$stringProperty($elm$html$Html$Attributes$target_a0);
-    var $mdgriffith$elm_ui$Element$newTabLink_fn = function (attrs, _v0) {
-        var label = _v0.$8;
-        var url = _v0.iM;
-        return $mdgriffith$elm_ui$Internal$Model$element_fn($mdgriffith$elm_ui$Internal$Model$asEl, $mdgriffith$elm_ui$Internal$Model$NodeName("a"), _List_Cons($mdgriffith$elm_ui$Internal$Model$Attr($elm$html$Html$Attributes$href(url)), _List_Cons($mdgriffith$elm_ui$Internal$Model$Attr(_VirtualDom_attribute_fn($elm$html$Html$Attributes$rel_a0, "noopener noreferrer")), _List_Cons($mdgriffith$elm_ui$Internal$Model$Attr($elm$html$Html$Attributes$stringProperty_fn($elm$html$Html$Attributes$target_a0, "_blank")), _List_Cons($mdgriffith$elm_ui$Element$width($mdgriffith$elm_ui$Element$shrink), _List_Cons($mdgriffith$elm_ui$Element$height($mdgriffith$elm_ui$Element$shrink), _List_Cons($mdgriffith$elm_ui$Internal$Model$htmlClass($mdgriffith$elm_ui$Internal$Style$classes.gt + (" " + ($mdgriffith$elm_ui$Internal$Style$classes.cV + (" " + $mdgriffith$elm_ui$Internal$Style$classes.kK)))), attrs)))))), $mdgriffith$elm_ui$Internal$Model$Unkeyed(_List_fromArray([label])));
-    }, $mdgriffith$elm_ui$Element$newTabLink = F2($mdgriffith$elm_ui$Element$newTabLink_fn);
-    var $author$project$Shared$subscribeLink = function (attrs) {
-        return $mdgriffith$elm_ui$Element$newTabLink_fn(attrs, {
-            $8: $mdgriffith$elm_ui$Element$text("Subscribe"),
-            iM: "http://eepurl.com/g_Wf8D"
-        });
-    };
     var $mdgriffith$elm_ui$Internal$Model$Padding_fn = function (a, b, c, d, e) {
         return { $: 0, a: a, b: b, c: c, d: d, e: e };
     }, $mdgriffith$elm_ui$Internal$Model$Padding = F5($mdgriffith$elm_ui$Internal$Model$Padding_fn);
@@ -21790,13 +21745,99 @@
             }
         }
     }, $mdgriffith$elm_ui$Element$wrappedRow = F2($mdgriffith$elm_ui$Element$wrappedRow_fn);
+    var $author$project$Utils$evenlySpacedWrappedRow_fn = function (attrs, els) {
+        if (!els.b) {
+            return $mdgriffith$elm_ui$Element$none;
+        }
+        else {
+            if (!els.b.b) {
+                var x = els.a;
+                return $mdgriffith$elm_ui$Element$wrappedRow_fn(attrs, _List_fromArray([
+                    $mdgriffith$elm_ui$Element$el_fn(_List_fromArray([$mdgriffith$elm_ui$Element$centerX]), x)
+                ]));
+            }
+            else {
+                var x = els.a;
+                var _v1 = els.b;
+                var y = _v1.a;
+                var xs = _v1.b;
+                var reversedTail = $elm$core$List$reverse(xs);
+                var middle = function () {
+                    if (!xs.b) {
+                        return _List_Nil;
+                    }
+                    else {
+                        return _List_Cons(y, $elm$core$List$reverse($elm$core$List$drop_fn(1, reversedTail)));
+                    }
+                }();
+                var last = $elm$core$Maybe$withDefault_fn(y, $elm$core$List$head(reversedTail));
+                var first = x;
+                return $mdgriffith$elm_ui$Element$wrappedRow_fn(attrs, _Utils_ap(_List_fromArray([
+                    $mdgriffith$elm_ui$Element$el_fn(_List_fromArray([
+                        $mdgriffith$elm_ui$Element$width($mdgriffith$elm_ui$Element$fillPortion(1))
+                    ]), $mdgriffith$elm_ui$Element$el_fn(_List_fromArray([$mdgriffith$elm_ui$Element$alignLeft]), first))
+                ]), _Utils_ap($elm$core$List$map_fn(function (l) {
+                    return $mdgriffith$elm_ui$Element$el_fn(_List_fromArray([
+                        $mdgriffith$elm_ui$Element$width($mdgriffith$elm_ui$Element$fillPortion(1))
+                    ]), $mdgriffith$elm_ui$Element$el_fn(_List_fromArray([$mdgriffith$elm_ui$Element$centerX]), l));
+                }, middle), _List_fromArray([
+                    $mdgriffith$elm_ui$Element$el_fn(_List_fromArray([
+                        $mdgriffith$elm_ui$Element$width($mdgriffith$elm_ui$Element$fillPortion(1))
+                    ]), $mdgriffith$elm_ui$Element$el_fn(_List_fromArray([$mdgriffith$elm_ui$Element$alignRight]), last))
+                ]))));
+            }
+        }
+    }, $author$project$Utils$evenlySpacedWrappedRow = F2($author$project$Utils$evenlySpacedWrappedRow_fn);
+    var $author$project$Colors$lightGray = $mdgriffith$elm_ui$Element$rgb255_fn(180, 180, 180);
+    var $author$project$Colors$neutralOnSecondary_a0 = $author$project$Colors$gray, $author$project$Colors$neutralOnSecondary_a1 = $author$project$Colors$lightGray, $author$project$Colors$neutralOnSecondary = A2($author$project$Colors$ldSwitch, $author$project$Colors$neutralOnSecondary_a0, $author$project$Colors$neutralOnSecondary_a1);
+    var $author$project$Shared$GenerateRandomPost = function (a) {
+        return { $: 7, a: a };
+    };
+    var $mdgriffith$elm_ui$Internal$Model$Button = { $: 8 };
+    var $elm$html$Html$Attributes$disabled_a0 = "disabled", $elm$html$Html$Attributes$disabled = $elm$html$Html$Attributes$boolProperty($elm$html$Html$Attributes$disabled_a0);
+    var $mdgriffith$elm_ui$Element$Input$focusDefault = function (attrs) {
+        return $elm$core$List$any_fn($mdgriffith$elm_ui$Element$Input$hasFocusStyle, attrs) ? $mdgriffith$elm_ui$Internal$Model$NoAttribute : $mdgriffith$elm_ui$Internal$Model$htmlClass("focusable");
+    };
+    var $mdgriffith$elm_ui$Element$Events$onClick_a0 = $mdgriffith$elm_ui$Internal$Model$Attr, $mdgriffith$elm_ui$Element$Events$onClick_a1 = $elm$html$Html$Events$onClick, $mdgriffith$elm_ui$Element$Events$onClick = A2($elm$core$Basics$composeL, $mdgriffith$elm_ui$Element$Events$onClick_a0, $mdgriffith$elm_ui$Element$Events$onClick_a1);
+    var $mdgriffith$elm_ui$Element$Input$button_fn = function (attrs, _v0) {
+        var label = _v0.$8;
+        var onPress = _v0.lb;
+        return $mdgriffith$elm_ui$Internal$Model$element_fn($mdgriffith$elm_ui$Internal$Model$asEl, $mdgriffith$elm_ui$Internal$Model$div, _List_Cons($mdgriffith$elm_ui$Element$width($mdgriffith$elm_ui$Element$shrink), _List_Cons($mdgriffith$elm_ui$Element$height($mdgriffith$elm_ui$Element$shrink), _List_Cons($mdgriffith$elm_ui$Internal$Model$htmlClass($mdgriffith$elm_ui$Internal$Style$classes.gt + (" " + ($mdgriffith$elm_ui$Internal$Style$classes.cV + (" " + ($mdgriffith$elm_ui$Internal$Style$classes.lO + (" " + $mdgriffith$elm_ui$Internal$Style$classes.ik)))))), _List_Cons($mdgriffith$elm_ui$Element$pointer, _List_Cons($mdgriffith$elm_ui$Element$Input$focusDefault(attrs), _List_Cons($mdgriffith$elm_ui$Internal$Model$Describe($mdgriffith$elm_ui$Internal$Model$Button), _List_Cons($mdgriffith$elm_ui$Internal$Model$Attr($elm$html$Html$Attributes$tabindex(0)), function () {
+            if (onPress.$ === 1) {
+                return _List_Cons($mdgriffith$elm_ui$Internal$Model$Attr($elm$html$Html$Attributes$boolProperty_fn($elm$html$Html$Attributes$disabled_a0, true)), attrs);
+            }
+            else {
+                var msg = onPress.a;
+                return _List_Cons($elm$core$Basics$composeL_fn($mdgriffith$elm_ui$Element$Events$onClick_a0, $mdgriffith$elm_ui$Element$Events$onClick_a1, msg), _List_Cons($mdgriffith$elm_ui$Element$Input$onKeyLookup(function (code) {
+                    return _Utils_eq(code, $mdgriffith$elm_ui$Element$Input$enter) ? $elm$core$Maybe$Just(msg) : (_Utils_eq(code, $mdgriffith$elm_ui$Element$Input$space) ? $elm$core$Maybe$Just(msg) : $elm$core$Maybe$Nothing);
+                }), attrs));
+            }
+        }()))))))), $mdgriffith$elm_ui$Internal$Model$Unkeyed(_List_fromArray([label])));
+    }, $mdgriffith$elm_ui$Element$Input$button = F2($mdgriffith$elm_ui$Element$Input$button_fn);
+    var $author$project$Shared$randomPostButton = function (slugs) {
+        return $mdgriffith$elm_ui$Element$Input$button_fn(_List_Nil, {
+            $8: $mdgriffith$elm_ui$Element$text("Random"),
+            lb: $elm$core$Maybe$Just($author$project$Shared$GenerateRandomPost(slugs))
+        });
+    };
+    var $elm$html$Html$Attributes$target_a0 = "target", $elm$html$Html$Attributes$target = $elm$html$Html$Attributes$stringProperty($elm$html$Html$Attributes$target_a0);
+    var $mdgriffith$elm_ui$Element$newTabLink_fn = function (attrs, _v0) {
+        var label = _v0.$8;
+        var url = _v0.iM;
+        return $mdgriffith$elm_ui$Internal$Model$element_fn($mdgriffith$elm_ui$Internal$Model$asEl, $mdgriffith$elm_ui$Internal$Model$NodeName("a"), _List_Cons($mdgriffith$elm_ui$Internal$Model$Attr($elm$html$Html$Attributes$href(url)), _List_Cons($mdgriffith$elm_ui$Internal$Model$Attr(_VirtualDom_attribute_fn($elm$html$Html$Attributes$rel_a0, "noopener noreferrer")), _List_Cons($mdgriffith$elm_ui$Internal$Model$Attr($elm$html$Html$Attributes$stringProperty_fn($elm$html$Html$Attributes$target_a0, "_blank")), _List_Cons($mdgriffith$elm_ui$Element$width($mdgriffith$elm_ui$Element$shrink), _List_Cons($mdgriffith$elm_ui$Element$height($mdgriffith$elm_ui$Element$shrink), _List_Cons($mdgriffith$elm_ui$Internal$Model$htmlClass($mdgriffith$elm_ui$Internal$Style$classes.gt + (" " + ($mdgriffith$elm_ui$Internal$Style$classes.cV + (" " + $mdgriffith$elm_ui$Internal$Style$classes.kK)))), attrs)))))), $mdgriffith$elm_ui$Internal$Model$Unkeyed(_List_fromArray([label])));
+    }, $mdgriffith$elm_ui$Element$newTabLink = F2($mdgriffith$elm_ui$Element$newTabLink_fn);
+    var $author$project$Shared$subscribeLink = function (attrs) {
+        return $mdgriffith$elm_ui$Element$newTabLink_fn(attrs, {
+            $8: $mdgriffith$elm_ui$Element$text("Subscribe"),
+            iM: "http://eepurl.com/g_Wf8D"
+        });
+    };
     var $author$project$Shared$footer_fn = function (model, previous, next, sharedData) {
-        return $mdgriffith$elm_ui$Element$wrappedRow_fn(_List_fromArray([
+        return $author$project$Utils$evenlySpacedWrappedRow_fn(_List_fromArray([
             $mdgriffith$elm_ui$Element$Border$color($author$project$Colors$accent(model.jC)),
             $mdgriffith$elm_ui$Element$Border$widthEach({ hN: 0, ig: 0, ix: 0, iH: 1 }),
             $mdgriffith$elm_ui$Element$paddingXY_fn(36, 18),
             $mdgriffith$elm_ui$Element$Font$size(14),
-            $mdgriffith$elm_ui$Element$spaceEvenly,
             $mdgriffith$elm_ui$Element$Font$color($author$project$Colors$ldSwitch_fn($author$project$Colors$neutralOnSecondary_a0, $author$project$Colors$neutralOnSecondary_a1, model.jC)),
             $mdgriffith$elm_ui$Element$width($mdgriffith$elm_ui$Element$fill)
         ]), _List_fromArray([
