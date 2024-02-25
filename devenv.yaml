@@ -1,0 +1,4 @@
+allowUnfree: true # for lamdera
+inputs:
+  nixpkgs:
+    url: github:NixOS/nixpkgs/nixpkgs-unstable
