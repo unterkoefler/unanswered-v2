@@ -1,9 +1,9 @@
 @font-face {
     font-family: Montserrat;
-    src: url(fonts/Montserrat-Regular.ttf);
+    src: url(/assets/fonts/Montserrat-Regular.ttf);
 }
 
 @font-face {
     font-family: SourceSerifPro;
-    src: url(fonts/SourceSerifPro-Regular.ttf);
+    src: url(/assets/fonts/SourceSerifPro-Regular.ttf);
 }
