@@ -13,7 +13,6 @@
   # https://devenv.sh/languages/
   languages.elm.enable = true;
   languages.javascript.enable = true;
-  languages.javascript.npm.install.enable = true;
 
   # https://devenv.sh/pre-commit-hooks/
   # pre-commit.hooks.shellcheck.enable = true;
