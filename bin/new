@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+
+DATE=$(date +%Y-%m-%d)
+SLUG=$1
+
+cat > content/posts/$DATE-$SLUG.md << EOF
+---
+slug: "$SLUG"
+title: "TODO"
+description: "TODO"
+---
+
+EOF
