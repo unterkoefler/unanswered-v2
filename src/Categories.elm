@@ -88,7 +88,8 @@ categories =
                       , members =
                             Slugs
                                 { slugs =
-                                    [ "pete"
+                                    [ "dragon"
+                                    , "pete"
                                     , "orange"
                                     , "squirrel"
                                     , "vultures-envision-a-toaster"
