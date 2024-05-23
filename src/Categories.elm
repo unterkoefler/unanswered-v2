@@ -170,7 +170,8 @@ categories =
       , members =
             Slugs
                 { slugs =
-                    [ "walk"
+                    [ "salt-part-1"
+                    , "walk"
                     , "new-york"
                     , "xcuseme"
                     , "europe"
