@@ -171,6 +171,7 @@ categories =
             Slugs
                 { slugs =
                     [ "salt-part-1"
+                    , "salt-part-2"
                     , "walk"
                     , "new-york"
                     , "xcuseme"
