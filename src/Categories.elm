@@ -172,6 +172,7 @@ categories =
                 { slugs =
                     [ "salt-part-1"
                     , "salt-part-2"
+                    , "salt-part-3"
                     , "walk"
                     , "new-york"
                     , "xcuseme"
