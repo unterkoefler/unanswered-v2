@@ -173,6 +173,7 @@ categories =
                     [ "salt-part-1"
                     , "salt-part-2"
                     , "salt-part-3"
+                    , "salt-part-4"
                     , "walk"
                     , "new-york"
                     , "xcuseme"
