@@ -9059,7 +9059,7 @@
         },
         {
             R: $author$project$Categories$Slugs({
-                ak: _List_fromArray(["salt-part-1", "salt-part-2", "salt-part-3", "salt-part-4", "salt-part-5", "walk", "new-york", "xcuseme", "europe", "stupid-convos-1", "stupid-convos-2", "facebook-radicalized-me", "modern-commerce", "silly-hat-ceremony", "rambling-1", "raspberries", "colonial-woman", "fedex"])
+                ak: _List_fromArray(["miseries", "salt-part-1", "salt-part-2", "salt-part-3", "salt-part-4", "salt-part-5", "walk", "new-york", "xcuseme", "europe", "stupid-convos-1", "stupid-convos-2", "facebook-radicalized-me", "modern-commerce", "silly-hat-ceremony", "rambling-1", "raspberries", "colonial-woman", "fedex"])
             }),
             kV: "Life Updates",
             z: "life"
@@ -15489,9 +15489,18 @@
         };
     }, $author$project$Renderer$renderer = F3($author$project$Renderer$renderer_fn);
     var $author$project$Renderer$renderPost_fn = function (colorScheme, baseFontSize, md, imageWidth) {
-        return $elm$core$Result$withDefault_fn(_List_fromArray([
-            $mdgriffith$elm_ui$Element$text("parse failed")
-        ]), $elm$core$Result$andThen_fn(function (ast) {
+        return function (result) {
+            if (!result.$) {
+                var r = result.a;
+                return r;
+            }
+            else {
+                var s = result.a;
+                return _List_fromArray([
+                    $mdgriffith$elm_ui$Element$text(s)
+                ]);
+            }
+        }($elm$core$Result$andThen_fn(function (ast) {
             return $dillonkearns$elm_markdown$Markdown$Renderer$render_fn($author$project$Renderer$renderer_fn(colorScheme, baseFontSize, imageWidth), ast);
         }, $elm$core$Result$mapError_fn(function (deadEnds) {
             return $elm$core$String$join_fn("\n", $elm$core$List$map_fn($dillonkearns$elm_markdown$Markdown$Parser$deadEndToString, deadEnds));
