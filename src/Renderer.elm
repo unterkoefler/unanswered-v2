@@ -21,7 +21,15 @@ renderPost colorScheme baseFontSize md imageWidth =
         |> Markdown.Parser.parse
         |> Result.mapError (\deadEnds -> deadEnds |> List.map deadEndToString |> String.join "\n")
         |> Result.andThen (\ast -> render (renderer colorScheme baseFontSize imageWidth) ast)
-        |> Result.withDefault [ text "parse failed" ]
+        -- |> Result.withDefault [ text "parse failed" ]
+        |> (\result -> 
+            case result of
+                Ok r ->
+                    r
+
+                Err s ->
+                    [ text s ]
+            )
 
 
 renderer : Colors.ColorScheme -> Int -> Length -> Renderer (Element msg)
