@@ -176,6 +176,7 @@ categories =
                     , "salt-part-3"
                     , "salt-part-4"
                     , "salt-part-5"
+                    , "salt-part-6"
                     , "walk"
                     , "new-york"
                     , "xcuseme"
