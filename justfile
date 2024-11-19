@@ -12,11 +12,11 @@ start:
 alias b := build
 build:
   npm run build
-  rm -R docs
-  mv dist docs
 
 deploy: build
   git checkout deploy
+  rm -rf docs
+  mv dist docs
   git add docs
   git commit -m "deploy"
   git push
