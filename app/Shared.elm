@@ -270,7 +270,7 @@ footer model previous next sharedData =
         ]
         [ el [ paddingEach { directions0 | right = 8 } ] <| arrowLeft model previous
         , el [ paddingXY 8 0 ] <| randomPostButton sharedData.slugs
-        , subscribeLink [ paddingXY 8 0 ]
+        , subscribeLinkForFooter
         , link [ paddingXY 8 0 ] { url = Url.Builder.absolute [] [], label = text "Home" }
         , el [ paddingEach { directions0 | left = 8 } ] <| arrowRight model next
         ]
@@ -359,7 +359,7 @@ menuOptions colorScheme =
             , menuOption Route.Search "Search"
             , colorSchemeSwitcher colorScheme
                 [ paddingXY 0 24 ]
-            , subscribeLink [ paddingXY 0 24 ]
+            , menuOption Route.Subscribe "Subscribe"
             ]
 
 menuOption : Route -> String -> Element Msg
@@ -397,11 +397,11 @@ randomPostButton slugs =
         , onPress = Just (GenerateRandomPost slugs)
         }
 
-subscribeLink : List (Attribute msg) -> Element msg
-subscribeLink attrs =
-    newTabLink
-        attrs
-        { url = "http://eepurl.com/g_Wf8D"
+subscribeLinkForFooter : Element msg
+subscribeLinkForFooter =
+    link
+        [ paddingXY 8 0 ]       
+        { url = Route.Subscribe |> Route.toPath |> UrlPath.toRelative
         , label = text "Subscribe"
         }
 

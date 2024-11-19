@@ -29,6 +29,10 @@ type Effect msg
         { values : FormData
         , toMsg : Result Http.Error Url -> msg
         }
+    | Subscribe
+        { values : { email : String }
+        , toMsg : Result Http.Error String -> msg
+        }
     | SubmitFetcher (Pages.Fetcher.Fetcher msg)
     | BrowserCmd (Browser.Navigation.Key -> Cmd msg)
 
@@ -84,6 +88,12 @@ map fn effect =
             Submit
                 { values = fetchInfo.values
                 , toMsg = fetchInfo.toMsg >> fn
+                }
+
+        Subscribe subscribeInfo ->
+            Subscribe
+                { values = subscribeInfo.values
+                , toMsg = subscribeInfo.toMsg >> fn
                 }
 
         SetField info ->
@@ -151,6 +161,9 @@ perform ({ fromPageMsg, key } as helpers) effect =
         SubmitFetcher record ->
             helpers.runFetcher record
 
+        Subscribe { values, toMsg } ->
+            subscribe values (toMsg >> fromPageMsg)
+
         BrowserCmd cmdFn ->
             Cmd.map fromPageMsg <| cmdFn key
 
@@ -161,3 +174,41 @@ type alias FormData =
     , action : String
     , id : Maybe String
     }
+
+subscribe : { email : String } -> (Result Http.Error String -> msg) -> Cmd msg
+subscribe data toMsg = 
+    Http.request
+        { method = "POST"
+        , headers = [] -- TODO?
+        , url = "https://buttondown.com/api/emails/embed-subscribe/unterkoefler"
+        , body = Http.stringBody "application/x-www-form-urlencoded" (formData data)
+        , expect = expect302Redirect toMsg
+        , timeout = Nothing
+        , tracker = Nothing
+        }
+
+expect302Redirect : (Result Http.Error String -> msg) -> Http.Expect msg
+expect302Redirect toMsg =
+    Http.expectStringResponse toMsg <|
+        \response->
+            case response of
+                Http.BadUrl_ url ->
+                    Err (Http.BadUrl url)
+                Http.Timeout_ ->
+                    Err Http.Timeout
+                Http.NetworkError_ ->
+                    Err Http.NetworkError
+
+                Http.BadStatus_ metadata body ->
+                    Err (Http.BadStatus metadata.statusCode)
+
+                Http.GoodStatus_ metadata _ ->
+                    case metadata.statusCode of
+                        200 ->
+                            Ok metadata.url
+                        _ ->
+                            Err (Http.BadStatus metadata.statusCode)
+
+formData : { email : String } -> String
+formData { email }  =
+    "email=" ++ (Url.percentEncode email)

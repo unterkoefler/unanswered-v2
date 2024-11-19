@@ -1,4 +1,4 @@
-module Colors exposing (ColorScheme(..), accent, accentDark, disabled, link, neutral, primary, secondary, white, neutralOnSecondary)
+module Colors exposing (ColorScheme(..), accent, accentDark, disabled, link, neutral, primary, secondary, white, neutralOnSecondary, error)
 
 import Element exposing (Color, rgb255)
 
@@ -46,6 +46,10 @@ accentDark : ColorScheme -> Color
 accentDark _ =
     darkTeal
 
+error : ColorScheme -> Color
+error _ =
+    red
+
 
 ldSwitch : Color -> Color -> ColorScheme -> Color
 ldSwitch lightModeColor darkModeColor colorScheme =
@@ -56,6 +60,10 @@ ldSwitch lightModeColor darkModeColor colorScheme =
         Dark ->
             darkModeColor
 
+
+
+red = 
+    rgb255 240 100 100
 
 teal =
     rgb255 103 201 207

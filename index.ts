@@ -5,7 +5,8 @@ type ElmPagesInit = {
 
 const config: ElmPagesInit = {
   load: async function (elmLoaded) {
-    await elmLoaded;
+    const app = await elmLoaded;
+    app.ports.newTab.subscribe(url => window.open(url, "_blank"));
   },
   flags: function () {
     const useDarkTheme = window.matchMedia("(prefers-color-scheme: dark)").matches;
