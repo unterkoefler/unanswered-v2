@@ -16,9 +16,11 @@ build:
   mv dist docs
 
 deploy: build
+  git checkout deploy
   git add docs
   git commit -m "deploy"
   git push
+  git checkout main
 
 new slug:
     bin/new {{slug}}
