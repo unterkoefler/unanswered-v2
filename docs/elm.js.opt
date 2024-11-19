@@ -16205,6 +16205,9 @@
         return { $: 0, a: a, b: b };
     }, $mdgriffith$elm_ui$Element$Input$Placeholder = F2($mdgriffith$elm_ui$Element$Input$Placeholder_fn);
     var $mdgriffith$elm_ui$Element$Input$placeholder = $mdgriffith$elm_ui$Element$Input$Placeholder;
+    var $author$project$Colors$black = $mdgriffith$elm_ui$Element$rgb255_fn(0, 0, 0);
+    var $author$project$Colors$white = $mdgriffith$elm_ui$Element$rgb255_fn(255, 255, 255);
+    var $author$project$Colors$secondary_a0 = $author$project$Colors$white, $author$project$Colors$secondary_a1 = $author$project$Colors$black, $author$project$Colors$secondary = A2($author$project$Colors$ldSwitch, $author$project$Colors$secondary_a0, $author$project$Colors$secondary_a1);
     var $mdgriffith$elm_ui$Element$Input$TextInputNode = function (a) {
         return { $: 0, a: a };
     };
@@ -16686,14 +16689,15 @@
         a2: false,
         B: $mdgriffith$elm_ui$Element$Input$TextInputNode("text")
     }, $mdgriffith$elm_ui$Element$Input$text = $mdgriffith$elm_ui$Element$Input$textHelper($mdgriffith$elm_ui$Element$Input$text_a0);
-    var $author$project$Route$Search$searchUI_fn = function (searchTerm, searchFullText) {
+    var $author$project$Route$Search$searchUI_fn = function (colorScheme, searchTerm, searchFullText) {
         return $mdgriffith$elm_ui$Element$column_fn(_List_fromArray([
             $mdgriffith$elm_ui$Element$width($mdgriffith$elm_ui$Element$fill),
             $mdgriffith$elm_ui$Element$spacing(12)
         ]), _List_fromArray([
             $mdgriffith$elm_ui$Element$Input$textHelper_fn($mdgriffith$elm_ui$Element$Input$text_a0, _List_fromArray([
                 $mdgriffith$elm_ui$Element$width($mdgriffith$elm_ui$Element$fill),
-                $mdgriffith$elm_ui$Element$Input$focusedOnLoad
+                $mdgriffith$elm_ui$Element$Input$focusedOnLoad,
+                $mdgriffith$elm_ui$Element$Font$color($author$project$Colors$ldSwitch_fn($author$project$Colors$secondary_a0, $author$project$Colors$secondary_a1, colorScheme))
             ]), {
                 $8: $mdgriffith$elm_ui$Element$Input$Label_fn($mdgriffith$elm_ui$Element$Input$labelAbove_a0, _List_Nil, $mdgriffith$elm_ui$Element$text("Search the blog:")),
                 $9: A2($elm$core$Basics$composeR, $author$project$Route$Search$SearchChanged, $dillonkearns$elm_pages$PagesMsg$fromMsg),
@@ -16709,7 +16713,7 @@
                 $9: A2($elm$core$Basics$composeR, $author$project$Route$Search$ToggleFullTextSearch, $dillonkearns$elm_pages$PagesMsg$fromMsg)
             })
         ]));
-    }, $author$project$Route$Search$searchUI = F2($author$project$Route$Search$searchUI_fn);
+    }, $author$project$Route$Search$searchUI = F3($author$project$Route$Search$searchUI_fn);
     var $author$project$Route$Search$postPreviews_fn = function (colorScheme, posts, _v0) {
         var searchFullText = _v0.bC;
         var searchTerm = _v0.bD;
@@ -16723,14 +16727,14 @@
         ]), function () {
             if (!posts.b) {
                 return _List_fromArray([
-                    $author$project$Route$Search$searchUI_fn(searchTerm, searchFullText),
+                    $author$project$Route$Search$searchUI_fn(colorScheme, searchTerm, searchFullText),
                     $mdgriffith$elm_ui$Element$paragraph_fn(_List_fromArray([$mdgriffith$elm_ui$Element$Font$italic]), _List_fromArray([
                         $mdgriffith$elm_ui$Element$text("No posts found")
                     ]))
                 ]);
             }
             else {
-                return _Utils_ap(_List_Cons($author$project$Route$Search$searchUI_fn(searchTerm, searchFullText), $elm$core$List$map_fn($author$project$Posts$preview, $elm$core$List$map_fn(function ($) {
+                return _Utils_ap(_List_Cons($author$project$Route$Search$searchUI_fn(colorScheme, searchTerm, searchFullText), $elm$core$List$map_fn($author$project$Posts$preview, $elm$core$List$map_fn(function ($) {
                     return $.ab;
                 }, A2($author$project$Pagination$items, { hT: page, id: $author$project$Route$Search$itemsPerPage }, posts)))), _List_fromArray([
                     $author$project$Pagination$controls_fn(_List_fromArray([
@@ -21994,7 +21998,6 @@
         var f = x;
         return $mdgriffith$elm_ui$Internal$Model$StyleClass_fn($mdgriffith$elm_ui$Internal$Flag$padding, $mdgriffith$elm_ui$Internal$Model$PaddingStyle_fn("p-" + $elm$core$String$fromInt(x), f, f, f, f));
     };
-    var $author$project$Colors$white = $mdgriffith$elm_ui$Element$rgb255_fn(255, 255, 255);
     var $author$project$Shared$header = function (model) {
         return $mdgriffith$elm_ui$Element$row_fn(_List_fromArray([
             $mdgriffith$elm_ui$Element$Background$color($author$project$Colors$accent(model.jC)),
@@ -22044,8 +22047,6 @@
             }
         }
     };
-    var $author$project$Colors$black = $mdgriffith$elm_ui$Element$rgb255_fn(0, 0, 0);
-    var $author$project$Colors$secondary_a0 = $author$project$Colors$white, $author$project$Colors$secondary_a1 = $author$project$Colors$black, $author$project$Colors$secondary = A2($author$project$Colors$ldSwitch, $author$project$Colors$secondary_a0, $author$project$Colors$secondary_a1);
     var $author$project$Shared$sideBar = function (colorScheme) {
         return $mdgriffith$elm_ui$Element$el_fn(_List_fromArray([
             $mdgriffith$elm_ui$Element$width($mdgriffith$elm_ui$Element$fillPortion(5)),
