@@ -194,12 +194,12 @@ postPreviews colorScheme posts { page, searchTerm, searchFullText } =
     <|
         case posts of
             [] ->
-                [ searchUI searchTerm searchFullText
+                [ searchUI colorScheme searchTerm searchFullText
                 , paragraph [ Font.italic ] [ text "No posts found" ] 
                 ]
 
             _ ->
-                (searchUI searchTerm searchFullText ::
+                (searchUI colorScheme searchTerm searchFullText ::
                 (posts 
                     |> Pagination.items { itemsPerPage = itemsPerPage, currentPage = page }
                     |> List.map .metadata
@@ -243,8 +243,8 @@ matchesTitle searchTerm searchFullText post =
             String.contains needle haystack
 
 
-searchUI : String -> Bool -> Element (PagesMsg Msg)
-searchUI searchTerm searchFullText =
+searchUI : Colors.ColorScheme -> String -> Bool -> Element (PagesMsg Msg)
+searchUI colorScheme searchTerm searchFullText =
     column
         [ width fill
         , spacing 12
@@ -252,6 +252,8 @@ searchUI searchTerm searchFullText =
         [ Input.text
             [ width fill
             , Input.focusedOnLoad
+            , Font.color <| Colors.primary colorScheme
+            , Background.color <| Colors.secondary colorScheme
             ]
             { label = Input.labelAbove [] <| text "Search the blog:"
             , placeholder = Just <| Input.placeholder [] <| text "What dost thou seeketh?"
