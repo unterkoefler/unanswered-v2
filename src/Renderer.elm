@@ -207,11 +207,18 @@ renderImage :
     -> Length
     -> Element msg
 renderImage { alt, src, title } imageWidth =
-    el [ width imageWidth, paddingXY 0 5 ] <|
-        image [ width imageWidth, height (fill |> maximum 800), centerX, scrollbarY ]
-            { description = alt
-            , src = "/" ++ src
-            }
+    if String.startsWith "FULL_HEIGHT" alt then
+        el [ width imageWidth, paddingXY 0 5 ] <|
+            image [ width imageWidth, height fill, centerX ]
+                { description = String.dropLeft 11 alt
+                , src = "/" ++ src
+                }
+    else
+        el [ width imageWidth, paddingXY 0 5 ] <|
+            image [ width imageWidth, height (fill |> maximum 800), centerX, scrollbarY ]
+                { description = alt
+                , src = "/" ++ src
+                }
 
 
 renderCodeBlock : { body : String, language : Maybe String } -> Element msg
