@@ -172,7 +172,8 @@ categories =
       , members =
             Slugs
                 { slugs =
-                    [ "miseries"
+                    [ "lint"
+                    , "miseries"
                     , "salt-part-1"
                     , "salt-part-2"
                     , "salt-part-3"
