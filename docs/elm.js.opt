@@ -9062,7 +9062,7 @@
         },
         {
             S: $author$project$Categories$Slugs({
-                an: _List_fromArray(["lint", "miseries", "salt-part-1", "salt-part-2", "salt-part-3", "salt-part-4", "salt-part-5", "salt-part-6", "walk", "new-york", "xcuseme", "europe", "stupid-convos-1", "stupid-convos-2", "facebook-radicalized-me", "modern-commerce", "silly-hat-ceremony", "rambling-1", "raspberries", "colonial-woman", "fedex"])
+                an: _List_fromArray(["an-ordinary-morning", "lint", "miseries", "salt-part-1", "salt-part-2", "salt-part-3", "salt-part-4", "salt-part-5", "salt-part-6", "walk", "new-york", "xcuseme", "europe", "stupid-convos-1", "stupid-convos-2", "facebook-radicalized-me", "modern-commerce", "silly-hat-ceremony", "rambling-1", "raspberries", "colonial-woman", "fedex"])
             }),
             kV: "Life Updates",
             E: "life"
