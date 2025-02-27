@@ -173,7 +173,8 @@ categories =
       , members =
             Slugs
                 { slugs =
-                    [ "an-ordinary-morning"
+                    [ "the-roof-is-leaking"
+                    , "an-ordinary-morning"
                     , "lint"
                     , "miseries"
                     , "salt-part-1"
