@@ -4,10 +4,11 @@
   # https://devenv.sh/basics/
 
   # https://devenv.sh/packages/
-  packages = [ 
-    pkgs.git 
+  packages = [
+    pkgs.git
     pkgs.just
     pkgs.elmPackages.lamdera
+    pkgs.nodejs_23
   ];
 
   # https://devenv.sh/languages/
