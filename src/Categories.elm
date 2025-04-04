@@ -129,7 +129,8 @@ categories =
                       , members =
                             Slugs
                                 { slugs =
-                                    [ "a-dangerous-hobby"
+                                    [ "the-wheel"
+                                    , "a-dangerous-hobby"
                                     , "bells"
                                     , "hell"
                                     , "hooked-mystery"
