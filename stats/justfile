@@ -1,0 +1,9 @@
+default:
+  @just --list
+
+alias b := build
+build:
+  ghc --make Main.hs -o out/bin/stats -odir out -hidir out
+
+help: build
+  ./out/bin/stats --help
