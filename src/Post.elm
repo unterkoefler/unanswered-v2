@@ -1,4 +1,4 @@
-module Post exposing (view)
+module Post exposing (view, viewTitle, viewContent)
 
 import Element exposing (..)
 import Element.Font as Font
