@@ -8,6 +8,8 @@
     haskell = pkgs.haskellPackages.ghcWithPackages (haskellPackages: with haskellPackages; [
       optparse-applicative
       diagrams
+      safe
+      tokenize
     ]);
   in
   [

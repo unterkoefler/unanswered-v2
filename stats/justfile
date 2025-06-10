@@ -3,7 +3,13 @@ default:
 
 alias b := build
 build:
+  mkdir -p out/bin
   ghc --make Main.hs -o out/bin/stats -odir out -hidir out
+
+alias r := run
+run: build
+  ./out/bin/stats wordcloud -i ../content/posts/2025-04-03-the-wheel.md
+  xdg-open wordcloud.svg
 
 help: build
   ./out/bin/stats --help
