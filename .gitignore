@@ -15,3 +15,5 @@ elm-stuff/
 .elm-pages/
 functions/render/elm-pages-cli.js
 *.bak
+
+stats/
