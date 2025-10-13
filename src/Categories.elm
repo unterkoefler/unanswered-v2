@@ -104,6 +104,7 @@ categories =
                                 { slugs =
                                     [ "zip"
                                     , "two-ways-out"
+                                    , "derboxel"
                                     , "flicker"
                                     , "itch"
                                     , "yoga"
@@ -175,7 +176,8 @@ categories =
       , members =
             Slugs
                 { slugs =
-                    [ "the-roof-is-leaking"
+                    [ "lightphone"
+                    , "the-roof-is-leaking"
                     , "an-ordinary-morning"
                     , "lint"
                     , "miseries"
