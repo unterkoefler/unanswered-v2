@@ -8794,7 +8794,7 @@
                     },
                     {
                         ac: $author$project$Categories$Slugs({
-                            aB: _List_fromArray(["zip", "two-ways-out", "flicker", "itch", "yoga", "despicably"])
+                            aB: _List_fromArray(["zip", "two-ways-out", "derboxel", "flicker", "itch", "yoga", "despicably"])
                         }),
                         lr: "Horror",
                         mv: "horror"
@@ -8834,7 +8834,7 @@
         },
         {
             ac: $author$project$Categories$Slugs({
-                aB: _List_fromArray(["the-roof-is-leaking", "an-ordinary-morning", "lint", "miseries", "salt-part-1", "salt-part-2", "salt-part-3", "salt-part-4", "salt-part-5", "salt-part-6", "walk", "new-york", "xcuseme", "europe", "stupid-convos-1", "stupid-convos-2", "facebook-radicalized-me", "modern-commerce", "silly-hat-ceremony", "rambling-1", "raspberries", "colonial-woman", "fedex"])
+                aB: _List_fromArray(["lightphone", "the-roof-is-leaking", "an-ordinary-morning", "lint", "miseries", "salt-part-1", "salt-part-2", "salt-part-3", "salt-part-4", "salt-part-5", "salt-part-6", "walk", "new-york", "xcuseme", "europe", "stupid-convos-1", "stupid-convos-2", "facebook-radicalized-me", "modern-commerce", "silly-hat-ceremony", "rambling-1", "raspberries", "colonial-woman", "fedex"])
             }),
             lr: "Life Updates",
             mv: "life"
