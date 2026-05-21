@@ -15,14 +15,14 @@ alias b := build
 build:
   npm run build
 
-deploy: build
-  git checkout deploy
+deploy:
+  jj bookmark set main -r @
+  jj duplicate -d @ deploy-base 
+  jj new -m "build" @+
+  just build; mv dist docs
+  jj bookmark set deploy -r @ --allow-backwards
+  jj new main
   rm -rf docs
-  mv dist docs
-  git add docs
-  git commit -m "deploy"
-  git push
-  git checkout main
 
 new slug:
     let f = bin/new {{slug}}; vim $f
