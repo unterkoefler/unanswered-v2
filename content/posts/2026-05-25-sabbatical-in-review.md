@@ -1,6 +1,6 @@
 ---
 slug: "sabbatical-in-review"
-title: "Sabbatical In Review"
+title: "Sabbatical: In Review"
 description: "A quick summary of my month off"
 ---
 
