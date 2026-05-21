@@ -151,7 +151,8 @@ categories =
       , members = 
             Slugs
                 { slugs = 
-                    [ "japanese-maple"
+                    [ "entrails"
+                    , "japanese-maple"
                     , "coloring-book"
                     , "weighting"
                     ]
