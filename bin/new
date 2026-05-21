@@ -1,13 +1,16 @@
-#!/usr/bin/env bash
+#!/usr/bin/env nu
 
-DATE=$(date +%Y-%m-%d)
-SLUG=$1
-
-cat > content/posts/$DATE-$SLUG.md << EOF
----
-slug: "$SLUG"
-title: "TODO"
-description: "TODO"
----
-
-EOF
+def --env main [slug: string] {
+  let date = date now | format date "%Y-%m-%d" 
+  let filename = $"content/posts/($date)-($slug).md"
+  let header = [
+    "---",
+    $"slug: \"($slug)\"",
+    "title: \"TODO\"",
+    "description: \"TODO\"",
+    "---"
+  ] | str join "\n"
+  $header | save $filename
+  $filename
+}
+  

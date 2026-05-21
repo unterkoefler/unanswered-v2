@@ -1,3 +1,5 @@
+set shell := ["nu", "-c"]
+
 default:
   @just --list
 
@@ -23,4 +25,4 @@ deploy: build
   git checkout main
 
 new slug:
-    bin/new {{slug}}
+    let f = bin/new {{slug}}; vim $f
