@@ -17,12 +17,13 @@ build:
 
 deploy:
   jj bookmark set main -r @
-  jj duplicate -d @ deploy-base 
-  jj new -m "build" @+
+  jj new -m "build"
+  jj restore --from deploy-base .gitignore
   just build; mv dist docs
   jj bookmark set deploy -r @ --allow-backwards
   jj new main
   rm -rf docs
 
 new slug:
+    jj new -m "{{slug}}"
     let f = bin/new {{slug}}; vim $f
