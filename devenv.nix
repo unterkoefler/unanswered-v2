@@ -8,7 +8,8 @@
     pkgs.git
     pkgs.just
     pkgs.elmPackages.lamdera
-    pkgs.nodejs_23
+    pkgs.nodejs_24
+    pkgs.neocities
   ];
 
   # https://devenv.sh/languages/

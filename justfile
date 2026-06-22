@@ -24,6 +24,10 @@ deploy:
   jj new main
   rm -rf docs
 
+push-to-neocities:
+  jj new -m "temp" deploy
+  neocities push docs
+
 new slug:
     jj new -m "{{slug}}"
     let f = bin/new {{slug}}; vim $f
