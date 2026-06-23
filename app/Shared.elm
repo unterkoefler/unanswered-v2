@@ -368,7 +368,7 @@ menuOption route lbl =
         [ paddingXY 0 24
         , width fill
         ]
-        { url = route |> Route.toPath |> UrlPath.toRelative
+        { url = route |> Route.toPath |> UrlPath.toAbsolute
         , label = text lbl
         }
 
@@ -401,7 +401,7 @@ subscribeLinkForFooter : Element msg
 subscribeLinkForFooter =
     link
         [ paddingXY 8 0 ]       
-        { url = Route.Subscribe |> Route.toPath |> UrlPath.toRelative
+        { url = Route.Subscribe |> Route.toPath |> UrlPath.toAbsolute
         , label = text "Subscribe"
         }
 
