@@ -29,5 +29,5 @@ push-to-neocities:
   neocities push docs
 
 new slug:
-    jj new -m "{{slug}}"
+    jj new -m "{{slug}}" main
     let f = bin/new {{slug}}; vim $f
