@@ -1,4 +1,5 @@
 ---
+date: 2020-07-14 00:00:00
 
 slug: two-ways-out
 title: Two Ways Out

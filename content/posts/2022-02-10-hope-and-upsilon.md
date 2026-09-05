@@ -1,4 +1,5 @@
 ---
+date: 2022-02-10 00:00:00
 
 title: Long Forgotten Feeling of Optimism and Upsilon Variant Begin to Emerge
 slug: hope-and-upsilon

@@ -1,4 +1,5 @@
 ---
+date: 2023-11-27 00:00:00
 slug: the-tide-rises
 title: The Tide Rises
 description: A short story

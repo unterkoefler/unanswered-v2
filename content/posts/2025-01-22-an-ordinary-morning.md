@@ -1,4 +1,5 @@
 ---
+date: 2025-01-22 00:00:00
 slug: "an-ordinary-morning"
 title: "An Ordinary Morning"
 description: "Excerpts from my diary"

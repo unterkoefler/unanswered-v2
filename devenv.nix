@@ -10,11 +10,13 @@
     pkgs.elmPackages.lamdera
     pkgs.nodejs_24
     pkgs.neocities
+    pkgs.inotify-tools
   ];
 
   # https://devenv.sh/languages/
   languages.elm.enable = true;
   languages.javascript.enable = true;
+  languages.gleam.enable = true;
 
   # https://devenv.sh/pre-commit-hooks/
   # pre-commit.hooks.shellcheck.enable = true;

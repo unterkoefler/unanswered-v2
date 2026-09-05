@@ -1,4 +1,5 @@
 ---
+date: 2023-01-31 00:00:00
 
 slug: hooked-solution
 title: "Hooked: A Narrative Explanation of the Murder Mystery"

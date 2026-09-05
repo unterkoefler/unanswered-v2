@@ -1,4 +1,5 @@
 ---
+date: 2022-03-18 00:00:00
 
 slug: roommate-agreement
 title: Roommate Agreement

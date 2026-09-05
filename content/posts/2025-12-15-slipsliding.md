@@ -1,4 +1,5 @@
 ---
+date: 2025-12-15 00:00:00
 slug: "slipsliding"
 title: "Slipping and Sliding"
 description: "Some brief notes"

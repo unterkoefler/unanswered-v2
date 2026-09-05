@@ -1,4 +1,5 @@
 ---
+date: 2025-02-26 00:00:00
 slug: "the-roof-is-leaking"
 title: "The roof is leaking at the Gaylord Opryland Resort and Convention Center"
 description: "An true account of non-recent events"

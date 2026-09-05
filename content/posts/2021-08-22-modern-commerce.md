@@ -1,4 +1,5 @@
 ---
+date: 2021-08-22 00:00:00
 
 slug: modern-commerce
 title: Modern Commerce

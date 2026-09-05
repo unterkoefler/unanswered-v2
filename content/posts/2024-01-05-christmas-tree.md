@@ -1,4 +1,5 @@
 ---
+date: 2024-01-05 00:00:00
 slug: "christmas-tree"
 title: "Oh, Christmas Tree"
 description: "A Christmas fable for the whole family"

@@ -19,3 +19,15 @@ functions/render/elm-pages-cli.js
 stats/
 
 docs/
+
+build/
+*.beam
+*.ez
+erl_crash.dump
+priv
+.DS_Store
+node_modules/
+.lustre/
+dist/
+*_desktop_bundle/
+*.swap

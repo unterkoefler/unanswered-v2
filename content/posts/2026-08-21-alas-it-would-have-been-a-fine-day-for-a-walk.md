@@ -1,4 +1,5 @@
 ---
+date: 2026-08-21 00:00:00
 slug: "alas-it-would-have-been-a-fine-day-for-a-walk"
 title: "Treachery Most Foul"
 description: "A terrible betrayal"

@@ -1,4 +1,5 @@
----                                                                                                                                                                                                               
+---
+date: 2021-01-30 00:00:00
 
 slug: cleveland
 title: New Cleveland Mascot More Geographically Accurate, Racist

@@ -1,4 +1,5 @@
 ---
+date: 2021-11-04 00:00:00
 
 slug: facebook-radicalized-me
 title: I Was Radicalized by Facebook and I Liked It

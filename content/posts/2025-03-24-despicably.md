@@ -1,4 +1,5 @@
 ---
+date: 2025-03-24 00:00:00
 slug: "despicably"
 title: "Minions: The Live Action Remake"
 description: "A short story inspired by the classic film 'Despicable Me'"

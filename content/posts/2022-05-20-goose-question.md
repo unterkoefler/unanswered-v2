@@ -1,4 +1,5 @@
 ---
+date: 2022-05-20 00:00:00
 
 slug: goose-question
 title: 1 question science still can't answer

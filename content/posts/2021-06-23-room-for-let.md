@@ -1,4 +1,5 @@
 ---
+date: 2021-06-23 00:00:00
 
 slug: room-for-let
 title: Room for Let

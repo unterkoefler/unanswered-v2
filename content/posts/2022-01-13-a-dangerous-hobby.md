@@ -1,4 +1,5 @@
 ---
+date: 2022-01-13 00:00:00
 
 slug: a-dangerous-hobby
 title: A Dangerous Hobby

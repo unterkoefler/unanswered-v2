@@ -1,4 +1,5 @@
 ---
+date: 2021-12-30 00:00:00
 
 slug: think-like-a-squirrel
 title: Think Like a Squirrel

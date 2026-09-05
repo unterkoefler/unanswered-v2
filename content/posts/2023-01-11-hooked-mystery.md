@@ -1,4 +1,5 @@
 ---
+date: 2023-01-11 00:00:00
 
 slug: hooked-mystery
 title: "Hooked: A Five Paragraph Essay Outline Murder Mystery"

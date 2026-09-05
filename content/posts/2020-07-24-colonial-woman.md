@@ -1,4 +1,5 @@
 ---
+date: 2020-07-24 00:00:00
 
 slug: colonial-woman
 title: Getting in Touch with My Inner Colonial Housewife

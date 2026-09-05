@@ -1,4 +1,5 @@
 ---
+date: 2022-01-28 00:00:00
 
 slug: stupid-convos-2
 title: Stupid Conversations Part 2

@@ -1,4 +1,5 @@
 ---
+date: 2021-12-01 00:00:00
 
 slug: kkkfc-chicken
 title: Vegans Endorse The Colonel's New KKKFC Sandwich

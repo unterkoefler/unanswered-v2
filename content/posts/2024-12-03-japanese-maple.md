@@ -1,4 +1,5 @@
 ---
+date: 2024-12-03 00:00:00
 slug: "japanese-maple"
 title: "Haiku #1"
 description: "A haiku"

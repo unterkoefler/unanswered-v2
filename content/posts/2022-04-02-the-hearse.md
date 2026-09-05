@@ -1,4 +1,5 @@
 ---
+date: 2022-04-02 00:00:00
 
 slug: the-hearse
 title: The Hearse

@@ -1,4 +1,5 @@
 ---
+date: 2022-03-02 00:00:00
 
 slug: bipartisan
 title: Bipartisan Legislation Criminalizes Abortion, But Exempts EV Drivers

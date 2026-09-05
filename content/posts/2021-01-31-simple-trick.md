@@ -1,4 +1,5 @@
 ---
+date: 2021-01-31 00:00:00
 
 slug: simple-trick
 title: Realtors Hate Him! This One Simple Trick Will Make You Think You've Moved, But You Haven't!

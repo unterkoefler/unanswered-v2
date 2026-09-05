@@ -1,4 +1,5 @@
 ---
+date: 2020-02-04 00:00:00
 
 slug: vultures-envision-a-toaster
 title: Vultures Envision a Toaster
@@ -6,6 +7,7 @@ description: A story about a giraffe
 show_on_home_page: True
 filename: Vulture
 ---
+
 Lonny, the giraffe, was worried about lightning. Lightning, Lonny knew, seeks the shortest path to the ground, and therefore tends to strike the tallest thing around. Lonny, being a giraffe, was often the tallest thing around. This worried him.
 
 And so, when thunderclouds appeared in the distance, Lonny would bend his great long neck to the ground and wait anxiously for the storm to pass. Lonny was kind and friendly and generally well-liked, but when storms came and Lonny put his head down in the grass and stood quivering, unable to move or engage in friendly conversation, it made the other giraffes nervous and confused. In their nervousness and confusion, they would tease him and then run off to play in the pool or with large metal poles which they would hold in their mouths and compete to see who could raise their pole the highest. The other giraffes did not understand lightning.

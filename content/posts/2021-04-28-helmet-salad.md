@@ -1,4 +1,5 @@
 ---
+date: 2021-04-28 00:00:00
 
 slug: helmet-salad
 title: Eco-Warrior Cyclist Eschews Single-Use Salad Bowls

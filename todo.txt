@@ -1,0 +1,18 @@
+- tags
+- pagination
+- menu
+- styling
+- images
+- captions
+- sidebar
+- descriptions
+- light mode/dark mode
+- search
+- subscribe
+- rss
+- atom
+- open metadata things
+- word cloud
+- full height image (for haiku)
+- link crawler to verify everything
+- unlivery - fix nbsp/emsp parsing

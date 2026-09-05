@@ -1,7 +1,8 @@
 ---
+date: 2022-11-12 00:00:00
 
 slug: houseplant
-title: My houseplant isn’t dying; it’s right-sizing to better facilitate flexibility in anticipation of future macroeconomic trends
+title: My houseplant isn't dying; it's right-sizing to better facilitate flexibility in anticipation of future macroeconomic trends
 description: A letter to my shareholders
 show_on_home_page: True
 filename: Houseplant

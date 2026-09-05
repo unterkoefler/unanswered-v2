@@ -1,4 +1,5 @@
 ---
+date: 2022-05-08 00:00:00
 
 slug: silent-podcast
 title: "Stop Reading This: A Silent Meditation Podcast"
