@@ -74,39 +74,62 @@ fn home_view(posts: List(Post(Nil))) -> Element(Nil) {
   html.html([], [
     html.head([], [
       html.meta([attribute.name("viewport"), attribute.content("width=device-width, initial-scale=1.0")]),
-      html.title([], "My Blog"),
+      html.title([], "Unanswered.blog"),
       html.link([attribute.rel("stylesheet"), attribute.href("./css/style.css")]),
     ]),
     html.body([], [
-      html.div([
-        attribute.class("header"),
-      ], [
-        html.h1([], [element.text("Unanswered")]),
-        html.button([
-          attribute.class("menu-button"),
-        ], [
-          element.text("menu")
-        ]),
-      ]),
+      header(),
       html.div([
         attribute.class("subheader"),
       ], [
         html.h2([], [element.text("Where I type and scream my thoughts into the void, unanswered")]),
       ]),
-      html.ul(
-        [],
-        list.map(sorted, fn(p: Post(Nil)) {
-          html.li([], [
-            html.a([attribute.href(p.slug)], [
-              element.text(p.title),
-            ]),
-          ])
-        }),
-      ),
+      html.div([
+        attribute.class("content"),
+      ], [
+        post_list(sorted)
+      ]),
     ]),
   ])
 }
 
+fn header() -> Element(Nil) {
+  html.div([
+    attribute.class("header"),
+  ], [
+    html.h1([
+    ], [
+      html.a([attribute.href("/")], [element.text("Unanswered")]),
+    ]),
+    html.button([
+      attribute.class("menu-button"),
+    ], [
+      element.text("menu")
+    ]),
+  ])
+}
+
+fn post_list(sorted_posts: List(Post(Nil))) -> Element(Nil) {
+  html.div([
+    attribute.class("post-list"),
+  ], list.map(sorted_posts, fn(p: Post(Nil)) {
+        html.div([attribute.class("post-preview")], [
+            html.a([attribute.href(p.slug)], [
+              html.div([
+                attribute.class("post-preview-title"),
+              ], [
+              element.text(p.title),
+              ]),
+              html.p([
+                attribute.class("post-preview-description"),
+              ], [
+              element.text(p.description),
+              ]),
+            ]),
+        ])
+      })
+  )
+}
 
 fn blog_post_template(
   p: Post(Nil),
@@ -124,33 +147,53 @@ fn blog_post_template(
         attribute.name("viewport"),
         attribute.content("width=device-width, initial-scale=1"),
       ]),
-      html.title([], p.title),
+      html.title([], "Unanswered.blog - " <> p.title),
+      html.link([attribute.rel("stylesheet"), attribute.href("/css/style.css")]),
       html.meta([
         attribute.name("description"),
         attribute.content(p.description),
       ]),
     ]),
     html.body([], [
-      html.header([], [
-        html.nav([], [
-          html.a([attribute.href("/")], [element.text("← Home")]),
-        ]),
-      ]),
-      html.main([], [
-        html.article([], [
-          html.h1([], [element.text(p.title)]),
-          html.p([], [html.em([], [element.text(formatted_date)])]),
+      header(),
+      html.div([attribute.class("post-container")], [
+        html.div([attribute.class("post-content")], [
+          html.h3([attribute.class("post-title")], [element.text(p.title)]),
+          html.p([attribute.class("post-date")], [element.text(formatted_date)]),
           html.div([], p.contents),
         ]),
       ]),
-      html.footer([], [
-        html.p([], [
-          element.text("Built with "),
-          html.a([attribute.href("https://github.com/veeso/blogatto")], [
-            element.text("Blogatto"),
-          ]),
-        ]),
-      ]),
     ]),
+    footer(),
   ])
 }
+
+fn footer() -> Element(Nil) {
+  html.div([
+    attribute.class("footer"),
+  ], [
+    html.a([
+    ], [ // TODO: link to previous
+      element.text("previous")
+    ]),
+    html.button([
+    ], [ // TODO: generate random post
+      element.text("Random"),
+    ]),
+    html.a([
+    ], [ // TODO: link to subscribe page
+      element.text("Subscribe")
+    ]),
+    html.a([
+      attribute.href("/"),
+    ], [
+      element.text("Home"),
+    ]),
+    html.a([
+    ], [ // TODO: link to next
+      element.text("next"),
+    ])
+  ])
+}
+
+
