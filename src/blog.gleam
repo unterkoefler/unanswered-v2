@@ -52,6 +52,9 @@ pub fn config() -> config.Config(Nil) {
     |> config.static_dir("./public")
     |> config.post(post_config)
     |> config.route("/", home_view)
+    |> config.route("/what-is-this", what_is_this_view)
+    |> config.route("/who-am-i", who_am_i_view)
+    |> config.route("/contact-me", contact_me_view)
     |> config.rss_feed(rss_feed)
     |> config.atom_feed(atom_feed)
     |> config.sitemap(sitemap.new("/sitemap.xml"))
@@ -71,11 +74,64 @@ fn home_view(posts: List(Post(Nil))) -> Element(Nil) {
   let sorted =
     list.sort(posts, fn(a: Post(Nil), b: Post(Nil)) { timestamp.compare(b.date, a.date) })
 
+  static_page_view("Unanswered.blog", post_list(sorted))
+}
+
+fn what_is_this_view(_posts: List(Post(Nil))) -> Element(Nil) {
+  static_page_view(
+    "Unanswered.blog - About",
+    html.div([
+    ], [
+      post_content(
+        "What is this?",
+        option.None,
+        [html.p([], [
+          element.text("This is, to reiterate the subheader, where I scream into the void. I used to do this on my notes app, but then I realized that I could copy and paste the things on my notes app into a file on my computer, format the file into a webpage, and bother you, dear reader, with my content. Enjoy!")
+        ])],
+      ),
+    ])
+  )
+}
+
+fn who_am_i_view(_posts: List(Post(Nil))) -> Element(Nil) {
+  static_page_view(
+    "Unanswered.blog - WhoAmI",
+    html.div([
+    ], [
+      post_content(
+        "Who am I?",
+        option.None,
+        [html.p([], [
+          element.text("I am Willy Unterkoefler. Unless otherwise noted, I write the things on here, which explains their high quality. I also designed this website, which explains its... quality. If you want to know more about me, please read everything I post here and psychoanalyze it. To help you get started, the giraffe is really a metaphor for my healthy relationship with my father and the lightning is a stand-in for my three horrible years of speech therapy in elementary school. Despite my years of speech therapy, you should know that I still pronounce water as \"woodder\". The rest of my life and personality can be derived.")
+        ])],
+      ),
+    ])
+  )
+}
+
+fn contact_me_view(_posts: List(Post(Nil))) -> Element(Nil) {
+  static_page_view(
+    "Unanswered.blog - Contact",
+    html.div([
+    ], [
+      post_content(
+        "Contact me",
+        option.None,
+        [html.p([], [
+          element.text("Please don't.")
+        ])],
+      ),
+    ])
+  )
+}
+
+
+fn static_page_view(title: String, content: Element(Nil)) -> Element(Nil) {
   html.html([], [
     html.head([], [
       html.meta([attribute.name("viewport"), attribute.content("width=device-width, initial-scale=1.0")]),
-      html.title([], "Unanswered.blog"),
-      html.link([attribute.rel("stylesheet"), attribute.href("./css/style.css")]),
+      html.title([], title),
+      html.link([attribute.rel("stylesheet"), attribute.href("/css/style.css")]),
     ]),
     html.body([], [
       header(),
@@ -87,7 +143,7 @@ fn home_view(posts: List(Post(Nil))) -> Element(Nil) {
       html.div([
         attribute.class("content"),
       ], [
-        post_list(sorted)
+        content
       ]),
     ]),
   ])
@@ -103,8 +159,47 @@ fn header() -> Element(Nil) {
     ]),
     html.button([
       attribute.class("menu-button"),
+      attribute.popovertarget("menu"),
     ], [
       element.text("menu")
+    ]),
+    html.div([
+      attribute.id("menu"),
+      attribute.popover("auto"),
+    ], [
+      html.a([
+        attribute.class("menu-item"),
+        attribute.href("/what-is-this"),
+      ],[
+        element.text("What is this?")
+      ]),
+      html.a([
+        attribute.class("menu-item"),
+        attribute.href("/who-am-i"),
+      ],[
+        element.text("Who am I?")
+      ]),
+      html.a([
+        attribute.class("menu-item"),
+        attribute.href("/contact-me"),
+      ],[
+        element.text("Contact me")
+      ]),
+      html.a([
+        attribute.class("menu-item"),
+      ],[
+        element.text("Posts by tag")
+      ]),
+      html.a([
+        attribute.class("menu-item"),
+      ],[
+        element.text("Search")
+      ]),
+      html.a([
+        attribute.class("menu-item"),
+      ],[
+        element.text("Subscribe")
+      ]),
     ]),
   ])
 }
@@ -157,16 +252,33 @@ fn blog_post_template(
     html.body([], [
       header(),
       html.div([attribute.class("post-container")], [
-        html.div([attribute.class("post-content")], [
-          html.h3([attribute.class("post-title")], [element.text(p.title)]),
-          html.p([attribute.class("post-date")], [element.text(formatted_date)]),
-          html.div([], p.contents),
-        ]),
+        post_content(
+          p.title,
+          option.Some(formatted_date),
+          p.contents
+        ),
       ]),
     ]),
     footer(),
   ])
 }
+
+fn post_content(
+  title: String,
+  formatted_date: option.Option(String),
+  contents: List(Element(Nil)),
+) -> Element(Nil) {
+  let date = case formatted_date {
+    option.None -> element.none()
+    option.Some(d) -> html.p([attribute.class("post-date")], [element.text(d)])
+  }
+  html.div([attribute.class("post-content")], [
+    html.h3([attribute.class("post-title")], [element.text(title)]),
+    date,
+    html.div([], contents),
+  ])
+}
+
 
 fn footer() -> Element(Nil) {
   html.div([

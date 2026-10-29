@@ -90,7 +90,7 @@ init flags maybePagePath =
                 Pages.Flags.BrowserFlags value ->
                     decodeFlags value
     in
-    ( 
+    (
         { showMenu = False
         , colorScheme = parsedFlags.colorScheme
         , baseFontSize = 4
@@ -120,7 +120,7 @@ flagDecoder =
 decodeColorScheme : Decoder Colors.ColorScheme
 decodeColorScheme =
     Decode.map
-        (\str -> 
+        (\str ->
             case str of
                 "Light" ->
                     Colors.Light
@@ -178,7 +178,7 @@ update msg model =
                 )
             )
 
-randomSlugGenerator : List String -> Random.Generator String 
+randomSlugGenerator : List String -> Random.Generator String
 randomSlugGenerator slugs =
     let
         values = Array.fromList slugs
@@ -211,11 +211,11 @@ view :
     -> { body : List (Html msg), title : String }
 view sharedData page model toMsg pageView =
     { body =
-        [ Element.layout 
+        [ Element.layout
             [ montserrat
             , Font.color (Colors.primary model.colorScheme)
             , Background.color (Colors.secondary model.colorScheme)
-            ] 
+            ]
             (frame pageView model toMsg sharedData)
         ]
     , title = pageView.title
@@ -288,7 +288,7 @@ header model =
         ]
 
 heading : Element msg
-heading = 
+heading =
     link
         [ Region.heading 1
         , Font.size 36
@@ -314,20 +314,20 @@ subheader colorScheme =
 menu : Colors.ColorScheme -> Bool -> Element Msg
 menu colorScheme showMenu =
     let
-        modal = 
+        modal =
             if showMenu then
                 menuModal colorScheme
 
             else
                 Element.none
     in
-    el 
+    el
         [ alignRight
         , onLeft modal
         ]
     <|
         Input.button [ Font.size 30 ]
-            { label = text "⋮" 
+            { label = text "⋮"
             , onPress = Just MenuToggled
             }
 
@@ -390,7 +390,7 @@ colorSchemeSwitcher colorScheme attrs =
         }
 
 randomPostButton : List String -> Element Msg
-randomPostButton slugs = 
+randomPostButton slugs =
     Input.button
         []
         { label = text "Random"
@@ -400,7 +400,7 @@ randomPostButton slugs =
 subscribeLinkForFooter : Element msg
 subscribeLinkForFooter =
     link
-        [ paddingXY 8 0 ]       
+        [ paddingXY 8 0 ]
         { url = Route.Subscribe |> Route.toPath |> UrlPath.toAbsolute
         , label = text "Subscribe"
         }
@@ -450,7 +450,7 @@ arrow ic label reverser model slug =
         Just s ->
             link []
                 { url = "/" ++ s
-                , label = 
+                , label =
                     row [ spacing 8 ]
                         (reverser
                             [ text label
@@ -484,13 +484,13 @@ articleFrame post model previous next toMsg sharedData =
                 )
             , sideBar model.colorScheme
             ]
-        , el [ width fill, alignBottom ] 
+        , el [ width fill, alignBottom ]
             (Element.map toMsg (footer model previous next sharedData))
         ]
 
 textControls : Model -> Element Msg
 textControls model =
-    let 
+    let
         { colorScheme, baseFontSize } = model
     in
     el
@@ -518,7 +518,7 @@ textControls model =
 fontSizeChanger : Int -> msg -> String -> Element msg
 fontSizeChanger baseFontSize msg verb =
     let
-        lbl = 
+        lbl =
             verb ++ " font size"
     in
     Input.button
@@ -540,9 +540,9 @@ sideBar : Colors.ColorScheme -> Element msg
 sideBar colorScheme =
     el
         [ width (fillPortion 5)
-        , Background.gradient 
+        , Background.gradient
             { angle = pi
-            , steps = [ Colors.accent colorScheme, Colors.secondary colorScheme ] 
+            , steps = [ Colors.accent colorScheme, Colors.secondary colorScheme ]
             }
         , alignRight
         , height fill

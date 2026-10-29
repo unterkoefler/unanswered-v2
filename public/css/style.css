@@ -32,6 +32,12 @@
   initial-value: rgb(103, 201, 207);
 }
 
+@property --accent-dark {
+  syntax: "<color>";
+  inherits: false;
+  initial-value: rgb(50, 104, 108);
+}
+
 @property --neutral {
   syntax: "<color>";
   inherits: false;
@@ -100,6 +106,36 @@ h2 {
   padding: 0 36px 0 0;
 }
 
+#menu:popover-open {
+  margin: 0;
+  position-anchor: auto;
+  top: calc(anchor(bottom) - 24px);
+  justify-self: anchor-center;
+  right: anchor(left);
+  display: flex;
+  flex-direction: column;
+  border-style: solid;
+  border-width: 2px;
+  border-color: var(--accent);
+  border-radius: 6px;
+  background-color: var(--accent-dark);
+  padding: 5px 45px;
+}
+
+.menu-item {
+  color: var(--secondary);
+  font-size: 24px;
+  font-family: "SourceSerifPro", serif;
+  padding: 18px 12px 18px 0;
+  border-style: solid;
+  border-color: var(--secondary);
+  border-width: 0 0 1px 0;
+  text-decoration: none;
+}
+
+.menu-item:last-child {
+  border-width: 0;
+}
 
 .content {
   display: flex;
