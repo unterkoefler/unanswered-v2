@@ -70,11 +70,13 @@ pub fn config() -> config.Config(Nil) {
     ))
 }
 
-fn home_view(posts: List(Post(Nil))) -> Element(Nil) {
-  let sorted =
-    list.sort(posts, fn(a: Post(Nil), b: Post(Nil)) { timestamp.compare(b.date, a.date) })
 
-  static_page_view("Unanswered.blog", post_list(sorted))
+fn home_view(posts: List(Post(Nil))) -> Element(Nil) {
+  let recent =
+    posts
+    |> list.take(15)
+
+  static_page_view("Unanswered.blog", home_post_list(recent))
 }
 
 fn what_is_this_view(_posts: List(Post(Nil))) -> Element(Nil) {
@@ -204,36 +206,71 @@ fn header() -> Element(Nil) {
   ])
 }
 
-fn post_list(sorted_posts: List(Post(Nil))) -> Element(Nil) {
+fn home_post_list(posts: List(Post(Nil))) -> Element(Nil) {
+  let posts =
+    list.map(posts, fn(p: Post(Nil)) {
+          html.div([attribute.class("post-preview")], [
+              html.a([attribute.href(p.slug)], [
+                html.div([
+                  attribute.class("post-preview-title"),
+                ], [
+                element.text(p.title),
+                ]),
+                html.p([
+                  attribute.class("post-preview-description"),
+                ], [
+                element.text(p.description),
+                ]),
+              ]),
+          ])
+        })
   html.div([
     attribute.class("post-list"),
-  ], list.map(sorted_posts, fn(p: Post(Nil)) {
-        html.div([attribute.class("post-preview")], [
-            html.a([attribute.href(p.slug)], [
-              html.div([
-                attribute.class("post-preview-title"),
-              ], [
-              element.text(p.title),
-              ]),
-              html.p([
-                attribute.class("post-preview-description"),
-              ], [
-              element.text(p.description),
-              ]),
-            ]),
-        ])
-      })
-  )
+  ], [
+    html.div([], posts),
+    html.p([
+      attribute.class("end-of-list"),
+    ], [
+      element.text("Looking for more? Try "),
+      html.a([
+      ], [
+        element.text("Posts by Tag"),
+      ]),
+      element.text(" or "),
+      html.a([
+      ], [
+        element.text("Search.")
+      ]),
+    ])
+  ])
+}
+
+fn find_neighbors(p: Post(Nil), all_posts: List(Post(Nil))) -> #(option.Option(Post(Nil)), option.Option(Post(Nil))) {
+  find_neighbors_acc(p, all_posts, option.None)
+}
+
+fn find_neighbors_acc(p: Post(Nil), posts: List(Post(Nil)), prev: option.Option(Post(Nil))) -> #(option.Option(Post(Nil)), option.Option(Post(Nil))) {
+  case posts {
+    [] -> #(prev, option.None)
+    [head, ..rest] -> {
+      case head == p {
+        True -> #(prev, list.first(rest) |> option.from_result)
+        False -> find_neighbors_acc(p, rest, option.Some(head))
+      }
+    }
+  }
 }
 
 fn blog_post_template(
   p: Post(Nil),
-  _all_posts: List(Post(Nil)),
+  all_posts: List(Post(Nil)),
 ) -> Element(Nil) {
   let lang = option.unwrap(p.language, "en")
   let formatted_date = p.date
     |> datetime.from_timestamp()
     |> datetime.format(tempo.Custom(format: "dddd, MMMM d, YYYY"))
+
+  let #(prev, next) = find_neighbors(p, all_posts)
 
   html.html([attribute.lang(lang)], [
     html.head([], [
@@ -259,7 +296,7 @@ fn blog_post_template(
         ),
       ]),
     ]),
-    footer(),
+    footer(prev, next),
   ])
 }
 
@@ -280,14 +317,33 @@ fn post_content(
 }
 
 
-fn footer() -> Element(Nil) {
+fn footer(prev: option.Option(Post(Nil)), next: option.Option(Post(Nil))) -> Element(Nil) {
+  let previous = case prev {
+    option.None -> element.text("there is no previous")
+    option.Some(prev_post) -> {
+      html.a([
+        attribute.href("/" <> prev_post.slug),
+      ], [
+        element.text("previous")
+      ])
+    }
+  }
+
+  let next_el = case next {
+    option.None -> element.text("there is no next")
+    option.Some(next_post) -> {
+      html.a([
+        attribute.href("/" <> next_post.slug),
+      ], [
+        element.text("next")
+      ])
+    }
+  }
+
   html.div([
     attribute.class("footer"),
   ], [
-    html.a([
-    ], [ // TODO: link to previous
-      element.text("previous")
-    ]),
+    previous,
     html.button([
     ], [ // TODO: generate random post
       element.text("Random"),
@@ -301,10 +357,7 @@ fn footer() -> Element(Nil) {
     ], [
       element.text("Home"),
     ]),
-    html.a([
-    ], [ // TODO: link to next
-      element.text("next"),
-    ])
+    next_el
   ])
 }
 

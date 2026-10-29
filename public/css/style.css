@@ -145,13 +145,29 @@ h2 {
 .post-list {
   display: flex;
   flex-direction: column;
-  gap: 18px;
+  gap: 24px;
   border-style: solid;
   border-width: 0 1px 0 1px;
   margin: 20px 24px 0 24px;
   padding-top: 18px;
+  padding-right: 36px;
   align-self: center;
   max-width: 800px;
+}
+
+.post-list div {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.end-of-list {
+  font-style: italic;
+  padding: 0 36px;
+}
+
+.end-of-list > a {
+  font-style: italic;
 }
 
 .post-preview {
@@ -167,14 +183,14 @@ h2 {
 .post-preview-title {
   font-size: 18px;
   line-height: 18px;
-  text-decoration: underline;
   color: var(--link);
+  font-weight: 800;
 }
 
 .post-preview-description {
   font-style: italic;
   font-size: 14px;
-  line-height: 14px;
+  line-height: 10px;
 }
 
 .post-title {
