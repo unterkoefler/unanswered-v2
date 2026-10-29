@@ -1,0 +1,90 @@
+@font-face {
+    font-family: Montserrat;
+    src: url(/assets/fonts/Montserrat-Regular.ttf);
+}
+
+@font-face {
+    font-family: SourceSerifPro;
+    src: url(/assets/fonts/SourceSerifPro-Regular.ttf);
+}
+
+@property --primary {
+  syntax: "<color>";
+  inherits: false;
+  initial-value: rgb(10, 10, 10);
+}
+
+@property --secondary {
+  syntax: "<color>";
+  inherits: false;
+  initial-value: rgb(250, 250, 250);
+}
+
+@property --white {
+  syntax: "<color>";
+  inherits: false;
+  initial-value: rgb(250, 250, 250);
+}
+
+@property --accent {
+  syntax: "<color>";
+  inherits: false;
+  initial-value: rgb(103, 201, 207);
+}
+
+@property --neutral {
+  syntax: "<color>";
+  inherits: false;
+  initial-value: rgb(80, 80, 80);
+}
+
+
+* {
+  font-family: "Montserrat", sans-serif;
+  font-style: normal;
+  font-weight: 400;
+}
+
+body {
+  margin: 0;
+}
+
+h1 {
+  font-family: "SourceSerifPro", serif;
+  font-size: 36px;
+  line-height: 36px;
+  font-style: normal;
+  font-weight: 400;
+}
+
+.header {
+  color: var(--secondary);
+  background-color: var(--accent);
+  display: flex;
+  justify-content: space-between;
+}
+
+.header > h1 {
+  padding: 0 24px;
+}
+
+.subheader {
+  color: var(--white);
+  background-color: var(--neutral);
+  display: flex;
+}
+
+h2 {
+  font-size: 18px;
+  line-height: 18px;
+  padding: 0 24px;
+}
+
+.menu-button {
+  border: none;
+  background: none;
+  cursor: pointer;
+  color: var(--secondary);
+  padding: 0 24px 0 0;
+}
+

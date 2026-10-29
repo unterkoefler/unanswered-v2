@@ -72,9 +72,27 @@ fn home_view(posts: List(Post(Nil))) -> Element(Nil) {
     list.sort(posts, fn(a: Post(Nil), b: Post(Nil)) { timestamp.compare(b.date, a.date) })
 
   html.html([], [
-    html.head([], [html.title([], "My Blog")]),
+    html.head([], [
+      html.meta([attribute.name("viewport"), attribute.content("width=device-width, initial-scale=1.0")]),
+      html.title([], "My Blog"),
+      html.link([attribute.rel("stylesheet"), attribute.href("./css/style.css")]),
+    ]),
     html.body([], [
-      html.h1([], [element.text("My Blog")]),
+      html.div([
+        attribute.class("header"),
+      ], [
+        html.h1([], [element.text("Unanswered")]),
+        html.button([
+          attribute.class("menu-button"),
+        ], [
+          element.text("menu")
+        ]),
+      ]),
+      html.div([
+        attribute.class("subheader"),
+      ], [
+        html.h2([], [element.text("Where I type and scream my thoughts into the void, unanswered")]),
+      ]),
       html.ul(
         [],
         list.map(sorted, fn(p: Post(Nil)) {
@@ -134,5 +152,5 @@ fn blog_post_template(
         ]),
       ]),
     ]),
-  ]) 
+  ])
 }
