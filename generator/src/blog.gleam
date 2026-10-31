@@ -130,14 +130,15 @@ fn contact_me_view(_posts: List(Post(Nil))) -> Element(Nil) {
 }
 
 fn tags_view(posts: List(Post(Nil))) -> Element(Nil) {
-  static_page_view(
+  lustre_page_view(
     "Unanswered.blog - Tags",
+    "tag_browser",
     html.div([
     ], [
       post_content(
         "Posts by Tag",
         option.None,
-        [element.text("tag tag tag")]
+        [html.div([attribute.id("app")], [])],
       ),
     ])
   )
@@ -204,6 +205,30 @@ fn static_page_view(title: String, content: Element(Nil)) -> Element(Nil) {
       html.meta([attribute.name("viewport"), attribute.content("width=device-width, initial-scale=1.0")]),
       html.title([], title),
       html.link([attribute.rel("stylesheet"), attribute.href("/css/style.css")]),
+    ]),
+    html.body([], [
+      header(),
+      html.div([
+        attribute.class("subheader"),
+      ], [
+        html.h2([], [element.text("Where I type and scream my thoughts into the void, unanswered")]),
+      ]),
+      html.div([
+        attribute.class("content"),
+      ], [
+        content
+      ]),
+    ]),
+  ])
+}
+
+fn lustre_page_view(title: String, app_name: String, content: Element(Nil)) -> Element(Nil) {
+  html.html([], [
+    html.head([], [
+      html.meta([attribute.name("viewport"), attribute.content("width=device-width, initial-scale=1.0")]),
+      html.title([], title),
+      html.link([attribute.rel("stylesheet"), attribute.href("/css/style.css")]),
+      html.script([attribute.src("/assets/" <> app_name <> ".js"), attribute.type_("module")], ""),
     ]),
     html.body([], [
       header(),
