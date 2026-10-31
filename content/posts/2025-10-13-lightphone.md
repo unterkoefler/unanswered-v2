@@ -3,6 +3,7 @@ date: 2025-10-13 00:00:00
 slug: "lightphone"
 title: Notes after one year of "going light"
 description: "bla bla technology bad, part 3"
+tags: life-updates, technology
 ---
 
 #### ![A rotary phone](assets/rotary-phone.jpg)

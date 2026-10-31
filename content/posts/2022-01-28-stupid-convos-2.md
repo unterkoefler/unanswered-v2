@@ -6,6 +6,7 @@ title: Stupid Conversations Part 2
 description: I struggle to buy avocados
 show_on_home_page: True
 filename: StupidConvo2
+tags: life-updates
 ---
 
 “Did you get any avocados?" I asked.

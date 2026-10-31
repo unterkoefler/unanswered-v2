@@ -6,6 +6,7 @@ title: I Was Radicalized by Facebook and I Liked It
 description: How Zucc sucked me in
 show_on_home_page: True
 filename: Radicalized
+tags: life-updates
 ---
 
 ###### ![silly reindeer bus](assets/silly-bus.jpeg)

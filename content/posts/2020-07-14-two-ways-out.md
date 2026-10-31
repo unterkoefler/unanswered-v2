@@ -6,6 +6,7 @@ title: Two Ways Out
 description: There was no way out
 show_on_home_page: True
 filename: WayOut
+tags: fiction, misc-fiction
 ---
 
 I can't leave the beach. That much is clear. There's no boardwalk, sea-wall, or parking lot to turn to. Or run to. There is nothing behind me. It's a nothingness that is not void or null, or even nothing. It is unrendered, unimagined. It is not. There's nowhere to run.

@@ -6,6 +6,7 @@ title: Roommate Agreement
 description: "Attn.: My Roommates"
 show_on_home_page: True
 filename: RoommateAgreement
+tags: legal-documents
 ---
 
 It has lately come to my attention that certain unnamed members of the household community have not been doing their utmost to ensure that the apartment is kept in a most harmonious and habitable condition. I have much respect for you, my co-inhabitants, and your varying needs, interests, desires, aptitudes, personalities and personal defects. So great is my respect that it is with tremendous hesitancy that I proceed, but proceed I must. In order to ameliorate and put cease to the deteriorating conditions of life in our home, I have drawn up these terms, a "Roommate Agreement", if you will. Upon receipt, please read and sign the agreement within two days. Together, we can make this home a home.

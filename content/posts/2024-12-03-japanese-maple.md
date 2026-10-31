@@ -3,6 +3,7 @@ date: 2024-12-03 00:00:00
 slug: "japanese-maple"
 title: "Haiku #1"
 description: "A haiku"
+tags: poems
 ---
 
 ###### ![FULL_HEIGHTJapanese maple / With one last leaf remaining. / Don't pluck. Let it fall.](assets/maple.png)

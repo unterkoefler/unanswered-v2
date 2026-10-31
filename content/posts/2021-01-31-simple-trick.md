@@ -6,6 +6,7 @@ title: Realtors Hate Him! This One Simple Trick Will Make You Think You've Moved
 description: You won't believe it!
 show_on_home_page: true
 filename: SimpleTrick
+tags: clickbait
 ---
 
 ![smart man](assets/smart-man.jpg)

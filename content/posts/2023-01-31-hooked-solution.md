@@ -6,6 +6,7 @@ title: "Hooked: A Narrative Explanation of the Murder Mystery"
 description: The good detective's explanation of the evening's events
 show_on_home_page: True
 filename: Hooked2
+tags: fiction, mystery, misc-fiction
 ---
 
 _Note: for maximum enjoyment, please first [read the mystery, available here](/hooked-mystery)_

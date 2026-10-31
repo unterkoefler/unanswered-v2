@@ -6,6 +6,7 @@ title: Eco-Warrior Cyclist Eschews Single-Use Salad Bowls
 description:  "\"Uh yeah can you just put it in my helmet\""
 show_on_home_page: True
 filename: HelmetSalad
+tags: news
 ---
 
 _"Uh yeah can you just put it in my helmet?"_

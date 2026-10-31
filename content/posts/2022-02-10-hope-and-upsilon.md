@@ -6,6 +6,7 @@ slug: hope-and-upsilon
 description: ""
 filename: Upsilon
 show_on_home_page: True
+tags: news
 ---
 
 *February 10, 2022*

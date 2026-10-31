@@ -6,6 +6,7 @@ title: On Technology
 description: blah, blah, blah internet bad, or at least, not so good
 show_on_home_page: True
 filename: TechSupport
+tags: essays
 ---
 
 Last November, my mom, as she passed me her phone, told me that Grandmom had been hacked. "Go help," she said.

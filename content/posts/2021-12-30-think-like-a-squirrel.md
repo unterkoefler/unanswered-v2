@@ -6,6 +6,7 @@ title: Think Like a Squirrel
 description: Wisdom from our tree-dwelling rodent friends
 show_on_home_page: True
 filename: ThinkLikeASquirrel
+tags: essays
 ---
 
 _Wisdom from our tree-dwelling rodent friends_

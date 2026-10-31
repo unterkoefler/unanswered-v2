@@ -6,6 +6,7 @@ title: Vultures Envision a Toaster
 description: A story about a giraffe
 show_on_home_page: True
 filename: Vulture
+tags: fiction, fable, animals
 ---
 
 Lonny, the giraffe, was worried about lightning. Lightning, Lonny knew, seeks the shortest path to the ground, and therefore tends to strike the tallest thing around. Lonny, being a giraffe, was often the tallest thing around. This worried him.

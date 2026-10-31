@@ -6,6 +6,7 @@ title: "Hooked: A Five Paragraph Essay Outline Murder Mystery"
 description: A murder mystery in the form of a five paragraph essay
 show_on_home_page: True
 filename: Hooked1
+tags: fiction, mystery, misc-fiction
 ---
 
 ## Introduction

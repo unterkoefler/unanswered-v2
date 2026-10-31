@@ -3,6 +3,7 @@ date: 2026-05-25 00:00:00
 slug: "sabbatical-in-review"
 title: "Sabbatical: In Review"
 description: "A quick summary of my month off"
+tags: life-updates
 ---
 
 After five grueling years of labor in the software mines

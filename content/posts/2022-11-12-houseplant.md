@@ -6,6 +6,7 @@ title: My houseplant isn't dying; it's right-sizing to better facilitate flexibi
 description: A letter to my shareholders
 show_on_home_page: True
 filename: Houseplant
+tags: essays
 ---
 
 ##### ![a dead houseplant](assets/dead-plant.jpg)

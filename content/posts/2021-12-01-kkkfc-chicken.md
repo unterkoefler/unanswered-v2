@@ -6,6 +6,7 @@ title: Vegans Endorse The Colonel's New KKKFC Sandwich
 description: "\"It's okay to eat racist chickens\""
 show_on_home_page: True
 filename: Chicken
+tags: news
 ---
 
 _"It's okay to eat racist chickens"_

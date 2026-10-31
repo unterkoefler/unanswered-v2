@@ -6,6 +6,7 @@ title: Modern Commerce
 description:  Adventures in Refurnishing
 show_on_home_page: True
 filename: ModernCommerce
+tags: life-updates
 ---
 
 I moved in to a new apartment on Sunday. By Thursday, I was painfully aware of the things

@@ -5,6 +5,7 @@ title: "4 Stars"
 description: A review of reviews
 show_on_home_page: True
 filename: FourStars
+tags: essay
 ---
 
 Why do we think we need to review everything that we see?

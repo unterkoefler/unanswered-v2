@@ -6,6 +6,7 @@ title: Room for Let
 description:  "I'm subletting a room in my apartment"
 show_on_home_page: True
 filename: RoomForLet
+tags: ads
 ---
 
 **Avail. Aug. 2nd - 31st**

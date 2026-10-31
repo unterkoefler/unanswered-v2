@@ -3,6 +3,7 @@ date: 2024-01-22 00:00:00
 slug: "false-starts"
 title: "False Starts"
 description: "Works barely started"
+tags: fiction, misc-fiction
 ---
 
 I spelunked through my notes and scrounged up some first sentences (or so) to stories

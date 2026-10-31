@@ -6,6 +6,7 @@ title: A Dangerous Hobby
 description: Or, Ten First Date Doompadee Do's and Doompadee Don't's
 show_on_home_page: True
 filename: ADangerousHobby
+tags: fiction, romance, horror
 ---
 
 

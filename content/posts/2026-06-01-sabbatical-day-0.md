@@ -3,6 +3,7 @@ date: 2026-06-01 00:00:00
 slug: "sabbatical-day-0"
 title: "Sabbatical: Day 0"
 description: "Exciting developments from the zeroth day of my sabbatical"
+tags: life-updates
 ---
 
 

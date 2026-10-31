@@ -6,6 +6,7 @@ title: The Silly Hat Ceremony
 description:  Look, Mom! They gave me a hat!
 show_on_home_page: True
 filename: SillyHatCeremony
+tags: life-updates
 ---
 
 At 8:15 yesterday morning, I met my friends at the corner. After exchanging pleasantries and complaining about our hangovers, we took in each other's outfits. Dana made fun of me for having my robe zipped up. "No one zips up their robe," she said. "It's cold. I think it came this way," I retorted. I unzipped it. Jordan was missing his tassel, Fiona had sweatpants on under her dress, and no one knew what the gold cords were for.

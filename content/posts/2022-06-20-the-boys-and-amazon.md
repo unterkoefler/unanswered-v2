@@ -5,6 +5,7 @@ title: How "The Boys" Captures and then Completely Misses the Danger of Amazon
 description: An amateur analysis
 show_on_home_page: True
 filename: TheBoys
+tags: essays
 ---
 
 Quick! Name a market category that Amazon doesn’t have its hands in.

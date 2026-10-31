@@ -6,6 +6,7 @@ title: New Cleveland Mascot More Geographically Accurate, Racist
 description: ""
 show_on_home_page: true
 filename: Cleveland
+tags: news
 ---
 
 ![Cleveland Indians jersey](assets/cleveland.jpg)

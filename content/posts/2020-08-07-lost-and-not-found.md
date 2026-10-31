@@ -6,6 +6,7 @@ title: How to get lost and not find yourself
 description: A scientific approach
 show_on_home_page: True
 filename: Lost
+tags: essays
 ---
 
 First, you should plan your journey as a loop, rather than an out-and-back. Out-and-backs are simple, intuitive, and boring. Second, you should not plan any more than two-thirds of your journey, less if possible. One way to not plan at all is to make instinctive, independent and irrational decisions at every intersection. If you are hopelessly inclined towards rationality, consider delegating decision-making to a friend or dog.

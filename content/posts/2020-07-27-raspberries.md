@@ -6,6 +6,7 @@ title: Raspberries
 description: It's about a box of raspberries
 show_on_home_page: True
 filename: Raspberry
+tags: life-updates
 ---
 
 ###### ![four raspberries](assets/raspberries.jpg)

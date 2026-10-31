@@ -3,6 +3,7 @@ date: 2026-07-22 00:00:00
 slug: "this-side-up"
 title: "This Side Up"
 description: "A story about when things don't fall the way we expect them to"
+tags: fiction, misc-fiction
 ---
 
 The almond tree, _Prunus amygdalus_, has narrow, almost rectangular, dark green leaves.

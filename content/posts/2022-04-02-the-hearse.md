@@ -6,6 +6,7 @@ title: The Hearse
 description: A story about love, loss and redemption
 show_on_home_page: True
 filename: TheHearse
+tags: fiction, romance
 ---
 
 

@@ -6,6 +6,7 @@ title: Stupid Conversations Part 1
 description: I struggle to receive a food delivery
 show_on_home_page: True
 filename: StupidConvo1
+tags: life-updates
 ---
 
 I was waiting on the stairs for my GrubHub driver to deliver the Indian food that I had ordered. He came up to the door and I opened it. He handed me the bag. I said thank you. Then he asked if it was for me.

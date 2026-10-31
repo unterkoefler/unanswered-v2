@@ -6,6 +6,7 @@ title: On Aristotle
 description: Philosophical Musings
 show_on_home_page: True
 filename: Musings
+tags: essays
 ---
 
 I had a philosophy teacher in high school teach us about Aristotle’s Three Unities: of Time, Place and Action. I do not know, nor really wish to know, whether Aristotle really came up with these Unities or if they were instead this teacher’s own theory. In learning about the Unities, we were never provided with a primary source (unless you consider Mr. Poglinco to be the originator of the theory, in which case his scrawled notes on the blackboard were primary). In fact, we never read any Aristotle in the whole course. We never got any secondary sources discussing the Unities either, although we did read a fair number of academic papers analyzing whatever book or play we were reading. Any one of these could have focused on or at least mentioned offhandedly Aristotle’s Three Unities, provided, of course, that it was Aristotle who came up with the Unities and not Mr. Poglinco.

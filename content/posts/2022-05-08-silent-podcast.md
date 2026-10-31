@@ -6,6 +6,7 @@ title: "Stop Reading This: A Silent Meditation Podcast"
 description: A meditation journey for good sleep
 show_on_home_page: True
 filename: SilentPodcast
+tags: podcasts
 ---
 
 *Having been banned from Spotify, Apple Podcasts, SoundCloud, Parler, 4chan

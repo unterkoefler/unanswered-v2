@@ -6,6 +6,7 @@ title: Getting in Touch with My Inner Colonial Housewife
 description: ... or househusband
 show_on_home_page: True
 filename: Colonial
+tags: life-updates
 ---
 
 ... or househusband.

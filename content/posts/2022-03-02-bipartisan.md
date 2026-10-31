@@ -6,6 +6,7 @@ title: Bipartisan Legislation Criminalizes Abortion, But Exempts EV Drivers
 description: Compromise at last
 show_on_home_page: True
 filename: Bipartisan
+tags: news
 ---
 
 _March 4, 2022_

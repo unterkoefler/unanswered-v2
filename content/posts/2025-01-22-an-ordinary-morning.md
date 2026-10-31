@@ -3,6 +3,7 @@ date: 2025-01-22 00:00:00
 slug: "an-ordinary-morning"
 title: "An Ordinary Morning"
 description: "Excerpts from my diary"
+tags: life-updates
 ---
 
 I read something once that said something like "The way you live your life is how you live each day."
