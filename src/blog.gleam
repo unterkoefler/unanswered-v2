@@ -56,6 +56,7 @@ pub fn config() -> config.Config(Nil) {
     |> config.route("/who-am-i", who_am_i_view)
     |> config.route("/contact-me", contact_me_view)
     |> config.route("/subscribe", subscribe_view)
+    |> config.route("/tags", tags_view)
     |> config.rss_feed(rss_feed)
     |> config.atom_feed(atom_feed)
     |> config.sitemap(sitemap.new("/sitemap.xml"))
@@ -123,6 +124,20 @@ fn contact_me_view(_posts: List(Post(Nil))) -> Element(Nil) {
         [html.p([], [
           element.text("Please don't.")
         ])],
+      ),
+    ])
+  )
+}
+
+fn tags_view(posts: List(Post(Nil))) -> Element(Nil) {
+  static_page_view(
+    "Unanswered.blog - Tags",
+    html.div([
+    ], [
+      post_content(
+        "Posts by Tag",
+        option.None,
+        [element.text("tag tag tag")]
       ),
     ])
   )
@@ -244,6 +259,7 @@ fn header() -> Element(Nil) {
       ]),
       html.a([
         attribute.class("menu-item"),
+        attribute.href("/tags"),
       ],[
         element.text("Posts by tag")
       ]),

@@ -3,6 +3,8 @@
 {
   # https://devenv.sh/basics/
 
+  cachix.enable = false;
+
   # https://devenv.sh/packages/
   packages = [
     pkgs.git
@@ -16,6 +18,7 @@
   # https://devenv.sh/languages/
   languages.elm.enable = true;
   languages.javascript.enable = true;
+  languages.javascript.bun.enable = true;
   languages.gleam.enable = true;
 
   # https://devenv.sh/pre-commit-hooks/
