@@ -20,7 +20,7 @@ pub fn config() -> config.Config(Nil) {
   // Post config with custom heading component
   let post_config =
     post.default()
-    |> post.path("./content/posts")
+    |> post.path("../content/posts")
     |> post.h1(fn(_attributes, id, children) {
       html.h1([attribute.id(id), attribute.class("post-title")], children)
     })
@@ -48,8 +48,8 @@ pub fn config() -> config.Config(Nil) {
     |> atom.subtitle("My personal blog")
 
   config.new(site_url)
-    |> config.output_dir("./dist")
-    |> config.static_dir("./public")
+    |> config.output_dir("../dist")
+    |> config.static_dir("../public")
     |> config.post(post_config)
     |> config.route("/", home_view)
     |> config.route("/what-is-this", what_is_this_view)
