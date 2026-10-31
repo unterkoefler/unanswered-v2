@@ -55,6 +55,7 @@ pub fn config() -> config.Config(Nil) {
     |> config.route("/what-is-this", what_is_this_view)
     |> config.route("/who-am-i", who_am_i_view)
     |> config.route("/contact-me", contact_me_view)
+    |> config.route("/subscribe", subscribe_view)
     |> config.rss_feed(rss_feed)
     |> config.atom_feed(atom_feed)
     |> config.sitemap(sitemap.new("/sitemap.xml"))
@@ -126,6 +127,60 @@ fn contact_me_view(_posts: List(Post(Nil))) -> Element(Nil) {
     ])
   )
 }
+
+fn subscribe_view(_posts: List(Post(Nil))) -> Element(Nil) {
+  static_page_view(
+    "Unanswered.blog - Subscribe",
+    html.div([
+    ], [
+      post_content(
+        "Subscribe",
+        option.None,
+        [
+          html.p([], [element.text("Become a member of the void today! It's free!")]),
+          subscribe_form(),
+        ]
+      ),
+    ])
+  )
+}
+
+fn subscribe_form() -> Element(Nil) {
+  html.form([
+    attribute.action("https://buttondown.com/api/emails/embed-subscribe/unterkoefler"),
+    attribute.method("post"),
+    attribute.class("subscribe-form"),
+    attribute.target("_blank"),
+  ], [
+    html.label([
+      attribute.for("email"),
+    ], [
+      element.text("Enter your email"),
+    ]),
+    html.input([
+      attribute.type_("email"),
+      attribute.name("email"),
+      attribute.id("email"),
+      attribute.placeholder("your@email.com"),
+      attribute.autofocus(True),
+      attribute.required(True),
+    ]),
+    html.input([
+      attribute.type_("submit"),
+      attribute.value("Subscribe"),
+    ]),
+    html.p([
+    ], [
+      html.a([
+        attribute.href("https://buttondown.com/refer/unterkoefler"),
+        attribute.target("_blank"),
+      ], [
+        element.text("I use and recommend Buttondown for subscriptions"),
+      ])
+    ]),
+  ])
+}
+
 
 
 fn static_page_view(title: String, content: Element(Nil)) -> Element(Nil) {
@@ -199,6 +254,7 @@ fn header() -> Element(Nil) {
       ]),
       html.a([
         attribute.class("menu-item"),
+        attribute.href("/subscribe"),
       ],[
         element.text("Subscribe")
       ]),
@@ -349,7 +405,8 @@ fn footer(prev: option.Option(Post(Nil)), next: option.Option(Post(Nil))) -> Ele
       element.text("Random"),
     ]),
     html.a([
-    ], [ // TODO: link to subscribe page
+      attribute.href("/subscribe"),
+    ], [
       element.text("Subscribe")
     ]),
     html.a([

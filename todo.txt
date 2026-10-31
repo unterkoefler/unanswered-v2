@@ -3,7 +3,6 @@
 - captions
 - light mode/dark mode
 - search
-- subscribe
 - rss
 - atom
 - open metadata things
