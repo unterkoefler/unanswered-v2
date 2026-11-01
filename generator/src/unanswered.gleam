@@ -1,6 +1,6 @@
+import blog
 import blogatto
 import blogatto/error
-import blog
 import gleam/io
 
 pub fn main() {

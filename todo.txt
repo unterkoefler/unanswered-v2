@@ -1,4 +1,3 @@
-- tags
 - images
 - captions
 - light mode/dark mode

@@ -190,7 +190,9 @@ h2 {
 .post-preview-description {
   font-style: italic;
   font-size: 14px;
-  line-height: 10px;
+  line-height: 16px;
+  padding-bottom: 12px;
+  margin: 8px 0 0 0;
 }
 
 .post-title {
@@ -211,7 +213,15 @@ h2 {
   background: linear-gradient(var(--accent), var(--white));
 }
 
+.content-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
 .post-content {
+  max-width: 800px;
   display: flex;
   flex-direction: column;
   padding: 0 24px 24px 24px;
@@ -277,6 +287,40 @@ h2 {
 
   & a {
     color: var(--link);
+  }
+}
+
+.tag-grid {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+
+  & div {
+    display: flex;
+    padding: 8px 8px; 
+  }
+}
+
+.tag-name {
+  & button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 4px 10px;
+  }
+}
+
+.selected-tag-name {
+  & button {
+    font-weight: 1000;
+    text-transform: uppercase;
+    padding: 0;
+ }
+}
+
+.tag-browser-list-container {
+  & .post-list {
+    border: none;
   }
 }
 

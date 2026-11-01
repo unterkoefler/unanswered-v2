@@ -1,7 +1,7 @@
+import blog
 import blogatto/dev
 import blogatto/error
 import gleam/io
-import blog
 
 pub fn main() {
   case
