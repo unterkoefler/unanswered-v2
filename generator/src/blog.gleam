@@ -5,8 +5,12 @@ import blogatto/config/post
 import blogatto/config/robots
 import blogatto/config/sitemap
 import blogatto/post.{type Post} as _
+import gleam/dict
+import gleam/float
+import gleam/json
 import gleam/list
 import gleam/option
+import gleam/string
 import gleam/time/timestamp
 import tempo
 import tempo/datetime
@@ -72,6 +76,19 @@ pub fn config() -> config.Config(Nil) {
     ))
 }
 
+fn post_to_json(post: Post(Nil)) -> json.Json {
+  json.object([
+    #("title", json.string(post.title)),
+    #("slug", json.string(post.slug)),
+    #("url", json.string(post.url)),
+    #("date", post.date |> timestamp.to_unix_seconds |> float.round |> json.int),
+    #("description", post.description |> json.string),
+    #("excerpt", post.excerpt |> json.string),
+    #("language", json.nullable(post.language, json.string)),
+    #("featured_image", json.nullable(post.featured_image, json.string)),
+  ])
+}
+
 
 fn home_view(posts: List(Post(Nil))) -> Element(Nil) {
   let recent =
@@ -130,6 +147,9 @@ fn contact_me_view(_posts: List(Post(Nil))) -> Element(Nil) {
 }
 
 fn tags_view(posts: List(Post(Nil))) -> Element(Nil) {
+  let data =
+    collect_posts_by_tag(posts)
+    |> json.dict(fn(k) { k }, fn(v) { json.array(v, post_to_json)})
   lustre_page_view(
     "Unanswered.blog - Tags",
     "tag_browser",
@@ -140,8 +160,25 @@ fn tags_view(posts: List(Post(Nil))) -> Element(Nil) {
         option.None,
         [html.div([attribute.id("app")], [])],
       ),
-    ])
+    ]),
+    data,
   )
+}
+
+fn collect_posts_by_tag(posts: List(Post(Nil))) -> dict.Dict(String, List(Post(Nil))) {
+  posts
+  |> list.fold(dict.new(), fn(acc: dict.Dict(String, List(Post(Nil))), post: Post(Nil)) {
+    let assert Ok(tag_string) = post.extras |> dict.get("tags")
+    let tags = tag_string |> string.split(",")
+    list.fold(tags, acc, fn(acc2: dict.Dict(String, List(Post(Nil))), tag: String) {
+      dict.upsert(acc2, tag |> string.trim(), fn(post_list: option.Option(List(Post(Nil)))) {
+        case post_list {
+          option.None -> [post]
+          option.Some(l) -> [post, ..l]
+        }
+      })
+    })
+  })
 }
 
 fn subscribe_view(_posts: List(Post(Nil))) -> Element(Nil) {
@@ -222,13 +259,16 @@ fn static_page_view(title: String, content: Element(Nil)) -> Element(Nil) {
   ])
 }
 
-fn lustre_page_view(title: String, app_name: String, content: Element(Nil)) -> Element(Nil) {
+fn lustre_page_view(title: String, app_name: String, content: Element(Nil), data: json.Json) -> Element(Nil) {
   html.html([], [
     html.head([], [
       html.meta([attribute.name("viewport"), attribute.content("width=device-width, initial-scale=1.0")]),
       html.title([], title),
       html.link([attribute.rel("stylesheet"), attribute.href("/css/style.css")]),
       html.script([attribute.src("/assets/" <> app_name <> ".js"), attribute.type_("module")], ""),
+      html.script([attribute.type_("application/json"), attribute.id("lustre-data")],
+        data |> json.to_string
+      )
     ]),
     html.body([], [
       header(),
@@ -330,6 +370,7 @@ fn home_post_list(posts: List(Post(Nil))) -> Element(Nil) {
     ], [
       element.text("Looking for more? Try "),
       html.a([
+        attribute.href("/tags"),
       ], [
         element.text("Posts by Tag"),
       ]),
