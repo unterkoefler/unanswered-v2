@@ -16,7 +16,7 @@ whole Lenape Trail. It just happens to be 34 miles. Oh well.
 I discovered the trail years ago, probably on a walk with Macy in the South Mountain
 Reservation.
 
-###### ![Macy the dog observing a waterfall](assets/macy.jpg)
+![Macy the dog observing a waterfall](assets/macy.jpg)
 
 In high school, the South Mountain Reservation was a refuge and a playground for my
 friends and me. If I woke up Saturday morning to someone texting "Res?" in the group
@@ -27,7 +27,7 @@ we got lost. A lot of my best memories of Greg, who would have
 turned 28 last week, were formed in the Res.
  There was one time when we found out that we could get to the back of the
 zoo and see the giraffes for free.
-###### ![Free giraffes](assets/giraffes.jpg)
+![Free giraffes](assets/giraffes.jpg)
 
 The Lenape Trail is marked by rectangular yellow blazes. In South Mountain, it
 ascends sharply from the Millburn entrance by the train station to the lookout

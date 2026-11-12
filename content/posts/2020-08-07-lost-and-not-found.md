@@ -15,7 +15,7 @@ Now that you have wound and looped for about two-thirds of your total allotted a
 
 It is time to get lost. You have gone in a somewhat curved, loopy path thus far, so it stands to reason that the fastest way back is not back, but forwards.
 
-###### ![A map](assets/map.png)
+![A map](assets/map.png)
 
 Strike out in the direction you believe is towards your starting point. This will fail because 1) you have twisted and turned quite a bit, your sense of direction isn't great, and the moss on half the trees grows on the northwest rather than north, so you really have no idea which way the shortest path home is, and 2) even if you are blessed with the navigational prowess of Pacman and know exactly which direction to head, there will not be a path in that direction. Proceed, therefore, with great confidence. You will soon be truly lost.
 

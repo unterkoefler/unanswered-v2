@@ -6,7 +6,7 @@ description: "bla bla technology bad, part 3"
 tags: life-updates, technology
 ---
 
-#### ![A rotary phone](assets/rotary-phone.jpg)
+![A rotary phone](assets/rotary-phone.jpg)
 
 <caption text="My phone, essentially."></caption>
 

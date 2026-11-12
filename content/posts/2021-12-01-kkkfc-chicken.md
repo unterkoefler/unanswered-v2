@@ -11,7 +11,7 @@ tags: news
 
 _"It's okay to eat racist chickens"_
 
-###### ![a racist chicken](assets/chicken2.jpg)
+![a racist chicken](assets/chicken2.jpg)
 
 FINCHVILLE, KY — In a joint statement, vegan advocacy groups Veganize the Nation and Cruelty Free America
 expressed that although they find the slaughter and consumption of animals morally reprehensible

@@ -25,9 +25,9 @@ The common spaces are large, lovely, and wholly adequate:
 
 **Rent: $895, util. incl. Negotiable.**
 
-###### ![one doorknob is more than enough](assets/knobs.jpg)
-###### ![all closets should be triangular](assets/closet.jpg)
-###### ![an actually decent photo](assets/my-bedroom.jpg)
-###### ![e x p a n s i v e apartment](assets/expanses.jpg)
-###### ![the sink at the window](assets/window-sink.jpg)
-###### ![the thermostat](assets/thermostat.jpg)
+![one doorknob is more than enough](assets/knobs.jpg)
+![all closets should be triangular](assets/closet.jpg)
+![an actually decent photo](assets/my-bedroom.jpg)
+![e x p a n s i v e apartment](assets/expanses.jpg)
+![the sink at the window](assets/window-sink.jpg)
+![the thermostat](assets/thermostat.jpg)

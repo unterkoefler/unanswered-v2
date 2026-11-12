@@ -35,7 +35,7 @@ that sort of functions as an old fashioned washing board.
 I hum and smile, knowing that I've become the perfectly
 domesticated 17th Century woman I always wanted to be.
 
-###### ![a soap dish](assets/soap.jpg)
+![a soap dish](assets/soap.jpg)
 
 
 Tomorrow, I think I will go out and find a cow to

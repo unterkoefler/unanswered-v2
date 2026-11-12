@@ -41,7 +41,7 @@ hands to get cold while I ate. I grabbed a granola bar and left. It was 8:45am--
 ahead of CityMapper's proposed departure time, leaving me with a whole hypothetical 12 minutes
 to buy a train ticket and a Playa Bowl. Oobh I got plany off time.
 
-#### ![A screenshot of a tumblr post from passionpeachy that reads "professor: ur research paper is due tomorrow / me: oobh i got plany off time (from a screenshot of a youtube comment by Brian H)](assets/plany-of-time.jpg)
+![A screenshot of a tumblr post from passionpeachy that reads "professor: ur research paper is due tomorrow / me: oobh i got plany off time (from a screenshot of a youtube comment by Brian H)](assets/plany-of-time.jpg)
 
 I ate the granola bar in the elevator.
 

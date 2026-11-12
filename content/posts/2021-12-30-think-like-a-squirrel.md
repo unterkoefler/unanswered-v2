@@ -11,7 +11,7 @@ tags: essays
 
 _Wisdom from our tree-dwelling rodent friends_
 
-###### ![a squirrel](assets/squirrel.jpg)
+![a squirrel](assets/squirrel.jpg)
 
 My sister saw a bumper sticker today that said "Think like a squirrel."
 Naturally, she asked me what I thought it meant. Here's what I've got.

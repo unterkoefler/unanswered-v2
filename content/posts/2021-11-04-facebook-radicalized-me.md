@@ -9,7 +9,7 @@ filename: Radicalized
 tags: life-updates
 ---
 
-###### ![silly reindeer bus](assets/silly-bus.jpeg)
+![silly reindeer bus](assets/silly-bus.jpeg)
 
 Like all good stories, it started out with a meme. Three years ago, my roommate
 tagged me in a silly joke about buses in the Facebook group NUMTOTS (New Urbanist Memes for

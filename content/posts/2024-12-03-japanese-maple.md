@@ -6,6 +6,6 @@ description: "A haiku"
 tags: poems
 ---
 
-###### ![FULL_HEIGHTJapanese maple / With one last leaf remaining. / Don't pluck. Let it fall.](assets/maple.png)
+![FULL_HEIGHTJapanese maple / With one last leaf remaining. / Don't pluck. Let it fall.](assets/maple.png)
 
 _Words by me. Painting by O.J. "Olivia" Johnson._

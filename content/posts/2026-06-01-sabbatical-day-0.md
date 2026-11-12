@@ -17,7 +17,7 @@ of my bookshelf. I was free!
 
 I took out my other laptop, the non-work one, and sat back down on the couch.
 
-###### ![too much bad screen, time for good screen meme](assets/good-screen.jpg)
+![too much bad screen, time for good screen meme](assets/good-screen.jpg)
 
 I checked my email. There was an update to my application to The New School. (I had
 spent the fall applying to graduate programs for an M.F.A. in Creative Writing.) The email

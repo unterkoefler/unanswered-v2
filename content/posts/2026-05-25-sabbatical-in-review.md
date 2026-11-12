@@ -35,32 +35,32 @@ after my travels. One day I spent hours upon hours on my computer playing
 [this dumb game](https://thomaswc.com/2025.html).
 
 
-#### ![a group of friends posing at the lookout at Grand View Point in Canyonlands](assets/utah-friends3.jpg)
+![a group of friends posing at the lookout at Grand View Point in Canyonlands](assets/utah-friends3.jpg)
 
 <caption text="Friends in Utah. Not pictured, but not forgotten: Evelyn."></caption>
 <caption text="(captured by Man in Green Hat)"></caption>
 
-#### ![friends on the move along a dusty trail](assets/utah-friends2.jpg)
+![friends on the move along a dusty trail](assets/utah-friends2.jpg)
 
 <caption text="Friends on the move "></caption>
 <caption text="(captured by Aidan)"></caption>
 
-#### ![A towering rock formation in a valley in the National Monument, Colorado](assets/colorado-rock.jpg)
+![A towering rock formation in a valley in the National Monument, Colorado](assets/colorado-rock.jpg)
 
 <caption text="Rocks"></caption>
 <caption text="(captured by Evelyn)"></caption>
 
-#### ![A long exposure photo of stars](assets/utah-stars1.jpg)
+![A long exposure photo of stars](assets/utah-stars1.jpg)
 
 <caption text="Stars"></caption>
 <caption text="(captured by Jordan)"></caption>
 
-#### ![A nighttime photo of a rock wall carved with ancient petroglyphs with stars above](assets/utah-stars2.jpg)
+![A nighttime photo of a rock wall carved with ancient petroglyphs with stars above](assets/utah-stars2.jpg)
 
 <caption text="Rocks and Stars (and petroglyphs!)"></caption>
 <caption text="(captured by Cate)"></caption>
 
-#### ![The author skipping a rock on a beach](assets/skipping-rocks.jpg)
+![The author skipping a rock on a beach](assets/skipping-rocks.jpg)
 
 <caption text="Skipping rocks"></caption>
 <caption text="(captured by Gabrielle)"></caption>

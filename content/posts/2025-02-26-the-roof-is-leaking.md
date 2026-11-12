@@ -6,7 +6,7 @@ description: "An true account of non-recent events"
 tags: life-updates
 ---
 
-###### ![A photograph of an indoor garden atrium at the Gaylord Opryland Resort and Convention Center](assets/gaylord.jpg)
+![A photograph of an indoor garden atrium at the Gaylord Opryland Resort and Convention Center](assets/gaylord.jpg)
 
 It was pouring rain outside. Inside, the glass ceiling above the skywalk in the Garden Conservatory, which led from the Delta wing to the Cascades Lobby, was leaking. A small gray bucket was positioned under the leak. It was now almost full. One drop would land in the bucket with a small splash and a loud plonk. The next drop would miss the bucket entirely, landing on the flagstone path.
 

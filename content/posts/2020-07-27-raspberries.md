@@ -9,7 +9,7 @@ filename: Raspberry
 tags: life-updates
 ---
 
-###### ![four raspberries](assets/raspberries.jpg)
+![four raspberries](assets/raspberries.jpg)
 
 I arrived panting and damp with sweat. I slid off my bike, and, fumbling a moment with the keys, locked it to the rack. I checked the time. 7:56. I heaved a sigh of relief; it would all be worth it soon.
 

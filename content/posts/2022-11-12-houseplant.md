@@ -9,7 +9,7 @@ filename: Houseplant
 tags: essays
 ---
 
-##### ![a dead houseplant](assets/dead-plant.jpg)
+![a dead houseplant](assets/dead-plant.jpg)
 
 As founder and chief executive of My Living Room Decor, I have a deeply
 personal stake in ensuring an ambiance of natural bounty, fresh air,

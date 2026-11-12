@@ -11,5 +11,5 @@ tags: news
 
 _"Uh yeah can you just put it in my helmet?"_
 
-###### ![cyclist ordering a salad in his helmet](assets/salad-man.jpg)
+![cyclist ordering a salad in his helmet](assets/salad-man.jpg)
 
