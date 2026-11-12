@@ -49,7 +49,6 @@ Anyways, because of the whole avocado situation, I missed my bus by 30 seconds. 
 
 At last, I arrived home and set down my bag. “Did you get any bagels?” Steven asked.
 
-⬛
 
 -----
 

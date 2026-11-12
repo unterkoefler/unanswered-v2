@@ -27,7 +27,6 @@ Meanwhile, the government of Chile is asking citizens who become infected with U
 
 “I don't know what came over me, but I just made concrete plans to see a friend in three weeks," said another confused New Yorker. “I'm even thinking about a vacation! I've heard the Andes are nice this time of year."
 
-⬛
 
 ---
 

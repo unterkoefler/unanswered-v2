@@ -88,7 +88,6 @@ They started kissing as soon as they crossed the threshold, like they do in movi
 
 "Ha, no," she laughed. She slammed his head onto the counter, grabbed his jigsaw-- he should have stuck to the YouTube tutorials-- flipped it on and plunged it into his neck. A bit messier than she liked, but it would do. She wiped off her prints, washed her hands and showed herself out, humming softly, "Oompa Loompa doompadee do, doompadee do."
 
-⬛
 
 ---
 

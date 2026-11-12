@@ -35,32 +35,30 @@ after my travels. One day I spent hours upon hours on my computer playing
 [this dumb game](https://thomaswc.com/2025.html).
 
 
-![a group of friends posing at the lookout at Grand View Point in Canyonlands](assets/utah-friends3.jpg)
+![a group of friends posing at the lookout at Grand View Point in Canyonlands][friends3]
 
-<caption text="Friends in Utah. Not pictured, but not forgotten: Evelyn."></caption>
-<caption text="(captured by Man in Green Hat)"></caption>
+[friends3]: assets/utah-friends3.jpg "Friends in Utah. Not pictured, but not forgotten: Evelyn. Captured by the Man in the Green Hat."
 
-![friends on the move along a dusty trail](assets/utah-friends2.jpg)
 
-<caption text="Friends on the move "></caption>
-<caption text="(captured by Aidan)"></caption>
+![friends on the move along a dusty trail][friends2]
 
-![A towering rock formation in a valley in the National Monument, Colorado](assets/colorado-rock.jpg)
+[friends2]: assets/utah-friends2.jpg "Friends on the move. Captured by Aidan."
 
-<caption text="Rocks"></caption>
-<caption text="(captured by Evelyn)"></caption>
+![A towering rock formation in a valley in the National Monument, Colorado][colorado-rock]
 
-![A long exposure photo of stars](assets/utah-stars1.jpg)
+[colorado-rock]: assets/colorado-rock.jpg "Rocks. Captured by Evelyn."
 
-<caption text="Stars"></caption>
-<caption text="(captured by Jordan)"></caption>
+![A long exposure photo of stars][utah-stars1]
 
-![A nighttime photo of a rock wall carved with ancient petroglyphs with stars above](assets/utah-stars2.jpg)
+[utah-stars1]: assets/utah-stars1.jpg "Stars. Captured by Jordan."
 
-<caption text="Rocks and Stars (and petroglyphs!)"></caption>
-<caption text="(captured by Cate)"></caption>
 
-![The author skipping a rock on a beach](assets/skipping-rocks.jpg)
+![A nighttime photo of a rock wall carved with ancient petroglyphs with stars above][utah-stars2]
 
-<caption text="Skipping rocks"></caption>
-<caption text="(captured by Gabrielle)"></caption>
+[utah-stars2]: assets/utah-stars2.jpg "Rocks and Stars (and petroglyphs!). Captured by Cate."
+
+
+![The author skipping a rock on a beach][skipping-rocks]
+
+[skipping-rocks]: assets/skipping-rocks.jpg "Skipping rocks. Captured by Gabrielle."
+

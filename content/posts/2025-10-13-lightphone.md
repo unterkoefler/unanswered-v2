@@ -6,9 +6,9 @@ description: "bla bla technology bad, part 3"
 tags: life-updates, technology
 ---
 
-![A rotary phone](assets/rotary-phone.jpg)
+![A rotary phone][rotary]
 
-<caption text="My phone, essentially."></caption>
+[rotary]: assets/rotary-phone.jpg "My phone, essentially."
 
 I purchased a Light Phone in May 2024. It arrived in October 2024 and I've
 been using it as my primary communication device for about a year now.

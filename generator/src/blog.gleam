@@ -29,10 +29,38 @@ pub fn config() -> config.Config(Nil) {
       html.h1([attribute.id(id), attribute.class("post-title")], children)
     })
     |> post.img(fn(_attributes, uri, alt, maybe_title) {
-      html.img([
-        attribute.src("/" <> uri),
-        attribute.alt(alt),
-      ])
+      case maybe_title {
+        option.None -> {
+          html.div([
+              attribute.class("post-image-container"),
+          ], [
+            html.img([
+              attribute.class("post-image"),
+              attribute.src("/" <> uri),
+              attribute.alt(alt),
+            ])
+          ])
+        }
+        option.Some(title) -> {
+          html.div([
+              attribute.class("post-image-container"),
+          ], [
+            html.figure([], [
+              html.img([
+                attribute.class("post-image"),
+                attribute.src("/" <> uri),
+                attribute.alt(alt),
+              ]),
+              html.figcaption([], [element.text(title)]),
+            ])
+          ])
+        }
+      }
+    })
+    |> post.pre(fn(_attributes, children) {
+      html.pre([
+        attribute.class("code-block"),
+      ], children)
     })
     |> post.template(blog_post_template)
 

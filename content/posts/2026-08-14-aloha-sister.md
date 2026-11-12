@@ -1,6 +1,6 @@
 ---
 date: 2026-08-14 00:00:00
-slug: "volcano-cult"
+slug: "aloha-sister"
 title: "Aloha, Sister!"
 description: "An e-epistolary tale"
 tags: fiction, horror
@@ -203,7 +203,9 @@ From: ve.nash@faculty.scsma.lgu.edu
 Subject: Re: Aloha Sister!
 ```
 
-<caption text="**Automatically marked as spam. Not spam?**"></caption>
+![][fake1]
+
+[fake1]: 404.jpg "**Automatically marked as spam. Not spam?**"
 
 Do NOT go back up that mountain!! Mike!! Are you stupid? You idiot!!
 
@@ -241,7 +243,7 @@ From: ve.nash@faculty.scsma.lgu.edu
 Subject: Re: Aloha Sister!
 ```
 
-<caption text="**Automatically marked as spam. Not spam?**"></caption>
+![][fake1]
 
 Argh!!! I hope you didn't die! I would have to write the stupidest obituary.
 

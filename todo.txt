@@ -1,13 +1,9 @@
-- images
-- captions
 - light mode/dark mode
 - search
 - rss
 - atom
 - open metadata things
 - word cloud
-- full height image (for haiku)
 - link crawler to verify everything
-- unlivery - fix nbsp/emsp parsing
 - random
 
