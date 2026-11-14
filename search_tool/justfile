@@ -1,0 +1,7 @@
+set shell := ["nu", "-c"]
+
+default:
+  @just --list
+
+build:
+  gleam run -m lustre/dev build --no-html --outdir=../public/assets/

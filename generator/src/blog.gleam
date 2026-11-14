@@ -89,6 +89,7 @@ pub fn config() -> config.Config(Nil) {
   |> config.route("/contact-me", contact_me_view)
   |> config.route("/subscribe", subscribe_view)
   |> config.route("/tags", tags_view)
+  |> config.route("/search", search_view)
   |> config.rss_feed(rss_feed)
   |> config.atom_feed(atom_feed)
   |> config.sitemap(sitemap.new("/sitemap.xml"))
@@ -174,6 +175,20 @@ fn tags_view(posts: List(Post(Nil))) -> Element(Nil) {
     "tag_browser",
     html.div([], [
       post_content("Posts by Tag", option.None, [
+        html.div([attribute.id("app")], []),
+      ]),
+    ]),
+    data,
+  )
+}
+
+fn search_view(posts: List(Post(Nil))) -> Element(Nil) {
+  let data = json.array(posts, post_to_json)
+  lustre_page_view(
+    "Unanswered.blog - Search",
+    "search_tool",
+    html.div([], [
+      post_content("Search", option.None, [
         html.div([attribute.id("app")], []),
       ]),
     ]),
@@ -407,6 +422,7 @@ fn header() -> Element(Nil) {
           html.a(
             [
               attribute.class("menu-item"),
+              attribute.href("/search"),
             ],
             [element.text("Search")],
           ),
@@ -468,7 +484,7 @@ fn home_post_list(posts: List(Post(Nil))) -> Element(Nil) {
             ],
           ),
           element.text(" or "),
-          html.a([], [element.text("Search.")]),
+          html.a([attribute.href("/search")], [element.text("Search.")]),
         ],
       ),
     ],
