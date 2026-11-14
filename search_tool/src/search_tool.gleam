@@ -90,7 +90,7 @@ fn update(model: Model, msg: Msg) -> #(Model, Effect(Msg)) {
 }
 
 fn view(model: Model) -> Element(Msg) {
-  case model.search_term {
+  let content = case model.search_term {
     option.None -> element.text("start typing to search")
     option.Some(search_term) -> {
       case find_posts(model, search_term) {
@@ -99,6 +99,33 @@ fn view(model: Model) -> Element(Msg) {
       }
     }
   }
+  html.div([
+  ],
+  [
+    search_bar(model),
+    content,
+  ])
+}
+
+fn search_bar(model: Model) -> Element(Msg) {
+  html.div([
+    html.label(
+      [
+        attribute.for("search"),
+      ],
+      [
+        element.text("What do you seek?"),
+      ]
+    ),
+    html.input([
+      attribute.type_("text"),
+      attribute.name("search"),
+      attribute.id("search"),
+      attribute.placeholder("the truth!")
+      attribute.autofocus(True),
+      event.on_change(UpdateSearchTerm),
+    ]),
+  ])
 }
 
 fn find_posts(model, search_term) -> List(Post(Nil)) {
