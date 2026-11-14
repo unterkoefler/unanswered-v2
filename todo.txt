@@ -1,4 +1,3 @@
-- light mode/dark mode
 - search
 - rss
 - atom
