@@ -766,6 +766,33 @@ function reverse_and_prepend(loop$prefix, loop$suffix) {
 function reverse(list) {
   return reverse_and_prepend(list, toList([]));
 }
+function filter_loop(loop$list, loop$fun, loop$acc) {
+  while (true) {
+    let list = loop$list;
+    let fun = loop$fun;
+    let acc = loop$acc;
+    if (list instanceof Empty) {
+      return reverse(acc);
+    } else {
+      let first$1 = list.head;
+      let rest$1 = list.tail;
+      let _block;
+      let $ = fun(first$1);
+      if ($) {
+        _block = prepend(first$1, acc);
+      } else {
+        _block = acc;
+      }
+      let new_acc = _block;
+      loop$list = rest$1;
+      loop$fun = fun;
+      loop$acc = new_acc;
+    }
+  }
+}
+function filter(list, predicate) {
+  return filter_loop(list, predicate, toList([]));
+}
 function map_loop(loop$list, loop$fun, loop$acc) {
   while (true) {
     let list = loop$list;
@@ -1387,8 +1414,14 @@ function graphemes_iterator(string3) {
     return segmenter.segment(string3)[Symbol.iterator]();
   }
 }
+function lowercase(string3) {
+  return string3.toLowerCase();
+}
 function split(xs, pattern) {
   return arrayToList(xs.split(pattern));
+}
+function contains_string(haystack, needle) {
+  return haystack.indexOf(needle) >= 0;
 }
 function starts_with(haystack, needle) {
   return haystack.startsWith(needle);
@@ -1407,6 +1440,12 @@ var unicode_whitespaces = [
 ].join("");
 var trim_start_regex = /* @__PURE__ */ new RegExp(`^[${unicode_whitespaces}]*`);
 var trim_end_regex = /* @__PURE__ */ new RegExp(`[${unicode_whitespaces}]*$`);
+function trim_start(string3) {
+  return string3.replace(trim_start_regex, "");
+}
+function trim_end(string3) {
+  return string3.replace(trim_end_regex, "");
+}
 function classify_dynamic(data) {
   if (typeof data === "string") {
     return "String";
@@ -1730,6 +1769,11 @@ function concat_loop(loop$strings, loop$accumulator) {
 function concat2(strings) {
   return concat_loop(strings, "");
 }
+function trim(string3) {
+  let _pipe = string3;
+  let _pipe$1 = trim_start(_pipe);
+  return trim_end(_pipe$1);
+}
 
 // build/dev/javascript/gleam_stdlib/gleam/result.mjs
 function map_error(result, fun) {
@@ -1769,6 +1813,9 @@ function from_unix_seconds(seconds2) {
   return new Timestamp(seconds2, 0);
 }
 // build/dev/javascript/gleam_json/gleam_json_ffi.mjs
+function identity2(x) {
+  return x;
+}
 function decode(string3) {
   try {
     const result = JSON.parse(string3);
@@ -1884,6 +1931,9 @@ function do_parse(json, decoder) {
 function parse(json, decoder) {
   return do_parse(json, decoder);
 }
+function bool(input) {
+  return identity2(input);
+}
 // build/dev/javascript/houdini/houdini.ffi.mjs
 function escape(string3) {
   return string3.replaceAll(/[><&"']/g, (replaced) => {
@@ -1963,13 +2013,26 @@ class Handler extends CustomType {
     this.message = message;
   }
 }
+class Never extends CustomType {
+  constructor(kind) {
+    super();
+    this.kind = kind;
+  }
+}
 var attribute_kind = 0;
 var property_kind = 1;
 var event_kind = 2;
 var never_kind = 0;
+var never = /* @__PURE__ */ new Never(never_kind);
 var always_kind = 2;
 function attribute(name, value) {
   return new Attribute(attribute_kind, name, value);
+}
+function property(name, value) {
+  return new Property(property_kind, name, value);
+}
+function event(name, handler, include, prevent_default, stop_propagation, debounce, throttle) {
+  return new Event2(event_kind, name, handler, include, prevent_default, stop_propagation, debounce, throttle);
 }
 function merge(loop$attributes, loop$merged) {
   while (true) {
@@ -2101,11 +2164,39 @@ function prepare(attributes) {
 function attribute2(name, value) {
   return attribute(name, value);
 }
+function property2(name, value) {
+  return property(name, value);
+}
+function boolean_attribute(name, value) {
+  if (value) {
+    return attribute2(name, "");
+  } else {
+    return property2(name, bool(false));
+  }
+}
 function class$(name) {
   return attribute2("class", name);
 }
+function autofocus(should_autofocus) {
+  return boolean_attribute("autofocus", should_autofocus);
+}
+function id(value) {
+  return attribute2("id", value);
+}
 function href(url) {
   return attribute2("href", url);
+}
+function for$(id2) {
+  return attribute2("for", id2);
+}
+function name(element_name) {
+  return attribute2("name", element_name);
+}
+function placeholder(text) {
+  return attribute2("placeholder", text);
+}
+function type_(control_type) {
+  return attribute2("type", control_type);
 }
 
 // build/dev/javascript/lustre/lustre/internals/mutable_map.ffi.mjs
@@ -2402,6 +2493,12 @@ function p(attrs, children) {
 function a(attrs, children) {
   return element2("a", attrs, children);
 }
+function input(attrs) {
+  return element2("input", attrs, empty_list);
+}
+function label(attrs, children) {
+  return element2("label", attrs, children);
+}
 
 // build/dev/javascript/lustre/lustre/vdom/patch.mjs
 class Patch extends CustomType {
@@ -2526,10 +2623,10 @@ class Reconcile extends CustomType {
   }
 }
 class Emit extends CustomType {
-  constructor(kind, name, data) {
+  constructor(kind, name2, data) {
     super();
     this.kind = kind;
-    this.name = name;
+    this.name = name2;
     this.data = data;
   }
 }
@@ -2564,30 +2661,30 @@ class Batch extends CustomType {
 }
 var ServerMessage$isBatch = (value) => value instanceof Batch;
 class AttributeChanged extends CustomType {
-  constructor(kind, name, value) {
+  constructor(kind, name2, value) {
     super();
     this.kind = kind;
-    this.name = name;
+    this.name = name2;
     this.value = value;
   }
 }
 var ServerMessage$isAttributeChanged = (value) => value instanceof AttributeChanged;
 class PropertyChanged extends CustomType {
-  constructor(kind, name, value) {
+  constructor(kind, name2, value) {
     super();
     this.kind = kind;
-    this.name = name;
+    this.name = name2;
     this.value = value;
   }
 }
 var ServerMessage$isPropertyChanged = (value) => value instanceof PropertyChanged;
 class EventFired extends CustomType {
-  constructor(kind, path, name, event) {
+  constructor(kind, path, name2, event2) {
     super();
     this.kind = kind;
     this.path = path;
-    this.name = name;
-    this.event = event;
+    this.name = name2;
+    this.event = event2;
   }
 }
 var ServerMessage$isEventFired = (value) => value instanceof EventFired;
@@ -2612,8 +2709,8 @@ function mount(open_shadow_root, will_adopt_styles, observed_attributes, observe
 function reconcile(patch, memos) {
   return new Reconcile(reconcile_kind, patch, memos);
 }
-function emit(name, data) {
-  return new Emit(emit_kind, name, data);
+function emit(name2, data) {
+  return new Emit(emit_kind, name2, data);
 }
 function provide(key, value) {
   return new Provide(provide_kind, key, value);
@@ -2743,8 +2840,8 @@ function add3(parent, index4, key) {
 function subtree(path) {
   return new Subtree(path);
 }
-function event(path, event2) {
-  return do_to_string(false, path, prepend(separator_event, prepend(event2, empty_list)));
+function event2(path, event3) {
+  return do_to_string(false, path, prepend(separator_event, prepend(event3, empty_list)));
 }
 function child(path) {
   return do_to_string(false, path, empty_list);
@@ -2812,15 +2909,15 @@ function new_events() {
 function new$4() {
   return new Cache(new_events(), empty2(), empty2(), empty_list, empty_list);
 }
-function do_add_event(handlers, path, name, handler) {
-  return insert2(handlers, event(path, name), handler);
+function do_add_event(handlers, path, name2, handler) {
+  return insert2(handlers, event2(path, name2), handler);
 }
 function add_attributes(handlers, path, attributes) {
   return fold2(attributes, handlers, (events, attribute3) => {
     if (attribute3 instanceof Event2) {
-      let name = attribute3.name;
+      let name2 = attribute3.name;
       let handler = attribute3.handler;
-      return do_add_event(events, path, name, handler);
+      return do_add_event(events, path, name2, handler);
     } else {
       return events;
     }
@@ -2984,22 +3081,22 @@ function update_subtree(parent, path, mapper, events2) {
   let children = insert2(parent.children, path, new_child);
   return new Events(parent.handlers, children);
 }
-function add_event(events2, path, name, handler) {
-  let handlers = do_add_event(events2.handlers, path, name, handler);
+function add_event(events2, path, name2, handler) {
+  let handlers = do_add_event(events2.handlers, path, name2, handler);
   return new Events(handlers, events2.children);
 }
-function do_remove_event(handlers, path, name) {
-  return remove(handlers, event(path, name));
+function do_remove_event(handlers, path, name2) {
+  return remove(handlers, event2(path, name2));
 }
-function remove_event(events2, path, name) {
-  let handlers = do_remove_event(events2.handlers, path, name);
+function remove_event(events2, path, name2) {
+  let handlers = do_remove_event(events2.handlers, path, name2);
   return new Events(handlers, events2.children);
 }
 function remove_attributes(handlers, path, attributes) {
   return fold2(attributes, handlers, (events2, attribute3) => {
     if (attribute3 instanceof Event2) {
-      let name = attribute3.name;
-      return do_remove_event(events2, path, name);
+      let name2 = attribute3.name;
+      return do_remove_event(events2, path, name2);
     } else {
       return events2;
     }
@@ -3148,12 +3245,12 @@ function get_handler(loop$events, loop$path, loop$mapper) {
     }
   }
 }
-function decode2(cache, path, name, event2) {
-  let parts = split_subtree_path(path + separator_event + name);
+function decode2(cache, path, name2, event3) {
+  let parts = split_subtree_path(path + separator_event + name2);
   let $ = get_handler(cache.events, parts, identity3);
   if ($ instanceof Ok) {
     let handler = $[0];
-    let $1 = run(event2, handler);
+    let $1 = run(event3, handler);
     if ($1 instanceof Ok) {
       let handler$1 = $1[0];
       return new DecodedEvent(path, handler$1);
@@ -3164,18 +3261,18 @@ function decode2(cache, path, name, event2) {
     return new DispatchedEvent(path);
   }
 }
-function dispatch(cache, event2) {
-  let next_dispatched_paths = prepend(event2.path, cache.next_dispatched_paths);
+function dispatch(cache, event3) {
+  let next_dispatched_paths = prepend(event3.path, cache.next_dispatched_paths);
   let cache$1 = new Cache(cache.events, cache.vdoms, cache.old_vdoms, cache.dispatched_paths, next_dispatched_paths);
-  if (event2 instanceof DecodedEvent) {
-    let handler = event2.handler;
+  if (event3 instanceof DecodedEvent) {
+    let handler = event3.handler;
     return [cache$1, new Ok(handler)];
   } else {
     return [cache$1, error_nil];
   }
 }
-function handle(cache, path, name, event2) {
-  let _pipe = decode2(cache, path, name, event2);
+function handle(cache, path, name2, event3) {
+  let _pipe = decode2(cache, path, name2, event3);
   return ((_capture) => {
     return dispatch(cache, _capture);
   })(_pipe);
@@ -3215,13 +3312,13 @@ class EffectDispatchedMessage extends CustomType {
 var Message$EffectDispatchedMessage = (message) => new EffectDispatchedMessage(message);
 var Message$isEffectDispatchedMessage = (value) => value instanceof EffectDispatchedMessage;
 class EffectEmitEvent extends CustomType {
-  constructor(name, data) {
+  constructor(name2, data) {
     super();
-    this.name = name;
+    this.name = name2;
     this.data = data;
   }
 }
-var Message$EffectEmitEvent = (name, data) => new EffectEmitEvent(name, data);
+var Message$EffectEmitEvent = (name2, data) => new EffectEmitEvent(name2, data);
 var Message$isEffectEmitEvent = (value) => value instanceof EffectEmitEvent;
 class EffectProvidedValue extends CustomType {
   constructor(key, value) {
@@ -3255,9 +3352,9 @@ var Message$isSystemRequestedShutdown = (value) => value instanceof SystemReques
 
 // build/dev/javascript/lustre/lustre/runtime/app.mjs
 class App extends CustomType {
-  constructor(name, init, update2, view, config) {
+  constructor(name2, init, update2, view, config) {
     super();
-    this.name = name;
+    this.name = name2;
     this.init = init;
     this.update = update2;
     this.view = view;
@@ -3381,9 +3478,9 @@ function diff_attributes(loop$controlled, loop$path, loop$events, loop$old, loop
         if ($ instanceof Event2) {
           let next = $;
           let new$1 = new$5.tail;
-          let name = $.name;
+          let name2 = $.name;
           let handler = $.handler;
-          let events$1 = add_event(events2, path, name, handler);
+          let events$1 = add_event(events2, path, name2, handler);
           let added$1 = prepend(next, added);
           loop$controlled = controlled;
           loop$path = path;
@@ -3410,8 +3507,8 @@ function diff_attributes(loop$controlled, loop$path, loop$events, loop$old, loop
       if ($ instanceof Event2) {
         let prev = $;
         let old$1 = old.tail;
-        let name = $.name;
-        let events$1 = remove_event(events2, path, name);
+        let name2 = $.name;
+        let events$1 = remove_event(events2, path, name2);
         let removed$1 = prepend(prev, removed);
         loop$controlled = controlled;
         loop$path = path;
@@ -3440,10 +3537,10 @@ function diff_attributes(loop$controlled, loop$path, loop$events, loop$old, loop
       let $ = compare3(prev, next);
       if ($ instanceof Lt) {
         if (prev instanceof Event2) {
-          let name = prev.name;
+          let name2 = prev.name;
           loop$controlled = controlled;
           loop$path = path;
-          loop$events = remove_event(events2, path, name);
+          loop$events = remove_event(events2, path, name2);
           loop$old = remaining_old;
           loop$new = new$5;
           loop$added = added;
@@ -3487,11 +3584,11 @@ function diff_attributes(loop$controlled, loop$path, loop$events, loop$old, loop
             loop$added = added$1;
             loop$removed = removed;
           } else if (next instanceof Event2) {
-            let name = next.name;
+            let name2 = next.name;
             let handler = next.handler;
             loop$controlled = controlled;
             loop$path = path;
-            loop$events = add_event(events2, path, name, handler);
+            loop$events = add_event(events2, path, name2, handler);
             loop$old = remaining_old;
             loop$new = remaining_new;
             loop$added = prepend(next, added);
@@ -3538,11 +3635,11 @@ function diff_attributes(loop$controlled, loop$path, loop$events, loop$old, loop
             loop$added = added$1;
             loop$removed = removed;
           } else if (next instanceof Event2) {
-            let name = next.name;
+            let name2 = next.name;
             let handler = next.handler;
             loop$controlled = controlled;
             loop$path = path;
-            loop$events = add_event(events2, path, name, handler);
+            loop$events = add_event(events2, path, name2, handler);
             loop$old = remaining_old;
             loop$new = remaining_new;
             loop$added = prepend(next, added);
@@ -3557,7 +3654,7 @@ function diff_attributes(loop$controlled, loop$path, loop$events, loop$old, loop
             loop$removed = prepend(prev, removed);
           }
         } else if (next instanceof Event2) {
-          let name = next.name;
+          let name2 = next.name;
           let handler = next.handler;
           let has_changes = prev.prevent_default.kind !== next.prevent_default.kind || prev.stop_propagation.kind !== next.stop_propagation.kind || prev.debounce !== next.debounce || prev.throttle !== next.throttle;
           let _block;
@@ -3569,27 +3666,27 @@ function diff_attributes(loop$controlled, loop$path, loop$events, loop$old, loop
           let added$1 = _block;
           loop$controlled = controlled;
           loop$path = path;
-          loop$events = add_event(events2, path, name, handler);
+          loop$events = add_event(events2, path, name2, handler);
           loop$old = remaining_old;
           loop$new = remaining_new;
           loop$added = added$1;
           loop$removed = removed;
         } else {
-          let name = prev.name;
+          let name2 = prev.name;
           loop$controlled = controlled;
           loop$path = path;
-          loop$events = remove_event(events2, path, name);
+          loop$events = remove_event(events2, path, name2);
           loop$old = remaining_old;
           loop$new = remaining_new;
           loop$added = prepend(next, added);
           loop$removed = prepend(prev, removed);
         }
       } else if (next instanceof Event2) {
-        let name = next.name;
+        let name2 = next.name;
         let handler = next.handler;
         loop$controlled = controlled;
         loop$path = path;
-        loop$events = add_event(events2, path, name, handler);
+        loop$events = add_event(events2, path, name2, handler);
         loop$old = old;
         loop$new = remaining_new;
         loop$added = prepend(next, added);
@@ -4303,18 +4400,18 @@ var SUPPORTS_MOVE_BEFORE = !!globalThis.HTMLElement?.prototype?.moveBefore;
 // build/dev/javascript/lustre/lustre/vdom/reconciler.ffi.mjs
 var setTimeout = globalThis.setTimeout;
 var clearTimeout = globalThis.clearTimeout;
-var createElementNS = (ns, name) => globalThis.document.createElementNS(ns, name);
+var createElementNS = (ns, name2) => globalThis.document.createElementNS(ns, name2);
 var createTextNode = (data) => globalThis.document.createTextNode(data);
 var createComment = (data) => globalThis.document.createComment(data);
 var createDocumentFragment = () => globalThis.document.createDocumentFragment();
 var insertBefore = (parent, node, reference) => parent.insertBefore(node, reference);
 var moveBefore = SUPPORTS_MOVE_BEFORE ? (parent, node, reference) => parent.moveBefore(node, reference) : insertBefore;
 var removeChild = (parent, child2) => parent.removeChild(child2);
-var getAttribute = (node, name) => node.getAttribute(name);
-var setAttribute = (node, name, value) => node.setAttribute(name, value);
-var removeAttribute = (node, name) => node.removeAttribute(name);
-var addEventListener = (node, name, handler, options) => node.addEventListener(name, handler, options);
-var removeEventListener = (node, name, handler) => node.removeEventListener(name, handler);
+var getAttribute = (node, name2) => node.getAttribute(name2);
+var setAttribute = (node, name2, value) => node.setAttribute(name2, value);
+var removeAttribute = (node, name2) => node.removeAttribute(name2);
+var addEventListener = (node, name2, handler, options) => node.addEventListener(name2, handler, options);
+var removeEventListener = (node, name2, handler) => node.removeEventListener(name2, handler);
 var setInnerHtml = (node, innerHtml) => node.innerHTML = innerHtml;
 var setData = (node, data) => node.data = data;
 var meta = Symbol("lustre");
@@ -4512,14 +4609,14 @@ class Reconciler {
     iterate(children, (child2) => this.#removeDebouncers(child2));
   }
   #update({ node, handlers, throttles, debouncers }, { added, removed }) {
-    iterate(removed, ({ name }) => {
-      if (handlers.delete(name)) {
-        removeEventListener(node, name, handleEvent);
-        this.#updateDebounceThrottle(throttles, name, 0);
-        this.#updateDebounceThrottle(debouncers, name, 0);
+    iterate(removed, ({ name: name2 }) => {
+      if (handlers.delete(name2)) {
+        removeEventListener(node, name2, handleEvent);
+        this.#updateDebounceThrottle(throttles, name2, 0);
+        this.#updateDebounceThrottle(debouncers, name2, 0);
       } else {
-        removeAttribute(node, name);
-        SYNCED_ATTRIBUTES[name]?.removed?.(node, name);
+        removeAttribute(node, name2);
+        SYNCED_ATTRIBUTES[name2]?.removed?.(node, name2);
       }
     });
     iterate(added, (attribute3) => this.#createAttribute(node, attribute3));
@@ -4599,7 +4696,7 @@ class Reconciler {
     const { debouncers, handlers, throttles } = node[meta];
     const {
       kind,
-      name,
+      name: name2,
       value,
       prevent_default: prevent,
       debounce: debounceDelay,
@@ -4608,56 +4705,56 @@ class Reconciler {
     switch (kind) {
       case attribute_kind: {
         const valueOrDefault = value ?? "";
-        if (name === "virtual:defaultValue") {
+        if (name2 === "virtual:defaultValue") {
           node.defaultValue = valueOrDefault;
           return;
-        } else if (name === "virtual:defaultChecked") {
+        } else if (name2 === "virtual:defaultChecked") {
           node.defaultChecked = true;
           return;
-        } else if (name === "virtual:defaultSelected") {
+        } else if (name2 === "virtual:defaultSelected") {
           node.defaultSelected = true;
           return;
         }
-        if (valueOrDefault !== getAttribute(node, name)) {
-          setAttribute(node, name, valueOrDefault);
+        if (valueOrDefault !== getAttribute(node, name2)) {
+          setAttribute(node, name2, valueOrDefault);
         }
-        SYNCED_ATTRIBUTES[name]?.added?.(node, valueOrDefault);
+        SYNCED_ATTRIBUTES[name2]?.added?.(node, valueOrDefault);
         break;
       }
       case property_kind:
-        node[name] = value;
+        node[name2] = value;
         break;
       case event_kind: {
-        if (handlers.has(name)) {
-          removeEventListener(node, name, handleEvent);
+        if (handlers.has(name2)) {
+          removeEventListener(node, name2, handleEvent);
         }
         const passive = prevent.kind === never_kind;
-        addEventListener(node, name, handleEvent, { passive });
-        this.#updateDebounceThrottle(throttles, name, throttleDelay);
-        this.#updateDebounceThrottle(debouncers, name, debounceDelay);
-        handlers.set(name, (event2) => this.#handleEvent(attribute3, event2));
+        addEventListener(node, name2, handleEvent, { passive });
+        this.#updateDebounceThrottle(throttles, name2, throttleDelay);
+        this.#updateDebounceThrottle(debouncers, name2, debounceDelay);
+        handlers.set(name2, (event3) => this.#handleEvent(attribute3, event3));
         break;
       }
     }
   }
-  #updateDebounceThrottle(map6, name, delay) {
-    const debounceOrThrottle = map6.get(name);
+  #updateDebounceThrottle(map6, name2, delay) {
+    const debounceOrThrottle = map6.get(name2);
     if (delay > 0) {
       if (debounceOrThrottle) {
         debounceOrThrottle.delay = delay;
       } else {
-        map6.set(name, { delay });
+        map6.set(name2, { delay });
       }
     } else if (debounceOrThrottle) {
       const { timeout } = debounceOrThrottle;
       if (timeout) {
         clearTimeout(timeout);
       }
-      map6.delete(name);
+      map6.delete(name2);
     }
   }
-  #handleEvent(attribute3, event2) {
-    const { currentTarget, type } = event2;
+  #handleEvent(attribute3, event3) {
+    const { currentTarget, type } = event3;
     const { debouncers, throttles } = currentTarget[meta];
     const path = getPath(currentTarget);
     const {
@@ -4666,37 +4763,37 @@ class Reconciler {
       include
     } = attribute3;
     if (prevent.kind === always_kind)
-      event2.preventDefault();
+      event3.preventDefault();
     if (stop.kind === always_kind)
-      event2.stopPropagation();
+      event3.stopPropagation();
     if (type === "submit") {
-      event2.detail ??= {};
-      event2.detail.formData = [
-        ...new FormData(event2.target, event2.submitter).entries()
+      event3.detail ??= {};
+      event3.detail.formData = [
+        ...new FormData(event3.target, event3.submitter).entries()
       ];
     }
-    const data = this.#decodeEvent(event2, path, type, include);
+    const data = this.#decodeEvent(event3, path, type, include);
     const throttle = throttles.get(type);
     if (throttle) {
       const now = Date.now();
       const last = throttle.last || 0;
       if (now > last + throttle.delay) {
         throttle.last = now;
-        throttle.lastEvent = event2;
-        this.#dispatch(event2, data);
+        throttle.lastEvent = event3;
+        this.#dispatch(event3, data);
       }
     }
     const debounce = debouncers.get(type);
     if (debounce) {
       clearTimeout(debounce.timeout);
       debounce.timeout = setTimeout(() => {
-        if (event2 === throttles.get(type)?.lastEvent)
+        if (event3 === throttles.get(type)?.lastEvent)
           return;
-        this.#dispatch(event2, data);
+        this.#dispatch(event3, data);
       }, debounce.delay);
     }
     if (!throttle && !debounce) {
-      this.#dispatch(event2, data);
+      this.#dispatch(event3, data);
     }
   }
 }
@@ -4707,25 +4804,25 @@ var markerComment = (marker, key) => {
     return ` ${marker} `;
   }
 };
-var handleEvent = (event2) => {
-  const { currentTarget, type } = event2;
+var handleEvent = (event3) => {
+  const { currentTarget, type } = event3;
   const handler = currentTarget[meta].handlers.get(type);
-  handler(event2);
+  handler(event3);
 };
-var syncedBooleanAttribute = (name) => {
+var syncedBooleanAttribute = (name2) => {
   return {
     added(node) {
-      node[name] = true;
+      node[name2] = true;
     },
     removed(node) {
-      node[name] = false;
+      node[name2] = false;
     }
   };
 };
-var syncedAttribute = (name) => {
+var syncedAttribute = (name2) => {
   return {
     added(node, value) {
-      node[name] = value;
+      node[name2] = value;
     }
   };
 };
@@ -4816,9 +4913,9 @@ var virtualise = (root2) => {
   if (children.length === 1) {
     return children[0][1];
   }
-  const placeholder = globalThis.document.createTextNode("");
-  insertMetadataChild(text_kind, rootMeta, placeholder, 0, null);
-  root2.insertBefore(placeholder, root2.firstChild);
+  const placeholder2 = globalThis.document.createTextNode("");
+  insertMetadataChild(text_kind, rootMeta, placeholder2, 0, null);
+  root2.insertBefore(placeholder2, root2.firstChild);
   return none();
 };
 var virtualiseChild = (meta2, domParent, child2, index4) => {
@@ -4965,33 +5062,33 @@ class Runtime {
     this.#model = model;
     this.#view = view;
     this.#update = update2;
-    this.root.addEventListener("context-request", (event2) => {
-      if (!(event2.context && event2.callback))
+    this.root.addEventListener("context-request", (event3) => {
+      if (!(event3.context && event3.callback))
         return;
-      if (!this.#contexts.has(event2.context))
+      if (!this.#contexts.has(event3.context))
         return;
-      event2.stopImmediatePropagation();
-      const context = this.#contexts.get(event2.context);
-      if (event2.subscribe) {
+      event3.stopImmediatePropagation();
+      const context = this.#contexts.get(event3.context);
+      if (event3.subscribe) {
         const unsubscribe2 = () => {
-          context.subscribers = context.subscribers.filter((subscriber) => subscriber !== event2.callback);
+          context.subscribers = context.subscribers.filter((subscriber) => subscriber !== event3.callback);
         };
-        context.subscribers.push([event2.callback, unsubscribe2]);
-        event2.callback(context.value, unsubscribe2);
+        context.subscribers.push([event3.callback, unsubscribe2]);
+        event3.callback(context.value, unsubscribe2);
       } else {
-        event2.callback(context.value);
+        event3.callback(context.value);
       }
     });
-    const decodeEvent = (event2, path, name) => decode2(this.#cache, path, name, event2);
-    const dispatch2 = (event2, data) => {
+    const decodeEvent = (event3, path, name2) => decode2(this.#cache, path, name2, event3);
+    const dispatch2 = (event3, data) => {
       const [cache, result] = dispatch(this.#cache, data);
       this.#cache = cache;
       if (Result$isOk(result)) {
         const handler = Result$Ok$0(result);
         if (handler.stop_propagation)
-          event2.stopPropagation();
+          event3.stopPropagation();
         if (handler.prevent_default)
-          event2.preventDefault();
+          event3.preventDefault();
         this.dispatch(handler.message, false);
       }
     };
@@ -5012,9 +5109,9 @@ class Runtime {
       this.#handleEffects(effects);
     }
   }
-  emit(event2, data) {
+  emit(event3, data) {
     const target = this.root.host ?? this.root;
-    target.dispatchEvent(new LustreEvent(event2, data));
+    target.dispatchEvent(new LustreEvent(event3, data));
   }
   provide(key, value) {
     if (!this.#contexts.has(key)) {
@@ -5080,7 +5177,7 @@ class Runtime {
   #renderTimer = null;
   #actions = {
     dispatch: (message) => this.dispatch(message),
-    emit: (event2, data) => this.emit(event2, data),
+    emit: (event3, data) => this.emit(event3, data),
     select: () => {},
     root: () => this.root,
     provide: (key, value) => this.provide(key, value),
@@ -5156,8 +5253,8 @@ class ContextRequestEvent extends Event {
 
 class LustreEvent extends CustomEvent {
   isLustreEvent = true;
-  constructor(name, detail) {
-    super(name, { detail, bubbles: true, composed: true });
+  constructor(name2, detail) {
+    super(name2, { detail, bubbles: true, composed: true });
   }
 }
 
@@ -5177,8 +5274,8 @@ class Spa {
   dispatch(message) {
     this.#runtime.dispatch(message);
   }
-  emit(event2, data) {
-    this.#runtime.emit(event2, data);
+  emit(event3, data) {
+    this.#runtime.emit(event3, data);
   }
 }
 var start = ({ init, update: update2, view }, selector, flags) => {
@@ -5242,8 +5339,8 @@ class Runtime2 {
       this.#cache = diff2.cache;
       this.broadcast(reconcile(diff2.patch, memos(diff2.cache)));
     } else if (Message$isEffectEmitEvent(message)) {
-      const { name, data } = message;
-      this.broadcast(emit(name, data));
+      const { name: name2, data } = message;
+      this.broadcast(emit(name2, data));
     } else if (Message$isEffectProvidedValue(message)) {
       const { key, value } = message;
       const existing = get(this.#providers, key);
@@ -5293,22 +5390,22 @@ class Runtime2 {
       this.#model = model;
       return this.#view(model);
     } else if (ServerMessage$isAttributeChanged(message)) {
-      const { name, value } = message;
-      const result = this.#handle_attribute_change(name, value);
+      const { name: name2, value } = message;
+      const result = this.#handle_attribute_change(name2, value);
       if (!Result$isOk(result)) {
         return this.#vdom;
       }
       return this.#dispatch(Result$Ok$0(result));
     } else if (ServerMessage$isPropertyChanged(message)) {
-      const { name, value } = message;
-      const result = this.#handle_properties_change(name, value);
+      const { name: name2, value } = message;
+      const result = this.#handle_properties_change(name2, value);
       if (!Result$isOk(result)) {
         return this.#vdom;
       }
       return this.#dispatch(Result$Ok$0(result));
     } else if (ServerMessage$isEventFired(message)) {
-      const { path, name, event: event2 } = message2;
-      const [cache, result] = handle(this.#cache, path, name, event2);
+      const { path, name: name2, event: event3 } = message2;
+      const [cache, result] = handle(this.#cache, path, name2, event3);
       this.#cache = cache;
       if (!Result$isOk(result)) {
         return this.#vdom;
@@ -5334,15 +5431,15 @@ class Runtime2 {
     this.#model = model;
     return this.#view(this.#model);
   }
-  #handle_attribute_change(name, value) {
-    const result = get(this.#config.attributes, name);
+  #handle_attribute_change(name2, value) {
+    const result = get(this.#config.attributes, name2);
     if (!Result$isOk(result)) {
       return result;
     }
     return Result$Ok$0(result)(value);
   }
-  #handle_properties_change(name, value) {
-    const result = get(this.#config.properties, name);
+  #handle_properties_change(name2, value) {
+    const result = get(this.#config.properties, name2);
     if (!Result$isOk(result)) {
       return result;
     }
@@ -5350,7 +5447,7 @@ class Runtime2 {
   }
   #handle_effect(effect) {
     const dispatch2 = (message) => this.send(Message$EffectDispatchedMessage(message));
-    const emit2 = (name, data) => this.send(Message$EffectEmitEvent(name, data));
+    const emit2 = (name2, data) => this.send(Message$EffectEmitEvent(name2, data));
     const select = () => {
       return;
     };
@@ -5385,6 +5482,18 @@ function start4(app, selector, arguments$) {
     return start(app, selector, arguments$);
   });
 }
+
+// build/dev/javascript/lustre/lustre/event.mjs
+function on(name2, handler) {
+  return event(name2, map3(handler, (message) => {
+    return new Handler(false, false, message);
+  }), empty_list, never, never, 0, 0);
+}
+function on_input(message) {
+  return on("input", subfield(toList(["target", "value"]), string2, (value) => {
+    return success(message(value));
+  }));
+}
 // build/dev/javascript/plinth/document_ffi.mjs
 function querySelector(query) {
   let found = document.querySelector(query);
@@ -5408,6 +5517,28 @@ class Model extends CustomType {
     this.search_term = search_term;
   }
 }
+
+class UpdateSearchTerm extends CustomType {
+  constructor(search_term) {
+    super();
+    this.search_term = search_term;
+  }
+}
+function search_bar(model) {
+  return div(toList([]), toList([
+    label(toList([for$("search")]), toList([text2("What do you seek?")])),
+    input(toList([
+      type_("text"),
+      name("search"),
+      id("search"),
+      placeholder("the truth!"),
+      autofocus(true),
+      on_input((var0) => {
+        return new UpdateSearchTerm(var0);
+      })
+    ]))
+  ]));
+}
 function posts_view(model, posts) {
   let posts$1 = map2(posts, (p2) => {
     return div(toList([class$("post-preview")]), toList([
@@ -5425,25 +5556,42 @@ function no_posts_view(model) {
   return div(toList([]), toList([p(toList([]), toList([text2("No posts found.")]))]));
 }
 function find_posts(model, search_term) {
-  return toList([]);
+  let _pipe = model.posts;
+  return filter(_pipe, (post) => {
+    let _block;
+    let _pipe$1 = search_term;
+    let _pipe$2 = trim(_pipe$1);
+    _block = lowercase(_pipe$2);
+    let needle = _block;
+    let haystack = post.title + " " + post.description + " " + post.excerpt;
+    let _block$1;
+    let _pipe$3 = haystack;
+    _block$1 = lowercase(_pipe$3);
+    let haystack$1 = _block$1;
+    return contains_string(haystack$1, needle);
+  });
 }
 function view(model) {
+  let _block;
   let $ = model.search_term;
   if ($ instanceof Some) {
     let search_term = $[0];
     let $1 = find_posts(model, search_term);
     if ($1 instanceof Empty) {
-      return no_posts_view(model);
+      _block = no_posts_view(model);
     } else {
       let posts = $1;
-      return posts_view(model, posts);
+      _block = posts_view(model, posts);
     }
   } else {
-    return text2("start typing to search");
+    _block = none();
   }
+  let content = _block;
+  return div(toList([]), toList([search_bar(model), content]));
 }
 function update2(model, msg) {
   let search_term = msg.search_term;
+  echo(search_term, undefined, "src/search_tool.gleam", 84);
   let _block;
   if (search_term === "") {
     _block = new None;
@@ -5486,7 +5634,7 @@ function main() {
   if ($ instanceof Ok) {
     el = $[0];
   } else {
-    throw makeError("let_assert", FILEPATH, "search_tool", 20, "main", "Pattern match failed, no pattern matched the value.", { value: $, start: 480, end: 539, pattern_start: 491, pattern_end: 497 });
+    throw makeError("let_assert", FILEPATH, "search_tool", 21, "main", "Pattern match failed, no pattern matched the value.", { value: $, start: 500, end: 559, pattern_start: 511, pattern_end: 517 });
   }
   let txt = innerText(el);
   let $1 = parse(txt, posts_decoder());
@@ -5494,14 +5642,234 @@ function main() {
   if ($1 instanceof Ok) {
     posts = $1[0];
   } else {
-    throw makeError("let_assert", FILEPATH, "search_tool", 22, "main", "Pattern match failed, no pattern matched the value.", { value: $1, start: 584, end: 639, pattern_start: 595, pattern_end: 604 });
+    throw makeError("let_assert", FILEPATH, "search_tool", 23, "main", "Pattern match failed, no pattern matched the value.", { value: $1, start: 604, end: 659, pattern_start: 615, pattern_end: 624 });
   }
   let app = application(init, update2, view);
   let $2 = start4(app, "#app", posts);
   if (!($2 instanceof Ok)) {
-    throw makeError("let_assert", FILEPATH, "search_tool", 25, "main", "Pattern match failed, no pattern matched the value.", { value: $2, start: 694, end: 745, pattern_start: 705, pattern_end: 710 });
+    throw makeError("let_assert", FILEPATH, "search_tool", 26, "main", "Pattern match failed, no pattern matched the value.", { value: $2, start: 714, end: 765, pattern_start: 725, pattern_end: 730 });
   }
   return;
+}
+function echo(value2, message, file, line) {
+  const grey = "\x1B[90m";
+  const reset_color = "\x1B[39m";
+  const file_line = `${file}:${line}`;
+  const inspector = new Echo$Inspector;
+  const string_value = inspector.inspect(value2);
+  const string_message = message === undefined ? "" : " " + message;
+  if (globalThis.process?.stderr?.write) {
+    const string5 = `${grey}${file_line}${reset_color}${string_message}
+${string_value}
+`;
+    globalThis.process.stderr.write(string5);
+  } else if (globalThis.Deno) {
+    const string5 = `${grey}${file_line}${reset_color}${string_message}
+${string_value}
+`;
+    globalThis.Deno.stderr.writeSync(new TextEncoder().encode(string5));
+  } else {
+    const string5 = `${file_line}${string_message}
+${string_value}`;
+    globalThis.console.log(string5);
+  }
+  return value2;
+}
+
+class Echo$Inspector {
+  #references = new globalThis.Set;
+  #isDict(value2) {
+    try {
+      const empty_dict = make();
+      const dict_class = empty_dict.constructor;
+      return value2 instanceof dict_class;
+    } catch {
+      return false;
+    }
+  }
+  #float(float3) {
+    const string5 = float3.toString().replace("+", "");
+    if (string5.indexOf(".") >= 0) {
+      return string5;
+    } else {
+      const index5 = string5.indexOf("e");
+      if (index5 >= 0) {
+        return string5.slice(0, index5) + ".0" + string5.slice(index5);
+      } else {
+        return string5 + ".0";
+      }
+    }
+  }
+  inspect(v) {
+    const t = typeof v;
+    if (v === true)
+      return "True";
+    if (v === false)
+      return "False";
+    if (v === null)
+      return "//js(null)";
+    if (v === undefined)
+      return "Nil";
+    if (t === "string")
+      return this.#string(v);
+    if (t === "bigint" || globalThis.Number.isInteger(v))
+      return v.toString();
+    if (t === "number")
+      return this.#float(v);
+    if (v instanceof UtfCodepoint)
+      return this.#utfCodepoint(v);
+    if (v instanceof BitArray)
+      return this.#bit_array(v);
+    if (v instanceof globalThis.RegExp)
+      return `//js(${v})`;
+    if (v instanceof globalThis.Date)
+      return `//js(Date("${v.toISOString()}"))`;
+    if (v instanceof globalThis.Error)
+      return `//js(${v.toString()})`;
+    if (v instanceof globalThis.Function) {
+      const args = [];
+      for (const i of globalThis.Array(v.length).keys())
+        args.push(globalThis.String.fromCharCode(i + 97));
+      return `//fn(${args.join(", ")}) { ... }`;
+    }
+    if (this.#references.size === this.#references.add(v).size) {
+      return "//js(circular reference)";
+    }
+    let printed;
+    if (globalThis.Array.isArray(v)) {
+      printed = `#(${v.map((v2) => this.inspect(v2)).join(", ")})`;
+    } else if (v instanceof List) {
+      printed = this.#list(v);
+    } else if (v instanceof CustomType) {
+      printed = this.#customType(v);
+    } else if (this.#isDict(v)) {
+      printed = this.#dict(v);
+    } else if (v instanceof Set) {
+      return `//js(Set(${[...v].map((v2) => this.inspect(v2)).join(", ")}))`;
+    } else {
+      printed = this.#object(v);
+    }
+    this.#references.delete(v);
+    return printed;
+  }
+  #object(v) {
+    const name2 = globalThis.Object.getPrototypeOf(v)?.constructor?.name || "Object";
+    const props = [];
+    for (const k of globalThis.Object.keys(v)) {
+      props.push(`${this.inspect(k)}: ${this.inspect(v[k])}`);
+    }
+    const body2 = props.length ? " " + props.join(", ") + " " : "";
+    const head = name2 === "Object" ? "" : name2 + " ";
+    return `//js(${head}{${body2}})`;
+  }
+  #dict(map8) {
+    let body2 = "dict.from_list([";
+    let first = true;
+    let key_value_pairs = fold(map8, [], (pairs, key2, value2) => {
+      pairs.push([key2, value2]);
+      return pairs;
+    });
+    key_value_pairs.sort();
+    key_value_pairs.forEach(([key2, value2]) => {
+      if (!first)
+        body2 = body2 + ", ";
+      body2 = body2 + "#(" + this.inspect(key2) + ", " + this.inspect(value2) + ")";
+      first = false;
+    });
+    return body2 + "])";
+  }
+  #customType(record) {
+    const props = globalThis.Object.keys(record).map((label2) => {
+      const value2 = this.inspect(record[label2]);
+      return isNaN(parseInt(label2)) ? `${label2}: ${value2}` : value2;
+    }).join(", ");
+    return props ? `${record.constructor.name}(${props})` : record.constructor.name;
+  }
+  #list(list4) {
+    if (list4 instanceof Empty) {
+      return "[]";
+    }
+    let char_out = 'charlist.from_string("';
+    let list_out = "[";
+    let current = list4;
+    while (current instanceof NonEmpty) {
+      let element4 = current.head;
+      current = current.tail;
+      if (list_out !== "[") {
+        list_out += ", ";
+      }
+      list_out += this.inspect(element4);
+      if (char_out) {
+        if (globalThis.Number.isInteger(element4) && element4 >= 32 && element4 <= 126) {
+          char_out += globalThis.String.fromCharCode(element4);
+        } else {
+          char_out = null;
+        }
+      }
+    }
+    if (char_out) {
+      return char_out + '")';
+    } else {
+      return list_out + "]";
+    }
+  }
+  #string(str) {
+    let new_str = '"';
+    for (let i = 0;i < str.length; i++) {
+      const char = str[i];
+      switch (char) {
+        case `
+`:
+          new_str += "\\n";
+          break;
+        case "\r":
+          new_str += "\\r";
+          break;
+        case "\t":
+          new_str += "\\t";
+          break;
+        case "\f":
+          new_str += "\\f";
+          break;
+        case "\\":
+          new_str += "\\\\";
+          break;
+        case '"':
+          new_str += "\\\"";
+          break;
+        default:
+          if (char < " " || char > "~" && char < " ") {
+            new_str += "\\u{" + char.charCodeAt(0).toString(16).toUpperCase().padStart(4, "0") + "}";
+          } else {
+            new_str += char;
+          }
+      }
+    }
+    new_str += '"';
+    return new_str;
+  }
+  #utfCodepoint(codepoint2) {
+    return `//utfcodepoint(${globalThis.String.fromCodePoint(codepoint2.value)})`;
+  }
+  #bit_array(bits2) {
+    if (bits2.bitSize === 0) {
+      return "<<>>";
+    }
+    let acc = "<<";
+    for (let i = 0;i < bits2.byteSize - 1; i++) {
+      acc += bits2.byteAt(i).toString();
+      acc += ", ";
+    }
+    if (bits2.byteSize * 8 === bits2.bitSize) {
+      acc += bits2.byteAt(bits2.byteSize - 1).toString();
+    } else {
+      const trailingBitsCount = bits2.bitSize % 8;
+      acc += bits2.byteAt(bits2.byteSize - 1) >> 8 - trailingBitsCount;
+      acc += `:size(${trailingBitsCount})`;
+    }
+    acc += ">>";
+    return acc;
+  }
 }
 
 // .lustre/build/search_tool.mjs

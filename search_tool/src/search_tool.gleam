@@ -5,6 +5,7 @@ import gleam/int
 import gleam/json
 import gleam/list
 import gleam/result
+import gleam/string
 import gleam/option
 import gleam/time/timestamp
 import lustre
@@ -80,6 +81,7 @@ type Msg {
 fn update(model: Model, msg: Msg) -> #(Model, Effect(Msg)) {
   case msg {
     UpdateSearchTerm(search_term) -> {
+      echo search_term
       let new_search = case search_term {
         "" -> option.None
         _ -> option.Some(search_term)
@@ -91,7 +93,7 @@ fn update(model: Model, msg: Msg) -> #(Model, Effect(Msg)) {
 
 fn view(model: Model) -> Element(Msg) {
   let content = case model.search_term {
-    option.None -> element.text("start typing to search")
+    option.None -> element.none()
     option.Some(search_term) -> {
       case find_posts(model, search_term) {
         [] -> no_posts_view(model)
@@ -108,7 +110,7 @@ fn view(model: Model) -> Element(Msg) {
 }
 
 fn search_bar(model: Model) -> Element(Msg) {
-  html.div([
+  html.div([], [
     html.label(
       [
         attribute.for("search"),
@@ -121,15 +123,21 @@ fn search_bar(model: Model) -> Element(Msg) {
       attribute.type_("text"),
       attribute.name("search"),
       attribute.id("search"),
-      attribute.placeholder("the truth!")
+      attribute.placeholder("the truth!"),
       attribute.autofocus(True),
-      event.on_change(UpdateSearchTerm),
+      event.on_input(UpdateSearchTerm),
     ]),
   ])
 }
 
-fn find_posts(model, search_term) -> List(Post(Nil)) {
-  []
+fn find_posts(model: Model, search_term: String) -> List(Post(Nil)) {
+  model.posts
+  |> list.filter(fn(post: Post(Nil)) {
+    let needle = search_term |> string.trim() |> string.lowercase()
+    let haystack = post.title <> " " <> post.description <> " " <> post.excerpt
+    let haystack = haystack |> string.lowercase()
+    string.contains(haystack, needle)
+  })
 }
 
 fn no_posts_view(model: Model) -> Element(Msg) {
