@@ -1741,6 +1741,16 @@ function isResult(data) {
   return Result$isOk(data) || Result$isError(data);
 }
 
+// build/dev/javascript/gleam_stdlib/gleam/int.mjs
+function max(a, b) {
+  let $ = a > b;
+  if ($) {
+    return a;
+  } else {
+    return b;
+  }
+}
+
 // build/dev/javascript/gleam_stdlib/gleam/string.mjs
 function split2(x, substring) {
   if (substring === "") {
@@ -5489,6 +5499,13 @@ function on(name2, handler) {
     return new Handler(false, false, message);
   }), empty_list, never, never, 0, 0);
 }
+function debounce(event4, delay) {
+  if (event4 instanceof Event2) {
+    return new Event2(event4.kind, event4.name, event4.handler, event4.include, event4.prevent_default, event4.stop_propagation, max(0, delay), event4.throttle);
+  } else {
+    return event4;
+  }
+}
 function on_input(message) {
   return on("input", subfield(toList(["target", "value"]), string2, (value) => {
     return success(message(value));
@@ -5525,7 +5542,7 @@ class UpdateSearchTerm extends CustomType {
   }
 }
 function search_bar(model) {
-  return div(toList([]), toList([
+  return div(toList([class$("search-form")]), toList([
     label(toList([for$("search")]), toList([text2("What do you seek?")])),
     input(toList([
       type_("text"),
@@ -5533,9 +5550,9 @@ function search_bar(model) {
       id("search"),
       placeholder("the truth!"),
       autofocus(true),
-      on_input((var0) => {
+      debounce(on_input((var0) => {
         return new UpdateSearchTerm(var0);
-      })
+      }), 200)
     ]))
   ]));
 }

@@ -210,9 +210,11 @@ h1 > a {
 
 .post-content {
   max-width: 800px;
+  width: 90%;
   display: flex;
   flex-direction: column;
-  padding: 0 24px 24px 24px;
+  padding: 0 24px 24px 48px;
+  margin: 24px 0 0 0;
   line-height: 28px;
 }
 
@@ -342,6 +344,18 @@ figcaption {
   font-size: 0.8em;
   line-height: 1.4em;
 }
-  background-color: var(--secondary);
-  color: var(--primary);
 
+
+.search-form {
+  display: flex;
+  flex-direction: column;
+
+  & input[type=text] {
+        line-height: calc(1em + 24px);
+        font-size: 1em;
+        padding: 0 12px;
+        max-width: 500px;
+        width: 80%;
+  }
+
+}

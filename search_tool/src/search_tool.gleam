@@ -110,7 +110,7 @@ fn view(model: Model) -> Element(Msg) {
 }
 
 fn search_bar(model: Model) -> Element(Msg) {
-  html.div([], [
+  html.div([attribute.class("search-form")], [
     html.label(
       [
         attribute.for("search"),
@@ -125,7 +125,7 @@ fn search_bar(model: Model) -> Element(Msg) {
       attribute.id("search"),
       attribute.placeholder("the truth!"),
       attribute.autofocus(True),
-      event.on_input(UpdateSearchTerm),
+      event.debounce(event.on_input(UpdateSearchTerm), 200),
     ]),
   ])
 }
