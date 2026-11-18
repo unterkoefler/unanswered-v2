@@ -1,4 +1,5 @@
 import blogatto/config
+import blogatto/config/feed
 import blogatto/config/feed/atom
 import blogatto/config/feed/rss
 import blogatto/config/post
@@ -18,7 +19,7 @@ import lustre/element/html
 import tempo
 import tempo/datetime
 
-const site_url = "https://example.com"
+const site_url = "https://unanswered.blog"
 
 pub fn config() -> config.Config(Nil) {
   // Post config with custom heading component
@@ -66,18 +67,24 @@ pub fn config() -> config.Config(Nil) {
 
   // RSS feed
   let rss_feed =
-    rss.new("My Blog", site_url, "My personal blog")
+    rss.new("Unanswered.blog", site_url, "Where I type and scream my thoughts into the void, unanswered")
     |> rss.language("en-us")
     |> rss.generator("Blogatto")
-
-  // Atom feed
-  let atom_feed =
-    atom.new(
-      id: site_url <> "/",
-      title: atom.PlainText("My Blog"),
-      updated: timestamp.system_time(),
-    )
-    |> atom.subtitle("My personal blog")
+    |> rss.output("/feed.xml")
+    |> rss.serialize(fn(meta: feed.FeedMetadata(Nil)) {
+      rss.RssFeedItem(
+        title: meta.post.title,
+        description: meta.post.description,
+        link: option.Some(meta.url),
+        author: option.None,
+        comments: option.None,
+        source: option.None,
+        pub_date: option.Some(meta.post.date),
+        categories: [],
+        enclosure: option.None,
+        guid: option.Some(meta.url),
+      )
+    })
 
   config.new(site_url)
   |> config.output_dir("../dist")
@@ -92,7 +99,6 @@ pub fn config() -> config.Config(Nil) {
   |> config.route("/search", search_view)
   |> config.route("/random", random_view)
   |> config.rss_feed(rss_feed)
-  |> config.atom_feed(atom_feed)
   |> config.sitemap(sitemap.new("/sitemap.xml"))
   |> config.robots(
     robots.RobotsConfig(sitemap_url: site_url <> "/sitemap.xml", robots: [
@@ -301,12 +307,14 @@ fn subscribe_form() -> Element(Nil) {
 fn static_page_view(title: String, content: Element(Nil)) -> Element(Nil) {
   html.html([], [
     html.head([], [
+      html.meta([attribute.charset("UTF-8")]),
       html.meta([
         attribute.name("viewport"),
         attribute.content("width=device-width, initial-scale=1.0"),
       ]),
       html.title([], title),
       html.link([attribute.rel("stylesheet"), attribute.href("/css/style.css")]),
+      html.link([attribute.rel("alternate"), attribute.type_("application/rss+xml"), attribute.href("/feed.xml")]),
     ]),
     html.body([], [
       header(),
@@ -340,6 +348,7 @@ fn lustre_page_view(
 ) -> Element(Nil) {
   html.html([], [
     html.head([], [
+      html.meta([attribute.charset("UTF-8")]),
       html.meta([
         attribute.name("viewport"),
         attribute.content("width=device-width, initial-scale=1.0"),
