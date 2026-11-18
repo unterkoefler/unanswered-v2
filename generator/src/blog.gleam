@@ -90,6 +90,7 @@ pub fn config() -> config.Config(Nil) {
   |> config.route("/subscribe", subscribe_view)
   |> config.route("/tags", tags_view)
   |> config.route("/search", search_view)
+  |> config.route("/random", random_view)
   |> config.rss_feed(rss_feed)
   |> config.atom_feed(atom_feed)
   |> config.sitemap(sitemap.new("/sitemap.xml"))
@@ -195,6 +196,18 @@ fn search_view(posts: List(Post(Nil))) -> Element(Nil) {
     data,
   )
 }
+
+fn random_view(posts: List(Post(Nil))) -> Element(Nil) {
+  let slugs = posts |> list.map(fn (p) { p.slug })
+  let data = json.array(slugs, json.string)
+  lustre_page_view(
+    "Unanswered.blog - Random",
+    "random",
+    html.div([attribute.id("app")], []),
+    data,
+  )
+}
+
 
 fn collect_posts_by_tag(
   posts: List(Post(Nil)),
@@ -602,8 +615,9 @@ fn footer(
     ],
     [
       previous,
-      html.button([], [
-        // TODO: generate random post
+      html.a([
+        attribute.href("/random"),
+      ], [
         element.text("Random"),
       ]),
       html.a(
