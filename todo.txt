@@ -1,4 +1,3 @@
 - open metadata things
 - word cloud
-- link crawler to verify everything
 

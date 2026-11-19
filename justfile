@@ -3,30 +3,20 @@ set shell := ["nu", "-c"]
 default:
   @just --list
 
-alias i := install
-install:
-  npm install
-
 alias s := start
 start:
-  npm run start
+  cd generator; gleam dev
 
 alias b := build
 build:
-  npm run build
+  cd search_tool; just build
+  cd tag_browser; just build
+  cd random; just build
+  cd generator; gleam run
 
-deploy:
-  jj bookmark set main -r @
-  jj new -m "build"
-  jj restore --from deploy-base .gitignore
-  just build; mv dist docs
-  jj bookmark set deploy -r @ --allow-backwards
-  jj new main
-  rm -rf docs
 
 push-to-neocities:
-  jj new -m "temp" deploy
-  neocities push docs
+  neocities push dist
 
 new slug:
     jj new -m "{{slug}}" main
