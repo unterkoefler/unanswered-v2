@@ -13,7 +13,7 @@ to Sunday April 5th (inclusive). (Also, I have since left the company for good,
 but more on that next time.)
 
 My ambitions for this month were moderate:
-1. [Run a 34-mile trail race](/slipsliding)
+1. [Run a 34-mile trail race](/slipsliding/)
 2. Write a novel
 3. Travel the world
 4. Experience everything that New York City has to offer

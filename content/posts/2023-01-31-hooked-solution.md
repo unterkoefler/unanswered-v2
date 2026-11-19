@@ -9,7 +9,7 @@ filename: Hooked2
 tags: fiction, mystery, misc-fiction
 ---
 
-_Note: for maximum enjoyment, please first [read the mystery, available here](/hooked-mystery)_
+_Note: for maximum enjoyment, please first [read the mystery, available here](/hooked-mystery/)_
 
 “It was a dark, rainy August night in the small, close-knit beach town in New Jersey. The mayor arrived home late, exhausted after a long day laboring over her proposal for a new community crypto-mining farm in the soon-to-be-demolished library’s plot. Shaking off the rain from her bright pink umbrella with one hand, she checked the mailbox with the other. She rifled through the contents, tossing the spam, ads and credit card offers into the nearby bushes. She paused, however, at a small green envelope with no postage, addressed simply to “Mayor”. Curious, she stepped inside, hung her umbrella on the hook, and tore open the envelope. 'DOCKS. 2AM TONIGHT. TELL NO ONE,' it read. It was unsigned and the all-caps handwriting was deliberately plain, but the mayor knew immediately that it was the librarian. Who else owned stationery these days?
 

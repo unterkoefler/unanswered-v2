@@ -5592,14 +5592,17 @@ function tag_grid_view(model) {
   }));
 }
 function posts_for_tag_view(model, tag, posts) {
-  let posts$1 = index_map(posts, (p2, i) => {
-    let _block;
+  let _block;
+  let _pipe = posts;
+  let _pipe$1 = reverse(_pipe);
+  _block = index_map(_pipe$1, (p2, i) => {
+    let _block$1;
     if (i === 0) {
-      _block = toList([id("scroll-target")]);
+      _block$1 = toList([id("scroll-target")]);
     } else {
-      _block = toList([]);
+      _block$1 = toList([]);
     }
-    let attrs = _block;
+    let attrs = _block$1;
     return div(prepend(class$("post-preview"), attrs), toList([
       a(toList([href("/" + p2.slug)]), toList([
         div(toList([class$("post-preview-title")]), toList([text2(p2.title)])),
@@ -5607,6 +5610,7 @@ function posts_for_tag_view(model, tag, posts) {
       ]))
     ]));
   });
+  let posts$1 = _block;
   return div(toList([]), toList([
     tag_grid_view(model),
     h2(toList([]), toList([

@@ -205,7 +205,7 @@ Subject: Re: Aloha Sister!
 
 ![][fake1]
 
-[fake1]: 404.jpg "**Automatically marked as spam. Not spam?**"
+[fake1]: assets/1x1.png "**Automatically marked as spam. Not spam?**"
 
 Do NOT go back up that mountain!! Mike!! Are you stupid? You idiot!!
 

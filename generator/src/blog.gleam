@@ -1,6 +1,5 @@
 import blogatto/config
 import blogatto/config/feed
-import blogatto/config/feed/atom
 import blogatto/config/feed/rss
 import blogatto/config/post
 import blogatto/config/robots
@@ -20,9 +19,17 @@ import tempo
 import tempo/datetime
 
 const site_url = "https://unanswered.blog"
+const feed_route = "/feed.xml"
+const home_route = "/"
+const about_route = "/what-is-this/"
+const bio_route = "/who-am-i/"
+const contact_route = "/contact-me/"
+const subscribe_route = "/subscribe/"
+const tags_route = "/tags/"
+const search_route = "/search/"
+const random_route = "/random/"
 
 pub fn config() -> config.Config(Nil) {
-  // Post config with custom heading component
   let post_config =
     post.default()
     |> post.path("../content/posts")
@@ -32,45 +39,57 @@ pub fn config() -> config.Config(Nil) {
     |> post.img(fn(_attributes, uri, alt, maybe_title) {
       case maybe_title {
         option.None -> {
-          html.div([
+          html.div(
+            [
               attribute.class("post-image-container"),
-          ], [
-            html.img([
-              attribute.class("post-image"),
-              attribute.src("/" <> uri),
-              attribute.alt(alt),
-            ])
-          ])
-        }
-        option.Some(title) -> {
-          html.div([
-              attribute.class("post-image-container"),
-          ], [
-            html.figure([], [
+            ],
+            [
               html.img([
                 attribute.class("post-image"),
                 attribute.src("/" <> uri),
                 attribute.alt(alt),
               ]),
-              html.figcaption([], [element.text(title)]),
-            ])
-          ])
+            ],
+          )
+        }
+        option.Some(title) -> {
+          html.div(
+            [
+              attribute.class("post-image-container"),
+            ],
+            [
+              html.figure([], [
+                html.img([
+                  attribute.class("post-image"),
+                  attribute.src("/" <> uri),
+                  attribute.alt(alt),
+                ]),
+                html.figcaption([], [element.text(title)]),
+              ]),
+            ],
+          )
         }
       }
     })
     |> post.pre(fn(_attributes, children) {
-      html.pre([
-        attribute.class("code-block"),
-      ], children)
+      html.pre(
+        [
+          attribute.class("code-block"),
+        ],
+        children,
+      )
     })
     |> post.template(blog_post_template)
 
-  // RSS feed
   let rss_feed =
-    rss.new("Unanswered.blog", site_url, "Where I type and scream my thoughts into the void, unanswered")
+    rss.new(
+      "Unanswered.blog",
+      site_url,
+      "Where I type and scream my thoughts into the void, unanswered",
+    )
     |> rss.language("en-us")
     |> rss.generator("Blogatto")
-    |> rss.output("/feed.xml")
+    |> rss.output(feed_route)
     |> rss.serialize(fn(meta: feed.FeedMetadata(Nil)) {
       rss.RssFeedItem(
         title: meta.post.title,
@@ -90,14 +109,15 @@ pub fn config() -> config.Config(Nil) {
   |> config.output_dir("../dist")
   |> config.static_dir("../public")
   |> config.post(post_config)
-  |> config.route("/", home_view)
-  |> config.route("/what-is-this", what_is_this_view)
-  |> config.route("/who-am-i", who_am_i_view)
-  |> config.route("/contact-me", contact_me_view)
-  |> config.route("/subscribe", subscribe_view)
-  |> config.route("/tags", tags_view)
-  |> config.route("/search", search_view)
-  |> config.route("/random", random_view)
+  |> config.route(home_route, home_view)
+  |> config.route(about_route, what_is_this_view)
+  |> config.route(bio_route, who_am_i_view)
+  |> config.route(contact_route, contact_me_view)
+  |> config.route(subscribe_route, subscribe_view)
+  |> config.route(tags_route, tags_view)
+  |> config.route("/categories", tags_view)
+  |> config.route(search_route, search_view)
+  |> config.route(random_route, random_view)
   |> config.rss_feed(rss_feed)
   |> config.sitemap(sitemap.new("/sitemap.xml"))
   |> config.robots(
@@ -204,7 +224,7 @@ fn search_view(posts: List(Post(Nil))) -> Element(Nil) {
 }
 
 fn random_view(posts: List(Post(Nil))) -> Element(Nil) {
-  let slugs = posts |> list.map(fn (p) { p.slug })
+  let slugs = posts |> list.map(fn(p) { p.slug })
   let data = json.array(slugs, json.string)
   lustre_page_view(
     "Unanswered.blog - Random",
@@ -213,7 +233,6 @@ fn random_view(posts: List(Post(Nil))) -> Element(Nil) {
     data,
   )
 }
-
 
 fn collect_posts_by_tag(
   posts: List(Post(Nil)),
@@ -314,7 +333,11 @@ fn static_page_view(title: String, content: Element(Nil)) -> Element(Nil) {
       ]),
       html.title([], title),
       html.link([attribute.rel("stylesheet"), attribute.href("/css/style.css")]),
-      html.link([attribute.rel("alternate"), attribute.type_("application/rss+xml"), attribute.href("/feed.xml")]),
+      html.link([
+        attribute.rel("alternate"),
+        attribute.type_("application/rss+xml"),
+        attribute.href(feed_route),
+      ]),
     ]),
     html.body([], [
       header(),
@@ -398,7 +421,7 @@ fn header() -> Element(Nil) {
     ],
     [
       html.h1([], [
-        html.a([attribute.href("/")], [element.text("Unanswered")]),
+        html.a([attribute.href(home_route)], [element.text("Unanswered")]),
       ]),
       html.button(
         [
@@ -416,42 +439,42 @@ fn header() -> Element(Nil) {
           html.a(
             [
               attribute.class("menu-item"),
-              attribute.href("/what-is-this"),
+              attribute.href(about_route),
             ],
             [element.text("What is this?")],
           ),
           html.a(
             [
               attribute.class("menu-item"),
-              attribute.href("/who-am-i"),
+              attribute.href(bio_route),
             ],
             [element.text("Who am I?")],
           ),
           html.a(
             [
               attribute.class("menu-item"),
-              attribute.href("/contact-me"),
+              attribute.href(contact_route),
             ],
             [element.text("Contact me")],
           ),
           html.a(
             [
               attribute.class("menu-item"),
-              attribute.href("/tags"),
+              attribute.href(tags_route),
             ],
             [element.text("Posts by tag")],
           ),
           html.a(
             [
               attribute.class("menu-item"),
-              attribute.href("/search"),
+              attribute.href(search_route),
             ],
             [element.text("Search")],
           ),
           html.a(
             [
               attribute.class("menu-item"),
-              attribute.href("/subscribe"),
+              attribute.href(subscribe_route),
             ],
             [element.text("Subscribe")],
           ),
@@ -465,7 +488,7 @@ fn home_post_list(posts: List(Post(Nil))) -> Element(Nil) {
   let posts =
     list.map(posts, fn(p: Post(Nil)) {
       html.div([attribute.class("post-preview")], [
-        html.a([attribute.href(p.slug)], [
+        html.a([attribute.href(p.slug <> "/")], [
           html.div(
             [
               attribute.class("post-preview-title"),
@@ -499,14 +522,14 @@ fn home_post_list(posts: List(Post(Nil))) -> Element(Nil) {
           element.text("Looking for more? Try "),
           html.a(
             [
-              attribute.href("/tags"),
+              attribute.href(tags_route),
             ],
             [
               element.text("Posts by Tag"),
             ],
           ),
           element.text(" or "),
-          html.a([attribute.href("/search")], [element.text("Search.")]),
+          html.a([attribute.href(search_route)], [element.text("Search.")]),
         ],
       ),
     ],
@@ -586,7 +609,7 @@ fn post_content(
       html.h3([attribute.class("post-title")], [element.text(title)]),
       date,
       html.div([], contents),
-    ])
+    ]),
   ])
 }
 
@@ -599,7 +622,7 @@ fn footer(
     option.Some(prev_post) -> {
       html.a(
         [
-          attribute.href("/" <> prev_post.slug),
+          attribute.href("/" <> prev_post.slug <> "/"),
         ],
         [element.text("previous")],
       )
@@ -611,7 +634,7 @@ fn footer(
     option.Some(next_post) -> {
       html.a(
         [
-          attribute.href("/" <> next_post.slug),
+          attribute.href("/" <> next_post.slug <> "/"),
         ],
         [element.text("next")],
       )
@@ -624,20 +647,23 @@ fn footer(
     ],
     [
       previous,
-      html.a([
-        attribute.href("/random"),
-      ], [
-        element.text("Random"),
-      ]),
       html.a(
         [
-          attribute.href("/subscribe"),
+          attribute.href(random_route),
+        ],
+        [
+          element.text("Random"),
+        ],
+      ),
+      html.a(
+        [
+          attribute.href(subscribe_route),
         ],
         [element.text("Subscribe")],
       ),
       html.a(
         [
-          attribute.href("/"),
+          attribute.href(home_route),
         ],
         [
           element.text("Home"),

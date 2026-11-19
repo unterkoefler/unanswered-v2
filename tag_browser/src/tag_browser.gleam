@@ -4,14 +4,14 @@ import gleam/dynamic/decode
 import gleam/int
 import gleam/json
 import gleam/list
-import gleam/result
 import gleam/option
+import gleam/result
 import gleam/time/timestamp
 import lustre
 import lustre/attribute
+import lustre/effect.{type Effect}
 import lustre/element.{type Element}
 import lustre/element/html
-import lustre/effect.{type Effect}
 import lustre/event
 import plinth/browser/document
 import plinth/browser/element as plinth_element
@@ -69,7 +69,9 @@ type Model {
   )
 }
 
-fn init(posts_by_tag: dict.Dict(String, List(Post(Nil)))) -> #(Model, Effect(Msg)) {
+fn init(
+  posts_by_tag: dict.Dict(String, List(Post(Nil))),
+) -> #(Model, Effect(Msg)) {
   #(Model(posts_by_tag:, selected_tag: option.None), effect.none())
 }
 
@@ -82,16 +84,18 @@ fn update(model: Model, msg: Msg) -> #(Model, Effect(Msg)) {
   case msg {
     ToggleTag(tag) -> {
       case model.selected_tag {
-        option.Some(curr_tag) if curr_tag == tag ->
-          #(Model(..model, selected_tag: option.None), effect.none())
-        option.Some(other_tag) ->
-          #(Model(..model, selected_tag: option.Some(tag)), effect.after_paint(fn(dispatch, _) {
-            dispatch(ScrollToView)
-          }))
-        option.None ->
-          #(Model(..model, selected_tag: option.Some(tag)), effect.after_paint(fn(dispatch, _) {
-            dispatch(ScrollToView)
-          }))
+        option.Some(curr_tag) if curr_tag == tag -> #(
+          Model(..model, selected_tag: option.None),
+          effect.none(),
+        )
+        option.Some(other_tag) -> #(
+          Model(..model, selected_tag: option.Some(tag)),
+          effect.after_paint(fn(dispatch, _) { dispatch(ScrollToView) }),
+        )
+        option.None -> #(
+          Model(..model, selected_tag: option.Some(tag)),
+          effect.after_paint(fn(dispatch, _) { dispatch(ScrollToView) }),
+        )
       }
     }
     ScrollToView -> {
@@ -136,35 +140,39 @@ fn tag_grid_view(model: Model) -> Element(Msg) {
   )
 }
 
-fn view_tag(tag: String, posts: List(Post(Nil)), selected: Bool) -> Element(Msg) {
+fn view_tag(
+  tag: String,
+  posts: List(Post(Nil)),
+  selected: Bool,
+) -> Element(Msg) {
   let classes = case selected {
     True -> [attribute.class("selected-tag-name")]
     False -> []
   }
-  html.div([
-    attribute.class("tag-name"),
-    ..classes
-  ], [
-      html.button([
-        event.on_click(ToggleTag(tag))
-      ], [
-        element.text("#" <> tag),
-        element.text(" (" <> int.to_string(list.length(posts)) <> ")"),
-      ]),
+  html.div([attribute.class("tag-name"), ..classes], [
+    html.button([event.on_click(ToggleTag(tag))], [
+      element.text("#" <> tag),
+      element.text(" (" <> int.to_string(list.length(posts)) <> ")"),
+    ]),
   ])
 }
 
 fn no_posts_view(model: Model, tag: String) -> Element(Msg) {
-  html.div([
-  ], [
+  html.div([], [
     tag_grid_view(model),
-    html.p([], [element.text("No posts found for tag #" <> tag)])
+    html.p([], [element.text("No posts found for tag #" <> tag)]),
   ])
 }
 
-fn posts_for_tag_view(model: Model, tag: String, posts: List(Post(Nil))) -> Element(Msg) {
+fn posts_for_tag_view(
+  model: Model,
+  tag: String,
+  posts: List(Post(Nil)),
+) -> Element(Msg) {
   let posts =
-    list.index_map(posts, fn(p: Post(Nil), i: Int) {
+    posts
+    |> list.reverse()
+    |> list.index_map(fn(p: Post(Nil), i: Int) {
       let attrs = case i {
         0 -> [attribute.id("scroll-target")]
         _ -> []
@@ -190,21 +198,24 @@ fn posts_for_tag_view(model: Model, tag: String, posts: List(Post(Nil))) -> Elem
         ]),
       ])
     })
-  html.div([
-  ], [
+  html.div([], [
     tag_grid_view(model),
-    html.h2([
-    ], [
+    html.h2([], [
       element.text(tag),
       element.text(" (" <> int.to_string(list.length(posts)) <> ")"),
     ]),
-    html.div([
-      attribute.class("tag-browser-list-container"),
-    ], [
-      html.div([
-        attribute.class("post-list"),
-      ], posts
-    )])
+    html.div(
+      [
+        attribute.class("tag-browser-list-container"),
+      ],
+      [
+        html.div(
+          [
+            attribute.class("post-list"),
+          ],
+          posts,
+        ),
+      ],
+    ),
   ])
 }
-

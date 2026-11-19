@@ -7,7 +7,7 @@ tags: life-updates
 ---
 
 
-_See also [Sabbatical in Review](/sabbatical-in-review)._
+_See also [Sabbatical in Review](/sabbatical-in-review/)._
 
 Around 5pm on Tuesday, March 3rd, I bid adieu to my coworkers,
 updated my Slack status, ctrl+c'd my local servers, exited vim,

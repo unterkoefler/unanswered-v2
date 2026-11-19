@@ -67,4 +67,4 @@ tags: fiction, mystery, misc-fiction
 
 *Call to action:* Write to me at unterkoefler [at] duck [dot] com if you think you’ve solved the murder before the good detective Jaz Sinterton. His solution will be posted in three weeks' time.
 
-_Note: three weeks have elapsed. The solution is [now available here](/hooked-solution)_
+_Note: three weeks have elapsed. The solution is [now available here](/hooked-solution/)_

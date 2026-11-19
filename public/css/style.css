@@ -195,8 +195,8 @@ h1 > a {
 }
 
 .post-container::after {
-  min-width: 36px;
   width: 36px;
+  max-width: 4%;
   content: "";
   background: linear-gradient(var(--teal), var(--background));
 }
